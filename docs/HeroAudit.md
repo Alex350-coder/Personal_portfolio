@@ -52,7 +52,7 @@ Single-hue (teal/cyan) with one high-chroma accent; no secondary hue. Contrast r
 ## 4. Approved deviations (fixes to the Hero allowed in Phase 1; log result here)
 | # | Change | Reason | Status |
 |---|---|---|---|
-| D1 | Declare Geist Mono as `--font-mono` | Hero intends a mono label face; system fallback is inconsistent across OSes | planned P1-T06 |
+| D1 | Declare Geist Mono as `--font-mono` | Hero intends a mono label face; system fallback is inconsistent across OSes | done P1-T06 (2026-10-03): Geist Mono Variable via `@fontsource-variable/geist-mono`; labels render slightly wider than the system mono, layout unchanged at 375/768/1440 |
 | D2 | Hero uses tokens instead of raw hex (no visual change) | single source of truth | planned P1-T13 |
 | D3 | `id="inicio"`; accessible name for the hero landmark (not the nebula description, in Spanish); `h1` labels the region | a11y, anchors | planned P1-T16 |
 | D4 | Pause/play control for the canvas animation | WCAG 2.2.2 (auto-play >5 s) | planned P1-T16 |
