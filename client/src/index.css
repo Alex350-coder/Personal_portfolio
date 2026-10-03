@@ -6,6 +6,30 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/*
+ * Hero palette (preset `abyssal` of halftone-nebula.tsx), dark -> bright.
+ * `static` keeps every variable in the output so plain CSS and inline styles can use them.
+ * docs/UI.md lists the roles; raw hex is only allowed here and in the WebGL presets.
+ */
+@theme static {
+    --color-void: #02060a;
+    --color-haze: #0a1f2e;
+    --color-dusk: #0d2f3f;
+    --color-deep: #0a4453;
+    --color-teal: #0f8f9f;
+    --color-accent: #3ff2e0;
+    --color-star: #e4fffb;
+
+    /* Alpha ramp: the star/accent opacities the Hero actually uses, as named utilities
+       (text-star-70, border-star-25, bg-accent-10 ...). */
+    --color-star-70: color-mix(in srgb, var(--color-star) 70%, transparent);
+    --color-star-60: color-mix(in srgb, var(--color-star) 60%, transparent);
+    --color-star-25: color-mix(in srgb, var(--color-star) 25%, transparent);
+    --color-star-10: color-mix(in srgb, var(--color-star) 10%, transparent);
+    --color-accent-50: color-mix(in srgb, var(--color-accent) 50%, transparent);
+    --color-accent-10: color-mix(in srgb, var(--color-accent) 10%, transparent);
+}
+
 @theme inline {
     --font-heading: var(--font-sans);
     --font-sans: 'Geist Variable', sans-serif;
@@ -27,8 +51,6 @@
     --color-input: var(--input);
     --color-border: var(--border);
     --color-destructive: var(--destructive);
-    --color-accent-foreground: var(--accent-foreground);
-    --color-accent: var(--accent);
     --color-muted-foreground: var(--muted-foreground);
     --color-muted: var(--muted);
     --color-secondary-foreground: var(--secondary-foreground);
