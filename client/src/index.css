@@ -30,6 +30,57 @@
     --color-accent-10: color-mix(in srgb, var(--color-accent) 10%, transparent);
 }
 
+/* Layout widths: max-w-page (sections), max-w-copy (hero-width text blocks). */
+@theme static {
+    --container-page: 72rem;
+    --container-copy: 42rem;
+}
+
+/* Type scale (docs/UI.md). Mono labels are tracked uppercase, like the Hero. */
+@utility type-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.5;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--color-accent);
+}
+@utility type-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.5;
+    text-transform: uppercase;
+    letter-spacing: 0.24em;
+    color: var(--color-star-60);
+}
+@utility type-meta {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    line-height: 1.5;
+    text-transform: uppercase;
+    letter-spacing: 0.32em;
+    color: var(--color-star-60);
+}
+@utility type-h2 {
+    @apply text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.02];
+}
+@utility type-h3 {
+    @apply text-xl font-semibold leading-snug;
+}
+@utility type-body {
+    @apply text-sm sm:text-base leading-relaxed;
+    color: var(--color-star-70);
+    max-width: 65ch;
+}
+
+/* Spacing rhythm: horizontal gutters shared with the Hero, vertical section padding. */
+@utility section-x {
+    @apply px-6 sm:px-10 lg:px-16;
+}
+@utility section-y {
+    @apply py-20 sm:py-28;
+}
+
 @theme inline {
     --font-heading: var(--font-sans);
     --font-sans: 'Geist Variable', sans-serif;
@@ -74,7 +125,8 @@
 }
 
 :root {
-    --radius: 0.625rem;
+    /* Hero controls are square: every shadcn radius derives from this and collapses to 0. */
+    --radius: 0;
 }
 
 /* Dark-only theme: shadcn semantic tokens are mapped onto the Hero palette (docs/UI.md).
