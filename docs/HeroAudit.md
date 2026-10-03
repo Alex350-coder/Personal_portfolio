@@ -64,5 +64,7 @@ Anything else changing the Hero's look requires an ADR.
 ## 4b. Content status
 Since 2026-10-03 the Hero carries real copy (name, role "Desarrollador full-stack · Seguridad", short bio, tags Software / Web / Ciberseguridad / Desarrollo asistido por IA). Layout and style untouched. The longer name wraps within `max-w-2xl` at `text-5xl`→`lg:text-7xl`: **verify at 375 px in the P1-T02 baseline** (add `text-balance` only if it breaks; log it as a deviation).
 
+**Baseline result (P1-T02, 2026-10-03):** screenshots in `docs/assets/hero-baseline/` (375/768/1440 × motion/reduced). At 375 px the name wraps cleanly into three lines ("Ander / Alexander / Aguirre Tejada") with no overflow, so no `text-balance` deviation is needed. Captured with headless Chromium + SwiftShader WebGL; re-capture the same way for the P1-T13 diff.
+
 ## 5. Consistency checklist answers (reference for new sections)
 Colors: tokens above. Typography: Geist + mono tracked uppercase labels. Spacing: `px-6/10/16`, generous vertical rhythm (`py-20 sm:py-28`). Borders: 1 px, square, accent or star/10–25. Animation: slow, atmospheric, CSS-only derivatives. Density: low. Pointer: soft light, never layout-moving. Reduced motion: static. Reusable: dot grid, glow, sparkle glyph, token palette. Not to copy: parallax, ripples, crosshair, extra WebGL.
