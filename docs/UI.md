@@ -1,6 +1,6 @@
 # UI.md — Design system derived from the Hero
 
-Evidence: `docs/HeroAudit.md`. Token names below are the **target** names created in Phase 1 (update this file with final names at P1-T18).
+Evidence: `docs/HeroAudit.md`. Token names below are the **final** names implemented in Phase 1 (`client/src/index.css`).
 
 ## Tokens (Tailwind v4 `@theme` in `client/src/index.css`)
 | Token | Value | Tailwind use |
@@ -12,10 +12,13 @@ Evidence: `docs/HeroAudit.md`. Token names below are the **target** names create
 | `--color-teal` | `#0f8f9f` | secondary accents |
 | `--color-accent` | `#3ff2e0` | `text-accent`, `border-accent` |
 | `--color-star` | `#e4fffb` | `text-star` (+ `/70`, `/60`, `/25`, `/10`) |
+| `--color-star-70/-60/-25/-10`, `--color-accent-50/-10` | `color-mix` alpha ramp | `text-star-70`, `border-star-25`, `bg-accent-10` … (or the `/70` modifier) |
+| `--container-page` / `--container-copy` | `72rem` / `42rem` | `max-w-page`, `max-w-copy` |
 | shadcn map | `background=void`, `foreground=star`, `primary=accent`, `primary-foreground=void`, `border=star/10`, `ring=accent`, `muted-foreground=star/60`… | semantic classes |
 Fonts: `--font-sans` Geist Variable; `--font-mono` Geist Mono Variable. Radius: controls `0`. Dark-only.
 
 ## Type scale
+Utilities (index.css `@utility`): `type-eyebrow` (mono 11 px, accent), `type-label` (mono 11 px, star/60), `type-meta` (mono 10 px, `0.32em`), `type-h2`, `type-h3`, `type-body` (≤65ch). Spacing: `section-x` (`px-6 sm:px-10 lg:px-16`), `section-y` (`py-20 sm:py-28`). `--radius` is `0`. Dot surfaces: `dot-grid` / `dot-grid-fade`; pointer light: `glow-card`.
 - Eyebrow: mono 11 px / uppercase / `tracking-[0.3em]` / accent, prefix `✦`.
 - Label: mono 10–11 px / uppercase / `tracking-[0.24em]`; minimum 11 px for anything essential (Phase 6 audit).
 - H1 (hero only): 5xl→7xl. Section H2: `text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.02]`. H3: `text-xl font-semibold`.
@@ -28,6 +31,7 @@ Fonts: `--font-sans` Geist Variable; `--font-mono` Geist Mono Variable. Radius: 
 
 ## Components (from Phase 1)
 `Container`, `Section`, `SkipLink`, `Eyebrow`, `ActionLink` (`hero` filled, `ghost-hero`), `DotGrid`, `Reveal`, `GlowCard`, `Badge`. States: hover = fill or `star/10`; focus-visible = 2 px `accent` ring with offset (never removed); active = 1 px translate (from `buttonVariants`); disabled = 50 % opacity.
+`ActionLink` variants are `hero` and `ghost-hero` (buttonVariants size `hero`: 44 px, square, mono tracked). `GlowCard` = `border border-star-10 bg-haze/40` + pointer light. The Hero pause button (`Pausar`/`Reanudar`) uses `ghost-hero`. Dev gallery of every primitive: `npm run dev` → `/__kit`.
 Cards: `border border-star/10 bg-haze/40`, square corners, hover → border `accent/50` + `GlowCard` light. No drop shadows.
 
 ## Motion rules
@@ -46,4 +50,4 @@ Page = `void`. Section accent backgrounds = `DotGrid` (6 px lattice, `star/6–1
 Mono uppercase links `tracking-[0.24em]`, active link = accent + 1 px underline; bar `bg-void/80 backdrop-blur` with 1 px bottom border; mobile = full-width disclosure panel. Appears after the Hero on `/`.
 
 ## Intentional deviations
-Record any deviation from the Hero here AND in `docs/Decisions.md`: _none yet_.
+Record any deviation from the Hero here AND in `docs/Decisions.md`: D1–D5 and D7 in `docs/HeroAudit.md §4` (Geist Mono, tokens, landmark/id, pause control, preset fallback, working CTA colours).

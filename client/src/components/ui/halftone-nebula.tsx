@@ -554,8 +554,20 @@ export default function HalftoneNebula({
   const pausedRef = React.useRef(paused)
   pausedRef.current = paused
   const wakeRef = React.useRef<() => void>(undefined)
+  // Wall-clock time spent paused, subtracted from the animation clock so resume continues
+  // from the frozen frame instead of jumping ahead.
+  const pausedAtRef = React.useRef<number | null>(null)
+  const pausedTotalRef = React.useRef(0)
   React.useEffect(() => {
-    if (!paused) wakeRef.current?.()
+    if (paused) {
+      pausedAtRef.current = performance.now()
+      return
+    }
+    if (pausedAtRef.current !== null) {
+      pausedTotalRef.current += performance.now() - pausedAtRef.current
+      pausedAtRef.current = null
+    }
+    wakeRef.current?.()
   }, [paused])
 
   React.useEffect(() => {
@@ -644,7 +656,11 @@ export default function HalftoneNebula({
     // Reduced motion freezes the clock on a frame that is already lit.
     const FROZEN = 14
     const t0 = performance.now()
-    const clock = () => (reduced ? FROZEN : ((performance.now() - t0) / 1000) * paramsRef.current.speed)
+    const clock = () => {
+      if (reduced) return FROZEN
+      const now = pausedAtRef.current ?? performance.now()
+      return (Math.max(now - t0 - pausedTotalRef.current, 0) / 1000) * paramsRef.current.speed
+    }
     let lastClock = 0
 
     // ---- the pointer --------------------------------------------------------

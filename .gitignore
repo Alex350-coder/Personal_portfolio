@@ -16,7 +16,8 @@ test-results/
 Thumbs.db
 
 # Claude Code: local settings and phase-activated ECC resources
-# (re-created from ~/.claude/resources by /ecc-load-phase; phase-plan.json stays tracked)
+# (re-created from ~/.claude/resources by /ecc-load-phase; phase-plan.json stays tracked).
+# settings.json holds absolute hook paths to the local ECC install, so it stays untracked too.
 .claude/settings.local.json
 .claude/.activated-manifest.json
 .claude/skills/
@@ -24,3 +25,4 @@ Thumbs.db
 .claude/rules/
 .claude/commands/
 .claude/.new-files-pending.json
+.claude/settings.json

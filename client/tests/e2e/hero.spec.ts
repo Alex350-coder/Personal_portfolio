@@ -5,7 +5,8 @@ test.describe('Hero smoke', () => {
   test('renders the Hero with a canvas and no console errors', async ({ page }) => {
     const problems: string[] = []
     page.on('console', (message) => {
-      if (message.type() === 'error' || message.type() === 'warning') problems.push(message.text())
+      // Only errors: software-WebGL warnings (GPU stall, fallback) are normal on CI runners.
+      if (message.type() === 'error') problems.push(message.text())
     })
     page.on('pageerror', (error) => problems.push(error.message))
 
@@ -17,11 +18,28 @@ test.describe('Hero smoke', () => {
   })
 
   test('renders a static frame under prefers-reduced-motion', async ({ page }) => {
+    await page.addInitScript(() => {
+      const w = window as unknown as { __frames: number }
+      w.__frames = 0
+      const original = window.requestAnimationFrame.bind(window)
+      window.requestAnimationFrame = (callback) =>
+        original((time) => {
+          w.__frames += 1
+          callback(time)
+        })
+    })
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.goto('/')
 
     await expect(page.locator('canvas')).toBeVisible()
     await expect(page.getByRole('link', { name: /explorar proyectos/i })).toBeVisible()
+
+    // One painted frame is the whole piece: the render loop must not keep running.
+    const frames = () => page.evaluate(() => (window as unknown as { __frames: number }).__frames)
+    await page.waitForTimeout(500)
+    const settled = await frames()
+    await page.waitForTimeout(1000)
+    expect(await frames()).toBe(settled)
   })
 
   test('has no serious or critical axe violations', async ({ page }) => {

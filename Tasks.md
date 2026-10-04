@@ -8,24 +8,24 @@ Setup per phase: `git switch main && git switch -c <branch>` → `/clear` → `/
 
 ## Phase 1 — Foundation & Design System (`phase/01-foundation`)
 
-- [ ] **P1-T01** Root `git init -b main`, root `.gitignore` (node_modules, dist, .env*, coverage, playwright-report, `.claude/settings.local.json`), baseline commit of current state on `main`, create branch. Check: `git status` clean, `git branch` shows phase branch. `chore: baseline Hero and scaffolding` (on main). *(AC1)*
-- [ ] **P1-T02** Record Hero baseline screenshots (375/768/1440, reduced-motion on/off) into `docs/assets/hero-baseline/`. `docs: add Hero baseline screenshots` *(AC3)*
-- [ ] **P1-T03** Add Vitest + Testing Library + jsdom + `vitest.config.ts`, `npm test`, `npm run test:coverage` with WebGL file excluded. `chore(client): add vitest and testing library` *(AC5,6)*
-- [ ] **P1-T04** Add Playwright + `@axe-core/playwright`, config (Chromium; webServer = `vite preview`), first smoke test (Hero renders, no console errors). `test(client): add playwright smoke and axe` *(AC5)*
-- [ ] **P1-T05** Add `.github/workflows/ci.yml` (client: typecheck, lint, test, build; server: typecheck, lint, build). `ci: add GitHub Actions workflow` *(AC5)*
-- [ ] **P1-T06** Add Geist Mono (`@fontsource-variable/geist-mono`), declare `--font-mono` in `@theme`; compare against baseline. `feat(client): declare Geist Mono as mono font` *(AC3)*
-- [ ] **P1-T07** Define palette tokens in `index.css` `@theme` (`void, haze, dusk, deep, teal, accent, star`) from the `abyssal` preset, plus alpha ramp utilities. `feat(client): extract Hero palette tokens` *(AC2)*
-- [ ] **P1-T08** Map shadcn semantic tokens (`background, foreground, primary, border, ring, muted…`) to Hero tokens in `.dark`; set `html` dark-only, `color-scheme: dark`, selection + focus-ring styles; remove light-theme dead tokens. `feat(client): map shadcn tokens to Hero palette` *(AC2)*
-- [ ] **P1-T09** Define type + spacing tokens/utilities (eyebrow, label, heading scale, section padding `px-6 sm:px-10 lg:px-16`, container max-widths); radius = 0 for hero-style controls. `feat(client): add typography and spacing tokens` *(AC2)*
-- [ ] **P1-T10** `use-reduced-motion` and `use-in-view` hooks (TDD). `feat(client): add motion and visibility hooks` *(AC7)*
-- [ ] **P1-T11** `Container`, `Section` (id, eyebrow, heading, `aria-labelledby`), `SkipLink` + tests. `feat(client): add layout primitives` *(AC7)*
-- [ ] **P1-T12** `Eyebrow` and `ActionLink` (`hero` / `ghost-hero` variants extending `buttonVariants`; Hero reuses them) + tests. `feat(client): add Hero-style action primitives` *(AC2,3,7)*
-- [ ] **P1-T13** Refactor `HeroSection.tsx` to tokens + primitives with **no visual change**; screenshot diff vs baseline. `refactor(client): Hero uses tokens and primitives` *(AC2,3)*
-- [ ] **P1-T14** `DotGrid` (CSS radial-gradient halftone surface, token colors, no JS) + `Reveal` (CSS/IO, off under reduced motion) + tests. `feat(client): add DotGrid and Reveal` *(AC7)*
-- [ ] **P1-T15** `GlowCard` (pointer-reactive glow through `--mx/--my`, fine-pointer only, off under reduced motion) + tests. `feat(client): add GlowCard primitive` *(AC7)*
-- [ ] **P1-T16** Hero a11y/robustness deviations: `id="inicio"` + accessible name via props on `HalftoneNebula`, pause/play control (WCAG 2.2.2, keyboard operable, state persisted in memory only), fallback gradient + root bg from preset colors, `lang`-correct label. Log each in `docs/HeroAudit.md`. `fix(client): Hero accessibility and fallback deviations` *(AC4)*
-- [ ] **P1-T17** Dev-only `/__kit` page showing every primitive (excluded from prod build via `import.meta.env.DEV`), axe check. `test(client): add primitive kit page and axe check` *(AC7)*
-- [ ] **P1-T18** Docs: update `Progress.md`, `.claude/New_files.md`, `docs/UI.md` final token names, `README.md`; run full gate. `docs: close phase 1` *(all)*
+- [x] **P1-T01** Root `git init -b main`, root `.gitignore` (node_modules, dist, .env*, coverage, playwright-report, `.claude/settings.local.json`), baseline commit of current state on `main`, create branch. Check: `git status` clean, `git branch` shows phase branch. `chore: baseline Hero and scaffolding` (on main). *(AC1)*
+- [x] **P1-T02** Record Hero baseline screenshots (375/768/1440, reduced-motion on/off) into `docs/assets/hero-baseline/`. `docs: add Hero baseline screenshots` *(AC3)*
+- [x] **P1-T03** Add Vitest + Testing Library + jsdom + `vitest.config.ts`, `npm test`, `npm run test:coverage` with WebGL file excluded. `chore(client): add vitest and testing library` *(AC5,6)*
+- [x] **P1-T04** Add Playwright + `@axe-core/playwright`, config (Chromium; webServer = `vite preview`), first smoke test (Hero renders, no console errors). `test(client): add playwright smoke and axe` *(AC5)*
+- [x] **P1-T05** Add `.github/workflows/ci.yml` (client: typecheck, lint, test, build; server: typecheck, lint, build). `ci: add GitHub Actions workflow` *(AC5)*
+- [x] **P1-T06** Add Geist Mono (`@fontsource-variable/geist-mono`), declare `--font-mono` in `@theme`; compare against baseline. `feat(client): declare Geist Mono as mono font` *(AC3)*
+- [x] **P1-T07** Define palette tokens in `index.css` `@theme` (`void, haze, dusk, deep, teal, accent, star`) from the `abyssal` preset, plus alpha ramp utilities. `feat(client): extract Hero palette tokens` *(AC2)*
+- [x] **P1-T08** Map shadcn semantic tokens (`background, foreground, primary, border, ring, muted…`) to Hero tokens in `.dark`; set `html` dark-only, `color-scheme: dark`, selection + focus-ring styles; remove light-theme dead tokens. `feat(client): map shadcn tokens to Hero palette` *(AC2)*
+- [x] **P1-T09** Define type + spacing tokens/utilities (eyebrow, label, heading scale, section padding `px-6 sm:px-10 lg:px-16`, container max-widths); radius = 0 for hero-style controls. `feat(client): add typography and spacing tokens` *(AC2)*
+- [x] **P1-T10** `use-reduced-motion` and `use-in-view` hooks (TDD). `feat(client): add motion and visibility hooks` *(AC7)*
+- [x] **P1-T11** `Container`, `Section` (id, eyebrow, heading, `aria-labelledby`), `SkipLink` + tests. `feat(client): add layout primitives` *(AC7)*
+- [x] **P1-T12** `Eyebrow` and `ActionLink` (`hero` / `ghost-hero` variants extending `buttonVariants`; Hero reuses them) + tests. `feat(client): add Hero-style action primitives` *(AC2,3,7)*
+- [x] **P1-T13** Refactor `HeroSection.tsx` to tokens + primitives with **no visual change**; screenshot diff vs baseline. `refactor(client): Hero uses tokens and primitives` *(AC2,3)*
+- [x] **P1-T14** `DotGrid` (CSS radial-gradient halftone surface, token colors, no JS) + `Reveal` (CSS/IO, off under reduced motion) + tests. `feat(client): add DotGrid and Reveal` *(AC7)*
+- [x] **P1-T15** `GlowCard` (pointer-reactive glow through `--mx/--my`, fine-pointer only, off under reduced motion) + tests. `feat(client): add GlowCard primitive` *(AC7)*
+- [x] **P1-T16** Hero a11y/robustness deviations: `id="inicio"` + accessible name via props on `HalftoneNebula`, pause/play control (WCAG 2.2.2, keyboard operable, state persisted in memory only), fallback gradient + root bg from preset colors, `lang`-correct label. Log each in `docs/HeroAudit.md`. `fix(client): Hero accessibility and fallback deviations` *(AC4)*
+- [x] **P1-T17** Dev-only `/__kit` page showing every primitive (excluded from prod build via `import.meta.env.DEV`), axe check. `test(client): add primitive kit page and axe check` *(AC7)*
+- [x] **P1-T18** Docs: update `Progress.md`, `.claude/New_files.md`, `docs/UI.md` final token names, `README.md`; run full gate. `docs: close phase 1` *(all)*
 
 ## Phase 2 — Navigation, About & Professional Identity (`phase/02-identity`)
 

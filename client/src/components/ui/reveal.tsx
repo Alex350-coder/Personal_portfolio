@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils'
  */
 export function Reveal({ className, ...props }: ComponentProps<'div'>) {
   const reduced = useReducedMotion()
-  const { ref, inView } = useInView<HTMLDivElement>({ rootMargin: '0px 0px -8% 0px' })
+  const { ref, inView } = useInView<HTMLDivElement>()
   const shown = reduced || inView
 
   return (
