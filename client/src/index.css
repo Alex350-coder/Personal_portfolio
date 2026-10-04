@@ -73,6 +73,16 @@
     max-width: 65ch;
 }
 
+/* Halftone surface derived from the Hero: 6px dot lattice in star/25 (DotGrid layers it at 40% => ~star/10), CSS only, never animated.
+   Pair with dot-grid-fade to mask it toward the edges. */
+@utility dot-grid {
+    background-image: radial-gradient(circle at center, var(--color-star-25) 1px, transparent 1.5px);
+    background-size: 6px 6px;
+}
+@utility dot-grid-fade {
+    mask-image: radial-gradient(ellipse at center, #000 15%, transparent 72%);
+}
+
 /* Spacing rhythm: horizontal gutters shared with the Hero, vertical section padding. */
 @utility section-x {
     @apply px-6 sm:px-10 lg:px-16;
