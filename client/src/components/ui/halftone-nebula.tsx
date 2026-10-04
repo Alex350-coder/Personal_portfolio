@@ -503,6 +503,14 @@ export type HalftoneNebulaProps = {
   /** Content laid over the sky. Pointer events pass through unless opted in. */
   children?: React.ReactNode
   className?: string
+  /** Anchor id for the root landmark. */
+  id?: string
+  /** Id of the element that names the landmark (preferred over `label`). */
+  labelledBy?: string
+  /** Accessible name when `labelledBy` is not given. */
+  label?: string
+  /** Freeze the animation on the current frame (WCAG 2.2.2). Resumes when false. */
+  paused?: boolean
 }
 
 export default function HalftoneNebula({
@@ -514,6 +522,10 @@ export default function HalftoneNebula({
   maxDpr = 2,
   children,
   className = "",
+  id,
+  labelledBy,
+  label = "Ilustración decorativa: una nebulosa de píxeles en semitono",
+  paused = false,
 }: HalftoneNebulaProps) {
   const rootRef = React.useRef<HTMLElement>(null)
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
@@ -537,6 +549,26 @@ export default function HalftoneNebula({
   // The loop reads through a ref, so tuning a value never restarts WebGL.
   const paramsRef = React.useRef(P)
   paramsRef.current = P
+
+  // Pause is read through refs so toggling it never restarts WebGL.
+  const pausedRef = React.useRef(paused)
+  pausedRef.current = paused
+  const wakeRef = React.useRef<() => void>(undefined)
+  // Wall-clock time spent paused, subtracted from the animation clock so resume continues
+  // from the frozen frame instead of jumping ahead.
+  const pausedAtRef = React.useRef<number | null>(null)
+  const pausedTotalRef = React.useRef(0)
+  React.useEffect(() => {
+    if (paused) {
+      pausedAtRef.current = performance.now()
+      return
+    }
+    if (pausedAtRef.current !== null) {
+      pausedTotalRef.current += performance.now() - pausedAtRef.current
+      pausedAtRef.current = null
+    }
+    wakeRef.current?.()
+  }, [paused])
 
   React.useEffect(() => {
     const root = rootRef.current
@@ -609,7 +641,7 @@ export default function HalftoneNebula({
         canvas.width = w
         canvas.height = h
       }
-      if (reduced) paint()
+      if (reduced || pausedRef.current) paint()
     }
 
     // ---- the sky ------------------------------------------------------------
@@ -624,7 +656,11 @@ export default function HalftoneNebula({
     // Reduced motion freezes the clock on a frame that is already lit.
     const FROZEN = 14
     const t0 = performance.now()
-    const clock = () => (reduced ? FROZEN : ((performance.now() - t0) / 1000) * paramsRef.current.speed)
+    const clock = () => {
+      if (reduced) return FROZEN
+      const now = pausedAtRef.current ?? performance.now()
+      return (Math.max(now - t0 - pausedTotalRef.current, 0) / 1000) * paramsRef.current.speed
+    }
     let lastClock = 0
 
     // ---- the pointer --------------------------------------------------------
@@ -761,11 +797,12 @@ export default function HalftoneNebula({
     const frame = () => {
       raf = 0
       paint()
-      if (visible && !document.hidden) raf = requestAnimationFrame(frame)
+      if (visible && !document.hidden && !pausedRef.current) raf = requestAnimationFrame(frame)
     }
     const wake = () => {
-      if (!reduced && !raf && visible && !document.hidden) raf = requestAnimationFrame(frame)
+      if (!reduced && !raf && visible && !document.hidden && !pausedRef.current) raf = requestAnimationFrame(frame)
     }
+    wakeRef.current = wake
     const io = new IntersectionObserver((entries) => {
       visible = entries.some((e) => e.isIntersecting)
       wake()
@@ -787,6 +824,7 @@ export default function HalftoneNebula({
 
     return () => {
       cancelAnimationFrame(raf)
+      wakeRef.current = undefined
       observer.disconnect()
       io.disconnect()
       document.removeEventListener("visibilitychange", wake)
@@ -804,14 +842,17 @@ export default function HalftoneNebula({
   return (
     <section
       ref={rootRef}
+      id={id}
       className={
-        "relative w-full overflow-hidden bg-[#050309] " +
+        "relative w-full overflow-hidden " +
         (interactive ? "cursor-crosshair " : "") +
         (touch === "draw" ? "touch-none " : "touch-pan-y ") +
         className
       }
-      style={{ height }}
-      aria-label="A pixel-art nebula printed in halftone dots"
+      // Root colour comes from the active preset so nothing flashes the wrong palette.
+      style={{ height, backgroundColor: P.voidColor }}
+      aria-labelledby={labelledBy}
+      aria-label={labelledBy ? undefined : label}
     >
       {failed ? (
         // No WebGL2: a still picture of the same sky beats a black box.
@@ -819,10 +860,10 @@ export default function HalftoneNebula({
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(60% 45% at 12% 88%, #ff1f5a 0%, #c01245 22%, #5c0d31 50%, transparent 75%)," +
-              "radial-gradient(45% 30% at 22% 22%, #5c0d31 0%, transparent 70%)," +
-              "radial-gradient(40% 30% at 80% 30%, #3b1646 0%, transparent 70%)," +
-              "#050309",
+              `radial-gradient(60% 45% at 12% 88%, ${P.hotColor} 0%, ${P.crimsonColor} 22%, ${P.wineColor} 50%, transparent 75%),` +
+              `radial-gradient(45% 30% at 22% 22%, ${P.wineColor} 0%, transparent 70%),` +
+              `radial-gradient(40% 30% at 80% 30%, ${P.duskColor} 0%, transparent 70%),` +
+              P.voidColor,
           }}
         />
       ) : (

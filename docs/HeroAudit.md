@@ -52,17 +52,20 @@ Single-hue (teal/cyan) with one high-chroma accent; no secondary hue. Contrast r
 ## 4. Approved deviations (fixes to the Hero allowed in Phase 1; log result here)
 | # | Change | Reason | Status |
 |---|---|---|---|
-| D1 | Declare Geist Mono as `--font-mono` | Hero intends a mono label face; system fallback is inconsistent across OSes | planned P1-T06 |
-| D2 | Hero uses tokens instead of raw hex (no visual change) | single source of truth | planned P1-T13 |
-| D3 | `id="inicio"`; accessible name for the hero landmark (not the nebula description, in Spanish); `h1` labels the region | a11y, anchors | planned P1-T16 |
-| D4 | Pause/play control for the canvas animation | WCAG 2.2.2 (auto-play >5 s) | planned P1-T16 |
-| D5 | Fallback gradient + root bg derived from active preset | wrong crimson flash/fallback on teal sky | planned P1-T16 |
+| D1 | Declare Geist Mono as `--font-mono` | Hero intends a mono label face; system fallback is inconsistent across OSes | done P1-T06 (2026-10-03): Geist Mono Variable via `@fontsource-variable/geist-mono`; labels render slightly wider than the system mono, layout unchanged at 375/768/1440 |
+| D2 | Hero uses tokens instead of raw hex (no visual change) | single source of truth | done P1-T13 (2026-10-04): no raw hex left in `HeroSection.tsx`; uses `Eyebrow`, `ActionLink`, `type-meta` and token utilities |
+| D3 | `id="inicio"`; accessible name for the hero landmark (not the nebula description, in Spanish); `h1` labels the region | a11y, anchors | done P1-T16 (2026-10-04): `HalftoneNebula` takes `id`, `labelledBy` and `label` props (default label now Spanish); `HeroSection` passes `id="inicio"` and `labelledBy="inicio-titulo"` so the region is named by the h1. e2e asserts it |
+| D4 | Pause/play control for the canvas animation | WCAG 2.2.2 (auto-play >5 s) | done P1-T16 (2026-10-04): `paused` prop read through a ref (toggling never restarts WebGL; the loop stops requesting frames and resumes on `wake`). Hero shows a top-right `Pausar`/`Reanudar` button (`aria-label` starts with the visible word, WCAG 2.5.3; hidden under reduced motion; state in memory only). e2e counts rAF frames: 0 new frames while paused |
+| D5 | Fallback gradient + root bg derived from active preset | wrong crimson flash/fallback on teal sky | done P1-T16 (2026-10-04): root `backgroundColor` and the fallback gradient are built from the active preset (`voidColor`, `hotColor`, `crimsonColor`, `wineColor`, `duskColor`); for the old default preset the output is identical. e2e forces `getContext` to return null and checks the abyssal colours |
+| D7 | CTA colors actually apply: the old `outline`/`ghost` buttons kept `dark:border-input`/`dark:bg-input/30`/`dark:hover:bg-*` classes that beat the Hero overrides, so the primary CTA rendered a grey border and a grey hover instead of the documented accent border / accent fill | `hero` and `ghost-hero` variants (P1-T12) have no `dark:` leftovers, so the Hero matches §1 Controls | done P1-T13 (2026-10-04): pixel diff vs the P1-T06 capture is confined to the primary CTA box (~540 px, ≤0.18 % of the frame at 375/768/1440, reduced motion); every other pixel is identical |
 | D6 | Contrast/size tweak of 10 px labels if audit fails | WCAG 1.4.3 / readability | Phase 6 only, with before/after |
 
 Anything else changing the Hero's look requires an ADR.
 
 ## 4b. Content status
 Since 2026-10-03 the Hero carries real copy (name, role "Desarrollador full-stack · Seguridad", short bio, tags Software / Web / Ciberseguridad / Desarrollo asistido por IA). Layout and style untouched. The longer name wraps within `max-w-2xl` at `text-5xl`→`lg:text-7xl`: **verify at 375 px in the P1-T02 baseline** (add `text-balance` only if it breaks; log it as a deviation).
+
+**Baseline result (P1-T02, 2026-10-03):** screenshots in `docs/assets/hero-baseline/` (375/768/1440 × motion/reduced). At 375 px the name wraps cleanly into three lines ("Ander / Alexander / Aguirre Tejada") with no overflow, so no `text-balance` deviation is needed. Captured with headless Chromium + SwiftShader WebGL; re-capture the same way for the P1-T13 diff.
 
 ## 5. Consistency checklist answers (reference for new sections)
 Colors: tokens above. Typography: Geist + mono tracked uppercase labels. Spacing: `px-6/10/16`, generous vertical rhythm (`py-20 sm:py-28`). Borders: 1 px, square, accent or star/10–25. Animation: slow, atmospheric, CSS-only derivatives. Density: low. Pointer: soft light, never layout-moving. Reduced motion: static. Reusable: dot grid, glow, sparkle glyph, token palette. Not to copy: parallax, ripples, crosshair, extra WebGL.
