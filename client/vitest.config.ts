@@ -27,7 +27,7 @@ export default defineConfig({
         'src/**/*.d.ts',
         'src/**/*.test.{ts,tsx}',
       ],
-      // The 80% thresholds are enabled in P1-T17, once the primitives and their tests exist.
+      thresholds: { lines: 80, branches: 80, functions: 80, statements: 80 },
     },
   },
 })
