@@ -12,3 +12,9 @@ describe('cn', () => {
     expect(cn('px-2', 'px-4')).toBe('px-4')
   })
 })
+
+describe('cn with project tokens', () => {
+  it('treats max-w-page and max-w-copy as conflicting max-width utilities', () => {
+    expect(cn('max-w-page', 'max-w-copy')).toBe('max-w-copy')
+  })
+})
