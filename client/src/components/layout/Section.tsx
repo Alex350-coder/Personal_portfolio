@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 
 import { Container } from '@/components/layout/Container'
+import { Eyebrow } from '@/components/ui/eyebrow'
 import { cn } from '@/lib/utils'
 
 interface SectionProps {
@@ -19,7 +20,7 @@ export function Section({ id, eyebrow, heading, lead, className, children }: Sec
   return (
     <section id={id} aria-labelledby={headingId} className={cn('section-y', className)}>
       <Container>
-        <p className="type-eyebrow mb-4">✦ {eyebrow}</p>
+        <Eyebrow className="mb-4">{eyebrow}</Eyebrow>
         <h2 id={headingId} className="type-h2">
           {heading}
         </h2>
