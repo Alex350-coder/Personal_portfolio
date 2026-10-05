@@ -29,8 +29,8 @@ describe('HomePage', () => {
     renderHome()
     const order = ['inicio', 'sobre-mi', 'proyectos', 'tecnologias', 'contacto']
     const positions = order.map((id) => {
-      const element = document.getElementById(id)!
-      return Array.from(document.querySelectorAll('main > *')).indexOf(element)
+      const topLevel = document.getElementById(id)!.closest('main > *')
+      return Array.from(document.querySelectorAll('main > *')).indexOf(topLevel!)
     })
     expect(positions).toEqual([...positions].sort((a, b) => a - b))
     expect(positions.every((position) => position >= 0)).toBe(true)
@@ -38,7 +38,7 @@ describe('HomePage', () => {
 
   it('names every section region by its heading', () => {
     renderHome()
-    for (const name of ['Proyectos seleccionados', 'Hablemos']) {
+    for (const name of ['Desarrollo web con la seguridad en mente', 'Proyectos seleccionados', 'Hablemos']) {
       expect(screen.getByRole('region', { name })).toBeInTheDocument()
     }
   })
