@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router'
 
+import { MobileMenu } from '@/components/layout/MobileMenu'
 import { profile } from '@/data/profile'
 import { navHref, navItems, type NavItem } from '@/data/navigation'
 import { useActiveSection } from '@/hooks/use-active-section'
@@ -64,6 +65,8 @@ export function SiteHeader() {
             })}
           </ul>
         </nav>
+
+        <MobileMenu items={navItems} getCurrent={(item) => currentState(item, pathname, activeSection)} />
       </div>
     </header>
   )
