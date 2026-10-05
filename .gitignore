@@ -1,3 +1,11 @@
+# Only the app goes into the repository: client/, server/ and .github/.
+# Everything else at the root (planning docs, .claude/, docs/, ...) stays local.
+/*
+!/.gitignore
+!/client/
+!/server/
+!/.github/
+
 # Dependencies and build output
 node_modules/
 dist/
@@ -14,15 +22,3 @@ test-results/
 *.log
 .DS_Store
 Thumbs.db
-
-# Claude Code: local settings and phase-activated ECC resources
-# (re-created from ~/.claude/resources by /ecc-load-phase; phase-plan.json stays tracked).
-# settings.json holds absolute hook paths to the local ECC install, so it stays untracked too.
-.claude/settings.local.json
-.claude/.activated-manifest.json
-.claude/skills/
-.claude/agents/
-.claude/rules/
-.claude/commands/
-.claude/.new-files-pending.json
-.claude/settings.json
