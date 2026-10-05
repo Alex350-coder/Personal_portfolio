@@ -3,6 +3,9 @@ import { createBrowserRouter, createMemoryRouter, type RouteObject } from 'react
 
 import Layout from '@/app/Layout'
 import HomePage from '@/pages/HomePage'
+import NotFoundPage from '@/pages/NotFoundPage'
+import ProjectDetailPage from '@/pages/ProjectDetailPage'
+import ProjectsPage from '@/pages/ProjectsPage'
 
 // Dev-only primitive gallery. The DEV guard is statically replaced at build time, so the
 // dynamic import (and the whole src/dev chunk) is removed from the production bundle.
@@ -22,7 +25,15 @@ const devRoutes: RouteObject[] = KitPage
   : []
 
 export const routes: RouteObject[] = [
-  { element: <Layout />, children: [{ path: '/', element: <HomePage /> }] },
+  {
+    element: <Layout />,
+    children: [
+      { path: '/', element: <HomePage /> },
+      { path: '/proyectos', element: <ProjectsPage /> },
+      { path: '/proyectos/:slug', element: <ProjectDetailPage /> },
+      { path: '*', element: <NotFoundPage /> },
+    ],
+  },
   ...devRoutes,
 ]
 
