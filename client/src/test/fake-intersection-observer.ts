@@ -1,7 +1,7 @@
 import { act } from '@testing-library/react'
 import { vi } from 'vitest'
 
-type EntryInit = { target: Element; isIntersecting: boolean }
+type EntryInit = { target: Element; isIntersecting: boolean; intersectionRatio: number }
 type Callback = (entries: EntryInit[]) => void
 
 /** Controllable IntersectionObserver for jsdom (which has none). */
@@ -43,12 +43,12 @@ export function installFakeIntersectionObserver() {
   return {
     /** Live (not disconnected) observers, oldest first. */
     live: () => FakeIntersectionObserver.instances.filter((observer) => !observer.disconnected),
-    /** Reports the intersection state of `target` to every live observer watching it. */
-    setIntersecting(target: Element, isIntersecting: boolean) {
+    /** Reports the intersection state (and optional visible ratio) of `target` to every live observer watching it. */
+    setIntersecting(target: Element, isIntersecting: boolean, intersectionRatio = isIntersecting ? 1 : 0) {
       act(() => {
         for (const observer of FakeIntersectionObserver.instances) {
           if (!observer.disconnected && observer.observed.includes(target)) {
-            observer.emit([{ target, isIntersecting }])
+            observer.emit([{ target, isIntersecting, intersectionRatio }])
           }
         }
       })

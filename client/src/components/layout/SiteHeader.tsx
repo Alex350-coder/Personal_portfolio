@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router'
 import { profile } from '@/data/profile'
 import { navHref, navItems, type NavItem } from '@/data/navigation'
 import { useActiveSection } from '@/hooks/use-active-section'
+import { useHeroVisible } from '@/hooks/use-hero-visible'
 import { cn } from '@/lib/utils'
 
 const SECTION_IDS = navItems.map((item) => item.id)
@@ -18,13 +19,25 @@ function currentState(item: NavItem, pathname: string, activeSection: string | n
 /**
  * Top bar (docs/UI.md §Navigation): mono uppercase links, active = accent + 1 px underline,
  * `bg-void/80 backdrop-blur` with a bottom rule. Links are `/#anchor` so they work from any route.
+ * On Home it slides away (and becomes inert) while the Hero is at least half visible; on every other
+ * route it is always shown.
  */
 export function SiteHeader() {
   const { pathname } = useLocation()
-  const activeSection = useActiveSection(SECTION_IDS, pathname === '/')
+  const isHome = pathname === '/'
+  const activeSection = useActiveSection(SECTION_IDS, isHome)
+  const isHidden = useHeroVisible(isHome)
 
   return (
-    <header className="fixed inset-x-0 top-0 z-40 border-b border-star-10 bg-void/80 backdrop-blur">
+    <header
+      inert={isHidden}
+      data-hidden={isHidden}
+      className={cn(
+        'fixed inset-x-0 top-0 z-40 border-b border-star-10 bg-void/80 backdrop-blur',
+        'transition-transform duration-300 motion-reduce:transition-none',
+        isHidden && '-translate-y-full',
+      )}
+    >
       <div className="section-x mx-auto flex h-16 max-w-page items-center justify-between gap-6">
         <Link to="/#inicio" className="type-meta truncate text-star-70 transition-colors hover:text-accent">
           {profile.name}
