@@ -9,7 +9,8 @@ test('the /__kit gallery is not part of the production build', async ({ page }) 
 
   await page.goto('/__kit')
 
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Ander Alexander Aguirre Tejada')
+  // No such route in production: the in-theme 404 answers instead.
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Esta página no existe')
   await expect(page.getByRole('heading', { name: 'Kit de primitivas' })).toHaveCount(0)
   expect(scripts.length).toBeGreaterThan(0)
   expect(scripts.some((source) => source.includes('Kit de primitivas'))).toBe(false)

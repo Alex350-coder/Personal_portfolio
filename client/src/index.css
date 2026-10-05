@@ -222,3 +222,14 @@
     outline-offset: 2px;
   }
 }
+
+/* In-page anchors glide only when the user has not asked for reduced motion.
+   scroll-padding keeps targets clear of the sticky site header (4rem). */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+html {
+  scroll-padding-top: 4rem;
+}

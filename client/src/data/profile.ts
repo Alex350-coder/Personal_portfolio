@@ -1,0 +1,98 @@
+import type { Placeholder } from '@/lib/placeholder'
+
+/**
+ * Single source of truth for who the owner is (Rules §11: copy lives in data, not components).
+ * Seeded from docs/ProfileData.md §7 (owner decisions, authoritative). Anything the owner has
+ * not provided stays a `[[PLACEHOLDER: …]]` (registry: docs/ContentStrategy.md).
+ * Never mention certifications; never claim solo/manual authorship (ADR-008).
+ */
+
+export type LinkId = 'github' | 'linkedin' | 'email' | 'cv'
+
+export interface ProfileLink {
+  id: LinkId
+  label: string
+  /** https:// or mailto: URL, or a placeholder while the resource does not exist. */
+  href: string | Placeholder
+}
+
+export interface FocusPillar {
+  id: 'software-web' | 'ciberseguridad' | 'ia-asistida'
+  title: string
+  description: string
+}
+
+export interface ProfileFact {
+  label: string
+  value: string | Placeholder
+}
+
+export interface Profile {
+  name: string
+  role: string
+  summary: string
+  /** Short tags shown in the Hero. */
+  focusAreas: readonly string[]
+  about: {
+    eyebrow: string
+    heading: string
+    intro: readonly string[]
+    pillars: readonly FocusPillar[]
+    facts: readonly ProfileFact[]
+    /** Draft until the owner approves it (docs/ContentStrategy.md, missing item #1). */
+    aiNote: { text: string; approval: Placeholder | 'approved' }
+  }
+  links: readonly ProfileLink[]
+}
+
+export const profile: Profile = {
+  name: 'Ander Alexander Aguirre Tejada',
+  role: 'Desarrollador full-stack · Seguridad',
+  summary:
+    'Desarrollo aplicaciones web full-stack con enfoque en seguridad. Aquí reúno mis proyectos, con el código disponible en GitHub.',
+  focusAreas: ['Software', 'Web', 'Ciberseguridad', 'Desarrollo asistido por IA'],
+  about: {
+    eyebrow: 'Sobre mí',
+    heading: 'Desarrollo web con la seguridad en mente',
+    intro: [
+      'Soy desarrollador full-stack y me interesa la seguridad. Construyo aplicaciones web de punta a punta y practico seguridad ofensiva en laboratorios.',
+      'Todo el código está en GitHub: puedes revisarlo y juzgar el trabajo por lo que hay en los repositorios.',
+    ],
+    pillars: [
+      {
+        id: 'software-web',
+        title: 'Software y web',
+        description:
+          'Aplicaciones full-stack con React y TypeScript, y servicios en NestJS, Spring Boot o Django.',
+      },
+      {
+        id: 'ciberseguridad',
+        title: 'Ciberseguridad',
+        description:
+          'Autenticación, control de acceso y validación en mis aplicaciones, además de write-ups y notas de laboratorios de seguridad ofensiva.',
+      },
+      {
+        id: 'ia-asistida',
+        title: 'Desarrollo asistido por IA',
+        description:
+          'Muchos de mis sistemas los construyo con asistencia de IA. Lo digo de forma explícita: no presento ese trabajo como hecho en solitario ni a mano.',
+      },
+    ],
+    facts: [
+      { label: 'Ubicación', value: 'Lima, Perú' },
+      { label: 'Enfoque', value: 'Full-stack · seguridad' },
+      { label: 'Código', value: 'GitHub: Alex350-coder' },
+      { label: 'Disponibilidad', value: '[[PLACEHOLDER: availability and what the owner is looking for]]' },
+    ],
+    aiNote: {
+      text: 'Cómo trabajo: uso asistentes de IA durante el desarrollo y reviso lo que producen. La decisión final sobre qué se publica es mía.',
+      approval: '[[PLACEHOLDER: owner approval of the AI-assisted "how I work" wording]]',
+    },
+  },
+  links: [
+    { id: 'github', label: 'GitHub', href: 'https://github.com/Alex350-coder' },
+    { id: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/AnderAguirreTejada' },
+    { id: 'email', label: 'Correo', href: 'mailto:anderaguirre787@gmail.com' },
+    { id: 'cv', label: 'CV', href: '[[PLACEHOLDER: CV PDF (public/cv/); none exists yet]]' },
+  ],
+}
