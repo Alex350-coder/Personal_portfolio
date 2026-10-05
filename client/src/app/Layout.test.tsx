@@ -40,7 +40,7 @@ describe('Layout', () => {
     Element.prototype.scrollIntoView = vi.fn()
   })
 
-  it('exposes header-free landmarks: main#contenido and a footer', () => {
+  it('exposes main#contenido, a banner and a footer', () => {
     renderLayout()
     expect(screen.getByRole('main')).toHaveAttribute('id', 'contenido')
     expect(screen.getByRole('contentinfo')).toBeInTheDocument()
