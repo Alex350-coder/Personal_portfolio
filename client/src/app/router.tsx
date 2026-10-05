@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { createBrowserRouter, createMemoryRouter, type RouteObject } from 'react-router'
 
+import Layout from '@/app/Layout'
 import HomePage from '@/pages/HomePage'
 
 // Dev-only primitive gallery. The DEV guard is statically replaced at build time, so the
@@ -20,7 +21,10 @@ const devRoutes: RouteObject[] = KitPage
     ]
   : []
 
-export const routes: RouteObject[] = [{ path: '/', element: <HomePage /> }, ...devRoutes]
+export const routes: RouteObject[] = [
+  { element: <Layout />, children: [{ path: '/', element: <HomePage /> }] },
+  ...devRoutes,
+]
 
 export const createAppRouter = () => createBrowserRouter(routes)
 
