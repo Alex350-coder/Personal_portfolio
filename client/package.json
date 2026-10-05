@@ -12,7 +12,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "placeholders": "node scripts/list-placeholders.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
