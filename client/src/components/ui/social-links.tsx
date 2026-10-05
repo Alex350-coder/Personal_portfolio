@@ -2,6 +2,7 @@ import { ArrowUpRight, FileText, Mail } from 'lucide-react'
 import type { ComponentProps } from 'react'
 
 import { profile, type LinkId, type ProfileLink } from '@/data/profile'
+import { uiLabels } from '@/data/ui'
 import { isPlaceholder } from '@/lib/placeholder'
 import { cn } from '@/lib/utils'
 
@@ -31,7 +32,7 @@ function isSafeHref(href: string): boolean {
  */
 export function SocialLinks({ links = profile.links, className, ...props }: SocialLinksProps) {
   return (
-    <ul aria-label="Enlaces profesionales" className={cn('flex flex-wrap gap-3', className)} {...props}>
+    <ul aria-label={uiLabels.professionalLinks} className={cn('flex flex-wrap gap-3', className)} {...props}>
       {links.map((link) => {
         const Icon = ICONS[link.id]
 
@@ -60,7 +61,7 @@ export function SocialLinks({ links = profile.links, className, ...props }: Soci
               {isExternal ? (
                 <>
                   {' '}
-                  <span className="sr-only">(abre en nueva pestaña)</span>
+                  <span className="sr-only">{uiLabels.opensInNewTab}</span>
                 </>
               ) : null}
             </a>

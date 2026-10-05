@@ -3,6 +3,7 @@ import { useEffect, useId, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router'
 
 import { navHref, type NavItem } from '@/data/navigation'
+import { uiLabels } from '@/data/ui'
 import { cn } from '@/lib/utils'
 
 /** Tailwind `md` breakpoint: from here the desktop bar replaces this menu. */
@@ -83,7 +84,7 @@ export function MobileMenu({ items, getCurrent }: MobileMenuProps) {
         className="type-label inline-flex h-11 items-center gap-2 border border-star-25 px-3 text-star transition-colors hover:bg-star-10"
       >
         <Icon aria-hidden="true" className="size-4" />
-        {isOpen ? 'Cerrar' : 'Menú'}
+        {isOpen ? uiLabels.menuClose : uiLabels.menuOpen}
       </button>
 
       <div
@@ -93,7 +94,7 @@ export function MobileMenu({ items, getCurrent }: MobileMenuProps) {
         className="absolute inset-x-0 top-full border-b border-star-10 bg-void/95 backdrop-blur"
       >
         {isOpen ? (
-          <nav aria-label="Menú principal" className="section-x py-4">
+          <nav aria-label={uiLabels.mobileNav} className="section-x py-4">
             <ul>
               {items.map((item) => {
                 const current = getCurrent(item)

@@ -2,12 +2,8 @@ import { useId } from 'react'
 
 import { Section } from '@/components/layout/Section'
 import { Reveal } from '@/components/ui/reveal'
-import { sections } from '@/data/sections'
+import { pendingNotes, sections } from '@/data/sections'
 import { techGroups, technologies, type TechGroup } from '@/data/technologies'
-import type { Placeholder } from '@/lib/placeholder'
-
-/** Evidence (projects per technology) arrives with the project data in Phase 3 (P3-T13). */
-const EVIDENCE_NOTE: Placeholder = '[[PLACEHOLDER: projects that use each technology (Phase 3)]]'
 
 function TechGroupList({ group }: { group: TechGroup }) {
   const headingId = useId()
@@ -41,7 +37,7 @@ export function TechnologiesSection() {
           <TechGroupList key={group.id} group={group} />
         ))}
       </Reveal>
-      <p className="type-label mt-10 border border-dashed border-star-25 px-4 py-4">{EVIDENCE_NOTE}</p>
+      <p className="type-label mt-10 border border-dashed border-star-25 px-4 py-4">{pendingNotes.tecnologias}</p>
     </Section>
   )
 }

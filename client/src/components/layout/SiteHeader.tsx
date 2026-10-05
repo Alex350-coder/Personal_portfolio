@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router'
 import { MobileMenu } from '@/components/layout/MobileMenu'
 import { profile } from '@/data/profile'
 import { navHref, navItems, type NavItem } from '@/data/navigation'
+import { uiLabels } from '@/data/ui'
 import { useActiveSection } from '@/hooks/use-active-section'
 import { useHeroVisible } from '@/hooks/use-hero-visible'
 import { cn } from '@/lib/utils'
@@ -44,7 +45,7 @@ export function SiteHeader() {
           {profile.name}
         </Link>
 
-        <nav aria-label="Principal" className="hidden md:block">
+        <nav aria-label={uiLabels.primaryNav} className="hidden md:block">
           <ul className="flex items-center gap-8">
             {navItems.map((item) => {
               const current = currentState(item, pathname, activeSection)
