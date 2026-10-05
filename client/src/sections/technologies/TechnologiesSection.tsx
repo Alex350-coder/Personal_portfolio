@@ -14,7 +14,7 @@ function TechGroupList({ group }: { group: TechGroup }) {
       <h3 id={headingId} className="type-eyebrow mb-4">
         {group.label}
       </h3>
-      <ul aria-labelledby={headingId} className="flex flex-wrap gap-2">
+      <ul role="list" aria-labelledby={headingId} className="flex flex-wrap gap-2">
         {items.map((tech) => (
           <li key={tech.id} className="border border-star-10 bg-haze/40 px-3 py-2 text-sm text-star-70">
             {tech.label}

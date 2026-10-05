@@ -73,24 +73,25 @@ describe('SiteHeader', () => {
   })
 
   describe('visibility', () => {
-    it('is hidden and inert while the Hero is at least half visible on Home', () => {
+    it('slides away, but stays reachable, while the Hero is at least half visible on Home', () => {
       renderHeader('/', true)
       const banner = screen.getByTestId('hero').nextElementSibling as HTMLElement
-      expect(banner).toHaveAttribute('inert')
+      expect(banner).not.toHaveAttribute('inert')
       expect(banner).toHaveAttribute('data-hidden', 'true')
+      expect(banner.className).toContain('focus-within:translate-y-0')
     })
 
     it('appears once the Hero is mostly gone', () => {
       renderHeader('/', true)
       fake.setIntersecting(screen.getByTestId('hero'), true, 0.2)
       const banner = screen.getByRole('banner')
-      expect(banner).not.toHaveAttribute('inert')
       expect(banner).toHaveAttribute('data-hidden', 'false')
+      expect(banner.className).not.toContain('-translate-y-full')
     })
 
     it('is always visible on other routes, whatever the Hero does', () => {
       renderHeader('/proyectos', true)
-      expect(screen.getByRole('banner')).not.toHaveAttribute('inert')
+      expect(screen.getByRole('banner')).toHaveAttribute('data-hidden', 'false')
     })
   })
 

@@ -36,9 +36,14 @@ function inertSiblings(keep: Element): () => void {
  */
 export function MobileMenu({ items, getCurrent }: MobileMenuProps) {
   const { key: locationKey } = useLocation()
-  // Open state is tied to the location it was opened on: any navigation closes it, no effect needed.
-  const [openedAt, setOpenedAt] = useState<string | null>(null)
-  const isOpen = openedAt === locationKey
+  const [isOpen, setIsOpen] = useState(false)
+  // Any navigation (links, back/forward) closes the menu. Adjusting state while rendering avoids an
+  // effect and, unlike deriving from the key, a later Back/Forward cannot reopen it.
+  const [seenKey, setSeenKey] = useState(locationKey)
+  if (seenKey !== locationKey) {
+    setSeenKey(locationKey)
+    setIsOpen(false)
+  }
 
   const panelId = useId()
   const buttonRef = useRef<HTMLButtonElement>(null)
@@ -54,7 +59,7 @@ export function MobileMenu({ items, getCurrent }: MobileMenuProps) {
     root.style.overflow = 'hidden'
     panelRef.current?.querySelector('a')?.focus()
 
-    const close = () => setOpenedAt(null)
+    const close = () => setIsOpen(false)
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key !== 'Escape') return
       close()
@@ -71,6 +76,13 @@ export function MobileMenu({ items, getCurrent }: MobileMenuProps) {
     }
   }, [isOpen])
 
+  // The focused link unmounts with the panel: hand focus back to the toggle so it is never lost
+  // (a route change then moves it on to main, see Layout).
+  const handleLinkClick = () => {
+    setIsOpen(false)
+    buttonRef.current?.focus()
+  }
+
   const Icon = isOpen ? X : Menu
 
   return (
@@ -80,7 +92,7 @@ export function MobileMenu({ items, getCurrent }: MobileMenuProps) {
         type="button"
         aria-expanded={isOpen}
         aria-controls={panelId}
-        onClick={() => setOpenedAt(isOpen ? null : locationKey)}
+        onClick={() => setIsOpen((open) => !open)}
         className="type-label inline-flex h-11 items-center gap-2 border border-star-25 px-3 text-star transition-colors hover:bg-star-10"
       >
         <Icon aria-hidden="true" className="size-4" />
@@ -91,7 +103,7 @@ export function MobileMenu({ items, getCurrent }: MobileMenuProps) {
         ref={panelRef}
         id={panelId}
         hidden={!isOpen}
-        className="absolute inset-x-0 top-full border-b border-star-10 bg-void/95 backdrop-blur"
+        className="absolute inset-x-0 top-full max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain border-b border-star-10 bg-void/95 backdrop-blur"
       >
         {isOpen ? (
           <nav aria-label={uiLabels.mobileNav} className="section-x py-4">
@@ -103,10 +115,11 @@ export function MobileMenu({ items, getCurrent }: MobileMenuProps) {
                     <Link
                       to={navHref(item.id)}
                       aria-current={current}
-                      onClick={() => setOpenedAt(null)}
+                      onClick={handleLinkClick}
                       className={cn(
                         'type-label flex min-h-12 items-center transition-colors hover:text-star',
                         current && 'text-accent hover:text-accent',
+                        'forced-colors:aria-[current]:font-bold forced-colors:aria-[current]:underline',
                       )}
                     >
                       {item.label}

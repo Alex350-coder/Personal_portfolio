@@ -32,7 +32,7 @@ function isSafeHref(href: string): boolean {
  */
 export function SocialLinks({ links = profile.links, className, ...props }: SocialLinksProps) {
   return (
-    <ul aria-label={uiLabels.professionalLinks} className={cn('flex flex-wrap gap-3', className)} {...props}>
+    <ul role="list" aria-label={uiLabels.professionalLinks} className={cn('flex flex-wrap gap-3', className)} {...props}>
       {links.map((link) => {
         const Icon = ICONS[link.id]
 

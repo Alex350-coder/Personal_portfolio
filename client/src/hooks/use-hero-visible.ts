@@ -25,10 +25,7 @@ export function useHeroVisible(enabled: boolean): boolean {
       { threshold: [0, HIDE_BELOW_RATIO] },
     )
     observer.observe(hero)
-    return () => {
-      observer.disconnect()
-      setRatioVisible(true)
-    }
+    return () => observer.disconnect()
   }, [enabled, supported])
 
   return enabled && supported && ratioVisible

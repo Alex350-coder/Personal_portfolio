@@ -21,8 +21,8 @@ function currentState(item: NavItem, pathname: string, activeSection: string | n
 /**
  * Top bar (docs/UI.md §Navigation): mono uppercase links, active = accent + 1 px underline,
  * `bg-void/80 backdrop-blur` with a bottom rule. Links are `/#anchor` so they work from any route.
- * On Home it slides away (and becomes inert) while the Hero is at least half visible; on every other
- * route it is always shown.
+ * On Home it slides out of view while the Hero is at least half visible (still reachable: focusing
+ * any of its controls reveals it); on every other route it is always shown.
  */
 export function SiteHeader() {
   const { pathname } = useLocation()
@@ -32,16 +32,16 @@ export function SiteHeader() {
 
   return (
     <header
-      inert={isHidden}
       data-hidden={isHidden}
       className={cn(
         'fixed inset-x-0 top-0 z-40 border-b border-star-10 bg-void/80 backdrop-blur',
         'transition-transform duration-300 motion-reduce:transition-none',
-        isHidden && '-translate-y-full',
+        // Slid away, not inert: keyboard focus inside it brings it back (WCAG 2.1.1, 2.4.3).
+        isHidden && '-translate-y-full focus-within:translate-y-0',
       )}
     >
       <div className="section-x mx-auto flex h-16 max-w-page items-center justify-between gap-6">
-        <Link to="/#inicio" className="type-meta truncate text-star-70 transition-colors hover:text-accent">
+        <Link to="/#inicio" className="type-meta inline-flex min-h-11 items-center truncate text-star-70 transition-colors hover:text-accent">
           {profile.name}
         </Link>
 
@@ -55,7 +55,8 @@ export function SiteHeader() {
                     to={navHref(item.id)}
                     aria-current={current}
                     className={cn(
-                      'type-label inline-flex min-h-6 items-center border-b border-transparent pb-0.5 transition-colors hover:text-star',
+                      'type-label inline-flex min-h-11 items-center border-b border-transparent transition-colors hover:text-star',
+                      'forced-colors:aria-[current]:underline forced-colors:aria-[current]:decoration-2',
                       current && 'border-accent text-accent hover:text-accent',
                     )}
                   >

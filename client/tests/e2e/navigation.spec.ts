@@ -20,6 +20,11 @@ test.describe('Navigation (desktop)', () => {
     await page.goto('/')
     const header = page.getByRole('banner')
     await expect(header).toHaveAttribute('data-hidden', 'true')
+    // Still keyboard-reachable: focusing a header control reveals it.
+    await page.keyboard.press('Tab')
+    await page.keyboard.press('Tab')
+    await expect(page.getByRole('link', { name: 'Ander Alexander Aguirre Tejada' }).first()).toBeFocused()
+    await expect(header).toBeInViewport({ ratio: 0.9 })
     await page.locator('#sobre-mi').scrollIntoViewIfNeeded()
     await expect(header).toHaveAttribute('data-hidden', 'false')
     await expect(page.getByRole('navigation', { name: 'Principal' })).toBeVisible()
@@ -57,7 +62,10 @@ test.describe('Navigation (desktop)', () => {
   test('has no serious or critical axe violations on /', async ({ page }) => {
     await page.goto('/')
     await page.locator('canvas').waitFor()
-    await page.locator('#tecnologias').scrollIntoViewIfNeeded()
+    await page.locator('#sobre-mi').scrollIntoViewIfNeeded()
+    // axe measures contrast: wait until no Reveal is mid-fade (500 ms + stagger).
+    await expect(page.locator('#sobre-mi [data-revealed="false"]')).toHaveCount(0)
+    await page.waitForTimeout(900)
     expect(await blockingViolations(page)).toEqual([])
   })
 

@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { useActiveSection } from '@/hooks/use-active-section'
@@ -63,6 +63,23 @@ describe('useActiveSection', () => {
     fake.setIntersecting(screen.getByTestId('dos'), true)
     expect(screen.getByTestId('active')).toHaveTextContent('dos')
     fake.setIntersecting(screen.getByTestId('dos'), false)
+    expect(screen.getByTestId('active')).toHaveTextContent('tres')
+  })
+
+  it('makes the last section active at the bottom of the page, even if it never crosses the line', () => {
+    render(
+      <>
+        <Sections />
+        <Probe />
+      </>,
+    )
+    fake.setIntersecting(screen.getByTestId('uno'), true)
+    vi.spyOn(window, 'scrollY', 'get').mockReturnValue(900)
+    vi.spyOn(window, 'innerHeight', 'get').mockReturnValue(100)
+    vi.spyOn(document.documentElement, 'scrollHeight', 'get').mockReturnValue(1000)
+    act(() => {
+      window.dispatchEvent(new Event('scroll'))
+    })
     expect(screen.getByTestId('active')).toHaveTextContent('tres')
   })
 

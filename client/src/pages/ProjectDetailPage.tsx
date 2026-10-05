@@ -21,7 +21,7 @@ export default function ProjectDetailPage() {
         <p className="type-label mt-10 border border-dashed border-star-25 px-4 py-6">
           {projectDetailStub.note}
         </p>
-        <Link to="/proyectos" className="type-label mt-8 inline-block underline underline-offset-4 hover:text-accent">
+        <Link to="/proyectos" className="type-label mt-8 inline-flex min-h-11 items-center underline underline-offset-4 hover:text-accent">
           {projectDetailStub.back}
         </Link>
       </Container>

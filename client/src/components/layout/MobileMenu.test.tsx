@@ -104,6 +104,24 @@ describe('MobileMenu', () => {
     expect(toggle()).toHaveAttribute('aria-expanded', 'false')
   })
 
+  it('stays closed after Back then Forward', async () => {
+    const router = renderMenu()
+    await act(() => router.navigate('/proyectos'))
+    await userEvent.setup().click(toggle())
+    await act(() => router.navigate(-1))
+    expect(toggle()).toHaveAttribute('aria-expanded', 'false')
+    await act(() => router.navigate(1))
+    expect(toggle()).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('hands focus back to the toggle when a link is chosen', async () => {
+    renderMenu()
+    const user = userEvent.setup()
+    await user.click(toggle())
+    await user.click(screen.getByRole('link', { name: 'Contacto' }))
+    expect(toggle()).toHaveFocus()
+  })
+
   it('toggles closed from the button itself', async () => {
     renderMenu()
     const user = userEvent.setup()

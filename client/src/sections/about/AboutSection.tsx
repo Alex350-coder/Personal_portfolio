@@ -58,7 +58,7 @@ export function AboutSection({ about = profile.about }: AboutSectionProps) {
           </Reveal>
         </div>
 
-        <ul className="mt-14 grid gap-4 sm:gap-6 md:grid-cols-3">
+        <ul role="list" className="mt-14 grid gap-4 sm:gap-6 md:grid-cols-3">
           {about.pillars.map((pillar, index) => (
             <li key={pillar.id}>
               <Reveal style={{ transitionDelay: `${index * STAGGER_MS}ms` }} className="h-full">
