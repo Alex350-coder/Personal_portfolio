@@ -9,10 +9,10 @@ import { isHttpsUrl } from '@/lib/url'
  * without a link instead of a broken or dangerous anchor.
  */
 export function ExternalLink({ href, children, ...props }: Omit<ComponentProps<'a'>, 'target' | 'rel'>) {
-  if (href === undefined || !isHttpsUrl(href)) return <span className={props.className}>{children}</span>
+  if (href === undefined || !isHttpsUrl(href)) return <span>{children}</span>
 
   return (
-    <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
+    <a {...props} href={href} target="_blank" rel="noopener noreferrer">
       {children} <span className="sr-only">{uiLabels.opensInNewTab}</span>
     </a>
   )

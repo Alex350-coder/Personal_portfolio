@@ -40,6 +40,7 @@ function Toggle({ pressed, onClick, children }: ToggleProps) {
       onClick={onClick}
       className={cn(CONTROL_CLASS, pressed ? 'border-accent-50 bg-accent-10 text-accent' : 'border-star-25')}
     >
+      {pressed ? <span aria-hidden="true" className="mr-2">●</span> : null}
       {children}
     </button>
   )

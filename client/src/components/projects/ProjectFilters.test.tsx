@@ -36,6 +36,12 @@ describe('ProjectFilters', () => {
     expect(screen.getByRole('button', { name: 'Completado' })).toHaveAttribute('aria-pressed', 'false')
   })
 
+  it('marks the pressed state with a non-colour glyph', () => {
+    renderFilters({ categoria: 'seguridad' })
+    expect(screen.getByRole('button', { name: 'Seguridad' })).toHaveTextContent('●')
+    expect(screen.getByRole('button', { name: 'Web' })).not.toHaveTextContent('●')
+  })
+
   it('does not offer the archived status as a button (it has its own toggle)', () => {
     renderFilters()
     expect(screen.queryByRole('button', { name: 'Archivado' })).toBeNull()

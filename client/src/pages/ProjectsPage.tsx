@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useRef } from 'react'
 
 import { Container } from '@/components/layout/Container'
 import { ProjectCard } from '@/components/projects/ProjectCard'
@@ -19,6 +19,13 @@ const hasArchived = projects.some((project) => project.status === 'archivado')
 export default function ProjectsPage() {
   const { filter, setFilter, setArchived, clear, isActive } = useProjectFilters()
   const results = useMemo(() => filterProjects(projects, filter), [filter])
+  const statusRef = useRef<HTMLParagraphElement>(null)
+
+  /** The clear buttons unmount when the filters reset, so focus moves to the result count instead of <body>. */
+  function clearAndRefocus() {
+    clear()
+    statusRef.current?.focus()
+  }
 
   return (
     <section aria-labelledby="proyectos-index-heading" className="section-y pt-32 sm:pt-40">
@@ -37,11 +44,11 @@ export default function ProjectsPage() {
             hasArchived={hasArchived}
             onChange={setFilter}
             onArchivedChange={setArchived}
-            onClear={clear}
+            onClear={clearAndRefocus}
           />
         </div>
 
-        <p role="status" aria-live="polite" className="type-label mt-8">
+        <p ref={statusRef} tabIndex={-1} role="status" aria-live="polite" className="type-label mt-8 outline-none">
           {projectsIndex.count(results.length)}
         </p>
 
@@ -59,7 +66,7 @@ export default function ProjectsPage() {
             <p className="type-body mt-2">{projectsIndex.emptyBody}</p>
             <button
               type="button"
-              onClick={clear}
+              onClick={clearAndRefocus}
               className="type-label mt-4 inline-flex min-h-11 items-center underline underline-offset-4 hover:text-accent"
             >
               {filterLabels.clear}

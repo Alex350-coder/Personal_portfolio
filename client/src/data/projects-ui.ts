@@ -22,6 +22,7 @@ export const projectLabels = {
   repo: 'Código en GitHub',
   live: 'Demo en vivo',
   stackLabel: 'Tecnologías',
+  of: (title: string) => `de ${title}`,
   moreTech: (count: number) => `+${count}`,
   moreTechSr: (count: number) => `y ${count} más`,
   problemLabel: 'Problema',

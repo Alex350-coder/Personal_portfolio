@@ -69,6 +69,13 @@ describe('ProjectsPage', () => {
     expect(visibleTitles().length).toBeGreaterThan(0)
   })
 
+  it('moves focus to the result count after clearing, so it never falls to the page body', async () => {
+    const user = userEvent.setup()
+    renderAt('/proyectos?categoria=ia')
+    await user.click(screen.getAllByRole('button', { name: filterLabels.clear })[0]!)
+    expect(screen.getByRole('status')).toHaveFocus()
+  })
+
   it('ignores invalid URL filter values instead of breaking', () => {
     renderAt('/proyectos?categoria=hack&tec=cobol')
     expect(visibleTitles()).toHaveLength(projects.length)

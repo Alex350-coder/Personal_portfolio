@@ -76,6 +76,13 @@ describe('validateProjects', () => {
     expect(errors).toMatch(/media\[0\]\.alt must not be empty/)
   })
 
+  it('reports non-positive or fractional media dimensions', () => {
+    const image = { src: '/a.webp', alt: 'ok', width: 0, height: 10.5 }
+    const errors = validateProjects([make({ cover: image })]).join('\n')
+    expect(errors).toMatch(/cover\.width must be a positive integer/)
+    expect(errors).toMatch(/cover\.height must be a positive integer/)
+  })
+
   it('reports an implausible year', () => {
     expect(validateProjects([make({ year: 1999 })]).join('\n')).toMatch(/year must be between/)
     expect(validateProjects([make({ year: 2999 })]).join('\n')).toMatch(/year must be between/)

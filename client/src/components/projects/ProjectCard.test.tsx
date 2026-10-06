@@ -68,6 +68,11 @@ describe('ProjectCard (compact)', () => {
     expect(screen.queryByRole('link', { name: /Demo en vivo/ })).toBeNull()
   })
 
+  it('names each repo link after its project so repeated links are distinguishable', () => {
+    renderCard()
+    expect(screen.getByRole('link', { name: /Código en GitHub de Proyecto demo/ })).toBeInTheDocument()
+  })
+
   it('renders the live link when the project has one', () => {
     renderCard({ project: { ...project, links: { ...project.links, live: 'https://demo.example.com' } } })
     expect(screen.getByRole('link', { name: /Demo en vivo/ })).toHaveAttribute('href', 'https://demo.example.com')

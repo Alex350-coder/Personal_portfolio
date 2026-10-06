@@ -65,7 +65,12 @@ function isBlank(value: string): boolean {
 }
 
 function validateMedia(media: Media, path: string): string[] {
-  return isBlank(media.alt) ? [`${path}.alt must not be empty (alt text is required)`] : []
+  const errors: string[] = []
+  if (isBlank(media.alt)) errors.push(`${path}.alt must not be empty (alt text is required)`)
+  for (const side of ['width', 'height'] as const) {
+    if (!Number.isInteger(media[side]) || media[side] <= 0) errors.push(`${path}.${side} must be a positive integer`)
+  }
+  return errors
 }
 
 function validateOne(project: Project, maxYear: number): string[] {

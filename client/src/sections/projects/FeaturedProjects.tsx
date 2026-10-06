@@ -20,8 +20,7 @@ const staggerDelay = (index: number) => ({ transitionDelay: `${Math.min(index, M
 const LINK_CLASS =
   'type-label inline-flex min-h-11 items-center gap-2 border border-star-25 px-4 transition-colors hover:bg-star-10 hover:text-star'
 
-function GithubCard() {
-  const github = profile.links.find((link) => link.id === 'github')
+function GithubCard({ href }: { href: string }) {
   const { title, body, cta } = featuredSection.github
 
   return (
@@ -31,11 +30,9 @@ function GithubCard() {
         <h3 className="text-lg font-semibold leading-snug">{title}</h3>
         <p className="mt-2 text-sm leading-relaxed text-star-70">{body}</p>
       </div>
-      {github ? (
-        <ExternalLink href={github.href} className={cn(LINK_CLASS, 'relative self-start')}>
-          {cta}
-        </ExternalLink>
-      ) : null}
+      <ExternalLink href={href} className={cn(LINK_CLASS, 'relative self-start')}>
+        {cta}
+      </ExternalLink>
     </GlowCard>
   )
 }
@@ -43,6 +40,7 @@ function GithubCard() {
 /** Home `#proyectos`: ordered featured projects, link to the full index, and the GitHub profile card. */
 export function FeaturedProjects() {
   const featured = getFeatured()
+  const github = profile.links.find((link) => link.id === 'github')
 
   return (
     <Section id="proyectos" {...sections.proyectos}>
@@ -54,11 +52,13 @@ export function FeaturedProjects() {
             </Reveal>
           </li>
         ))}
-        <li>
-          <Reveal className="h-full" style={staggerDelay(featured.length)}>
-            <GithubCard />
-          </Reveal>
-        </li>
+        {github ? (
+          <li>
+            <Reveal className="h-full" style={staggerDelay(featured.length)}>
+              <GithubCard href={github.href} />
+            </Reveal>
+          </li>
+        ) : null}
       </ul>
       <Link to="/proyectos" className={cn(LINK_CLASS, 'mt-8')}>
         {featuredSection.seeAll}

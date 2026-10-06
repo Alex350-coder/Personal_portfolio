@@ -22,7 +22,7 @@ export function Badge({ variant = 'outline', srLabel, className, children, ...pr
   return (
     <span
       className={cn(
-        'inline-flex items-center border px-2 py-1 font-mono text-[10px] uppercase leading-none tracking-[0.2em]',
+        'inline-flex items-center border px-2 py-1 font-mono text-[0.6875rem] uppercase leading-none tracking-[0.2em]',
         variants[variant],
         className,
       )}

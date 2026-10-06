@@ -22,6 +22,19 @@ describe('ExternalLink', () => {
     },
   )
 
+  it('renders the unsafe fallback without link styling', () => {
+    render(<ExternalLink href="http://example.com" className="underline">Texto</ExternalLink>)
+    expect(screen.getByText('Texto')).not.toHaveClass('underline')
+  })
+
+  it('cannot be overridden into an unsafe target or rel at runtime', () => {
+    const unsafe = { target: '_self', rel: 'opener' } as object
+    render(<ExternalLink href="https://example.com" {...unsafe}>Ok</ExternalLink>)
+    const link = screen.getByRole('link')
+    expect(link).toHaveAttribute('target', '_blank')
+    expect(link).toHaveAttribute('rel', 'noopener noreferrer')
+  })
+
   it('merges className and forwards other anchor attributes', () => {
     render(
       <ExternalLink href="https://example.com" className="mt-2" data-testid="l">

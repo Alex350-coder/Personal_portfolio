@@ -126,10 +126,14 @@ export function ProjectCard({ project, variant = 'compact', headingLevel = 3, cl
         <div className="flex flex-wrap gap-x-5">
           <ExternalLink href={project.links.repo} className={LINK_CLASS}>
             {projectLabels.repo}
+            {' '}
+<span className="sr-only">{projectLabels.of(project.title)}</span>
           </ExternalLink>
           {project.links.live ? (
             <ExternalLink href={project.links.live} className={LINK_CLASS}>
               {projectLabels.live}
+              {' '}
+<span className="sr-only">{projectLabels.of(project.title)}</span>
             </ExternalLink>
           ) : null}
         </div>
