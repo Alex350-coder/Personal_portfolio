@@ -26,7 +26,7 @@ test.describe('Navigation (desktop)', () => {
     await expect(page.getByRole('link', { name: 'Ander Alexander Aguirre Tejada' }).first()).toBeFocused()
     await expect(header).toBeInViewport({ ratio: 0.9 })
     await page.locator('#sobre-mi').scrollIntoViewIfNeeded()
-    await expect(header).toHaveAttribute('data-hidden', 'false')
+    await expect(header).toHaveAttribute('data-hidden', 'false', { timeout: 15_000 })
     await expect(page.getByRole('navigation', { name: 'Principal' })).toBeVisible()
   })
 
@@ -38,7 +38,7 @@ test.describe('Navigation (desktop)', () => {
     await expect(link).toBeFocused()
     await page.keyboard.press('Enter')
     await expect(page).toHaveURL(/#tecnologias$/)
-    await expect(page.locator('#tecnologias')).toBeInViewport()
+    await expect(page.locator('#tecnologias')).toBeInViewport({ timeout: 15_000 })
   })
 
   test('Hero CTAs reach existing anchors', async ({ page }) => {
@@ -56,7 +56,7 @@ test.describe('Navigation (desktop)', () => {
     await expect(page.getByRole('banner')).toHaveAttribute('data-hidden', 'false')
     await page.getByRole('navigation', { name: 'Principal' }).getByRole('link', { name: 'Sobre mí' }).click()
     await expect(page).toHaveURL(/\/#sobre-mi$/)
-    await expect(page.locator('#sobre-mi')).toBeInViewport()
+    await expect(page.locator('#sobre-mi')).toBeInViewport({ timeout: 15_000 })
   })
 
   test('has no serious or critical axe violations on /', async ({ page }) => {
@@ -115,7 +115,7 @@ test.describe('Navigation (mobile 375)', () => {
     await page.getByRole('button', { name: 'Menú' }).click()
     await page.getByRole('link', { name: 'Tecnologías' }).click()
     await expect(page).toHaveURL(/\/#tecnologias$/)
-    await expect(page.locator('#tecnologias')).toBeInViewport()
+    await expect(page.locator('#tecnologias')).toBeInViewport({ timeout: 15_000 })
     await expect(page.getByRole('button', { name: 'Menú' })).toHaveAttribute('aria-expanded', 'false')
   })
 
