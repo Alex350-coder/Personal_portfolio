@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import type { Project } from '@/data/project.schema'
-import { filterProjects, getBySlug, getByTech, getFeatured } from '@/lib/projects'
+import { filterProjects, getBySlug, getByTech, getFeatured, getTechLabel } from '@/lib/projects'
 
 const make = (slug: string, overrides: Partial<Project> = {}): Project => ({
   slug,
@@ -93,5 +93,15 @@ describe('filterProjects', () => {
     const result = filterProjects(fixtures, {})
     expect(result).not.toBe(fixtures)
     expect(fixtures).toHaveLength(4)
+  })
+})
+
+describe('getTechLabel', () => {
+  it('returns the display label of a known technology', () => {
+    expect(getTechLabel('nextjs')).toBe('Next.js')
+  })
+
+  it('falls back to the id for an unknown value instead of rendering nothing', () => {
+    expect(getTechLabel('cobol' as never)).toBe('cobol')
   })
 })
