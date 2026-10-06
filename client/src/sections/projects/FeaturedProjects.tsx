@@ -12,6 +12,11 @@ import { sections } from '@/data/sections'
 import { getFeatured } from '@/lib/projects'
 import { cn } from '@/lib/utils'
 
+/** Cards fade in one after another; the delay is capped so the last card never waits long. */
+const STAGGER_MS = 80
+const MAX_STAGGER_STEPS = 3
+const staggerDelay = (index: number) => ({ transitionDelay: `${Math.min(index, MAX_STAGGER_STEPS) * STAGGER_MS}ms` })
+
 const LINK_CLASS =
   'type-label inline-flex min-h-11 items-center gap-2 border border-star-25 px-4 transition-colors hover:bg-star-10 hover:text-star'
 
@@ -44,13 +49,13 @@ export function FeaturedProjects() {
       <ul role="list" aria-label={featuredSection.listLabel} className="grid gap-5 lg:grid-cols-2">
         {featured.map((project, index) => (
           <li key={project.slug} className={cn(index === 0 && 'lg:col-span-2')}>
-            <Reveal className="h-full">
+            <Reveal className="h-full" style={staggerDelay(index)}>
               <ProjectCard project={project} variant={index === 0 ? 'featured' : 'compact'} />
             </Reveal>
           </li>
         ))}
         <li>
-          <Reveal className="h-full">
+          <Reveal className="h-full" style={staggerDelay(featured.length)}>
             <GithubCard />
           </Reveal>
         </li>

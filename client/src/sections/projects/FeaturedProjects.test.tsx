@@ -1,6 +1,6 @@
 import { render, screen, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { featuredSection } from '@/data/projects-ui'
 import { getFeatured } from '@/lib/projects'
@@ -15,6 +15,10 @@ const renderSection = () =>
   )
 
 describe('FeaturedProjects', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals()
+  })
+
   it('is the #proyectos region named by its h2', () => {
     renderSection()
     const region = screen.getByRole('region', { name: 'Proyectos seleccionados' })
@@ -52,6 +56,21 @@ describe('FeaturedProjects', () => {
     renderSection()
     const list = screen.getByRole('list', { name: featuredSection.listLabel })
     expect(within(list).getAllByRole('listitem').length).toBeGreaterThanOrEqual(getFeatured().length + 1)
+  })
+
+  it('staggers the card reveals with a capped delay', () => {
+    const { container } = renderSection()
+    const delays = Array.from(container.querySelectorAll<HTMLElement>('[data-revealed]')).map((el) => el.style.transitionDelay)
+    expect(delays[0]).toBe('0ms')
+    expect(delays[1]).toBe('80ms')
+    expect(Math.max(...delays.map((delay) => parseInt(delay, 10)))).toBe(240)
+  })
+
+  it('shows every card immediately and turns the pointer glow off under reduced motion', () => {
+    vi.stubGlobal('matchMedia', vi.fn(() => ({ matches: true, addEventListener: () => {}, removeEventListener: () => {} })))
+    const { container } = renderSection()
+    for (const el of container.querySelectorAll('[data-revealed]')) expect(el).toHaveAttribute('data-revealed', 'true')
+    for (const card of container.querySelectorAll('[data-glow]')) expect(card).toHaveAttribute('data-glow', 'off')
   })
 
   it('has no serious axe violations', async () => {
