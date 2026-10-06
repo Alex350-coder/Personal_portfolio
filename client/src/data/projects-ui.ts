@@ -47,3 +47,8 @@ export const filterLabels = {
   clear: 'Limpiar filtros',
   showArchived: 'Mostrar archivados',
 } as const
+
+export const techEvidence = {
+  note: 'El número indica cuántos proyectos usan la tecnología; al elegirla se filtra el índice de proyectos.',
+  countSr: (count: number) => (count === 1 ? ', 1 proyecto' : `, ${count} proyectos`),
+} as const
