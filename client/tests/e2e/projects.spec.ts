@@ -109,3 +109,32 @@ test.describe('Projects (index)', () => {
     expect(await blockingViolations(page)).toEqual([])
   })
 })
+
+for (const [name, width, height] of [
+  ['mobile 375', 375, 800],
+  ['tablet 768', 768, 1024],
+] as const) {
+  test.describe(`Projects (${name})`, () => {
+    test.use({ viewport: { width, height } })
+
+    for (const path of ['/', '/proyectos']) {
+      test(`${path} has no horizontal scroll and no serious axe violations`, async ({ page }) => {
+        await page.goto(path)
+        await page.locator('#proyectos, #proyectos-index-heading').first().scrollIntoViewIfNeeded()
+        await page.waitForTimeout(1200)
+        const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
+        expect(overflow).toBeLessThanOrEqual(0)
+        expect(await blockingViolations(page)).toEqual([])
+      })
+    }
+
+    test('filters stay reachable and every target is at least 44px tall', async ({ page }) => {
+      await page.goto('/proyectos')
+      const controls = page.getByRole('group', { name: 'Filtros de proyectos' }).locator('button, select')
+      for (const control of await controls.all()) {
+        const box = await control.boundingBox()
+        expect(box?.height ?? 0).toBeGreaterThanOrEqual(43.5)
+      }
+    })
+  })
+}
