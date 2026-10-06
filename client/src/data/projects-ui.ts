@@ -27,3 +27,13 @@ export const projectLabels = {
   problemLabel: 'Problema',
   featuredCoverNumber: (order: number) => String(order).padStart(2, '0'),
 } as const
+
+export const featuredSection = {
+  listLabel: 'Proyectos destacados',
+  seeAll: 'Ver todos los proyectos',
+  github: {
+    title: 'Más en GitHub',
+    body: 'Todos mis repositorios públicos, incluidos los que no están en esta selección.',
+    cta: 'Ver perfil de GitHub',
+  },
+} as const
