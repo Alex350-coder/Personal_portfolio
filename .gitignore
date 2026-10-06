@@ -22,3 +22,7 @@ test-results/
 *.log
 .DS_Store
 Thumbs.db
+
+# The track-new-files hook writes .claude/ relative to the cwd; only the root copy is meaningful (local).
+client/**/.claude/
+server/**/.claude/
