@@ -16,6 +16,7 @@ export const sections = {
   proyectos: {
     eyebrow: 'Proyectos',
     heading: 'Proyectos seleccionados',
+    lead: 'Una selección con el código disponible en GitHub. El resto está en el índice completo.',
   },
   contacto: {
     eyebrow: 'Contacto',
@@ -25,7 +26,5 @@ export const sections = {
 
 /** Shown inside sections whose real content belongs to a later phase. */
 export const pendingNotes = {
-  tecnologias: '[[PLACEHOLDER: projects that use each technology (Phase 3)]]',
-  proyectos: '[[PLACEHOLDER: featured projects section (Phase 3)]]',
   contacto: '[[PLACEHOLDER: contact section (Phase 5)]]',
 } as const satisfies Record<string, Placeholder>

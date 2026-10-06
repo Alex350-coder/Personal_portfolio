@@ -3,6 +3,7 @@ import type { ComponentProps } from 'react'
 
 import { profile, type LinkId, type ProfileLink } from '@/data/profile'
 import { uiLabels } from '@/data/ui'
+import { ExternalLink } from '@/components/ui/external-link'
 import { isPlaceholder } from '@/lib/placeholder'
 import { cn } from '@/lib/utils'
 
@@ -48,23 +49,23 @@ export function SocialLinks({ links = profile.links, className, ...props }: Soci
         }
         if (!isSafeHref(link.href)) return null
 
-        const isExternal = link.href.startsWith('https://')
+        const content = (
+          <>
+            <Icon aria-hidden="true" className="size-4" />
+            {link.label}
+          </>
+        )
         return (
           <li key={link.id}>
-            <a
-              href={link.href}
-              className={LINK_CLASS}
-              {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-            >
-              <Icon aria-hidden="true" className="size-4" />
-              {link.label}
-              {isExternal ? (
-                <>
-                  {' '}
-                  <span className="sr-only">{uiLabels.opensInNewTab}</span>
-                </>
-              ) : null}
-            </a>
+            {link.href.startsWith('https://') ? (
+              <ExternalLink href={link.href} className={LINK_CLASS}>
+                {content}
+              </ExternalLink>
+            ) : (
+              <a href={link.href} className={LINK_CLASS}>
+                {content}
+              </a>
+            )}
           </li>
         )
       })}

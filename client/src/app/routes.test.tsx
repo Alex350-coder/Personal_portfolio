@@ -3,7 +3,7 @@ import { RouterProvider } from 'react-router/dom'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { createTestRouter } from '@/app/router'
-import { notFound, projectsIndexStub } from '@/data/routes'
+import { notFound, projectsIndex } from '@/data/routes'
 import { seriousViolations } from '@/test/axe'
 
 vi.mock('@/components/ui/halftone-nebula', () => import('@/test/nebula-mock'))
@@ -19,10 +19,11 @@ describe('route table', () => {
     vi.stubGlobal('scrollTo', vi.fn())
   })
 
-  it('renders the /proyectos stub with one h1 and an explicit placeholder', () => {
+  it('renders the /proyectos index with one h1 and the project list', () => {
     renderAt('/proyectos')
-    expect(screen.getByRole('heading', { level: 1, name: projectsIndexStub.heading })).toBeInTheDocument()
-    expect(screen.getByText(/\[\[PLACEHOLDER: complete project index/)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1, name: projectsIndex.heading })).toBeInTheDocument()
+    expect(screen.queryByText(/PLACEHOLDER: complete project index/)).toBeNull()
+    expect(screen.getAllByRole('heading', { level: 2 }).length).toBeGreaterThan(0)
   })
 
   it('renders the /proyectos/:slug stub with the slug as plain text', () => {

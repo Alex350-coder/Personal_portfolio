@@ -43,9 +43,9 @@ describe('HomePage', () => {
     }
   })
 
-  it('shows explicit placeholders for sections that belong to later phases', () => {
+  it('shows an explicit placeholder only for the section that belongs to a later phase', () => {
     renderHome()
-    expect(screen.getByText(/\[\[PLACEHOLDER: featured projects section/)).toBeInTheDocument()
+    expect(screen.queryByText(/PLACEHOLDER: featured projects section/)).toBeNull()
     expect(screen.getByText(/\[\[PLACEHOLDER: contact section/)).toBeInTheDocument()
   })
 })

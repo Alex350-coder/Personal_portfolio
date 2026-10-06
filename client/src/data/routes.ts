@@ -9,11 +9,15 @@ export const notFound = {
   action: 'Volver al inicio',
 } as const
 
-export const projectsIndexStub = {
+export const projectsIndex = {
   eyebrow: 'Proyectos',
   heading: 'Todos los proyectos',
-  note: '[[PLACEHOLDER: complete project index with filters (Phase 3)]]',
-} as const satisfies { eyebrow: string; heading: string; note: Placeholder }
+  lead: 'Todo el código está en GitHub. Filtra por categoría, estado o tecnología.',
+  resultsLabel: 'Resultados',
+  count: (total: number) => (total === 1 ? '1 proyecto' : `${total} proyectos`),
+  emptyTitle: 'Ningún proyecto coincide con estos filtros',
+  emptyBody: 'Prueba con otra combinación o quita los filtros.',
+} as const
 
 export const projectDetailStub = {
   eyebrow: 'Proyecto',
