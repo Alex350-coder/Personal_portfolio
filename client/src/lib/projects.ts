@@ -1,6 +1,6 @@
 import type { Category, Project, Status } from '@/data/project.schema'
 import { projects as allProjects } from '@/data/projects'
-import type { TechId } from '@/data/technologies'
+import { technologies, type TechId } from '@/data/technologies'
 
 /** Index filters. Keys mirror the Spanish URL params (`?categoria=…&tec=…&estado=…`). */
 export interface ProjectFilter {
@@ -36,4 +36,11 @@ export function filterProjects(projects: readonly Project[], filter: ProjectFilt
       (filter.tec === undefined || project.stack.includes(filter.tec)) &&
       (filter.estado === undefined || project.status === filter.estado),
   )
+}
+
+const techLabels: ReadonlyMap<string, string> = new Map(technologies.map((tech) => [tech.id, tech.label]))
+
+/** Display label of a technology; falls back to the id for unknown values. */
+export function getTechLabel(tech: TechId): string {
+  return techLabels.get(tech) ?? tech
 }
