@@ -2,7 +2,8 @@ import { describe, expect, it } from 'vitest'
 
 import { pendingNotes } from '@/data/sections'
 import { profile } from '@/data/profile'
-import { projectDetailStub, projectsIndexStub } from '@/data/routes'
+import { projects } from '@/data/projects'
+import { projectDetailStub } from '@/data/routes'
 import { technologies } from '@/data/technologies'
 import { isPlaceholder } from '@/lib/placeholder'
 
@@ -18,7 +19,7 @@ describe('placeholders in data', () => {
     ['profile', profile],
     ['technologies', technologies],
     ['pendingNotes', pendingNotes],
-    ['projectsIndexStub', projectsIndexStub],
+    ['projects', projects],
     ['projectDetailStub', projectDetailStub],
   ])('every [[…]] marker in %s follows the [[PLACEHOLDER: …]] convention', (_name, data) => {
     for (const marker of markersIn(data)) {
