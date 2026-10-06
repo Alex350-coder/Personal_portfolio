@@ -37,3 +37,13 @@ export const featuredSection = {
     cta: 'Ver perfil de GitHub',
   },
 } as const
+
+export const filterLabels = {
+  groupLabel: 'Filtros de proyectos',
+  category: 'Categoría',
+  status: 'Estado',
+  technology: 'Tecnología',
+  allTechnologies: 'Todas',
+  clear: 'Limpiar filtros',
+  showArchived: 'Mostrar archivados',
+} as const
