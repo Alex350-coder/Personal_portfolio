@@ -1,4 +1,5 @@
 import { technologies, type TechId } from '@/data/technologies'
+import { isHttpsUrl } from '@/lib/url'
 
 /**
  * Project model and zero-dependency validator (docs/ProjectShowcase.md §Schema, Rules §10/§20).
@@ -58,14 +59,6 @@ export const MIN_YEAR = 2020
 
 const KEBAB_CASE = /^[a-z0-9]+(-[a-z0-9]+)*$/
 const techIds: ReadonlySet<string> = new Set(technologies.map((tech) => tech.id))
-
-function isHttpsUrl(value: string): boolean {
-  try {
-    return new URL(value).protocol === 'https:'
-  } catch {
-    return false
-  }
-}
 
 function isBlank(value: string): boolean {
   return value.trim().length === 0
