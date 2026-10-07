@@ -67,17 +67,17 @@ export function Lightbox({ images, index, onIndexChange, onClose }: LightboxProp
   const current = index === null ? undefined : images[index]
   const { lightbox } = detailLabels
   const counterText = index === null ? '' : lightbox.counter(index + 1, images.length)
-  
-    return (
-      <dialog
-        ref={dialogRef}
-        aria-label={lightbox.label}
-        onKeyDown={handleKeyDown}
-        onClick={handleClick}
-        onClose={onClose}
-        className="m-auto max-h-[100svh] w-[min(96vw,80rem)] border border-star-25 bg-void p-0 text-star backdrop:bg-void/90 motion-safe:open:animate-in motion-safe:open:fade-in"
-      >
-        <div className="p-4 sm:p-6">
+
+  return (
+    <dialog
+      ref={dialogRef}
+      aria-label={lightbox.label}
+      onKeyDown={handleKeyDown}
+      onClick={handleClick}
+      onClose={onClose}
+      className="m-auto max-h-[100svh] w-[min(96vw,80rem)] border border-star-25 bg-void p-0 text-star backdrop:bg-void/90 motion-safe:open:animate-in motion-safe:open:fade-in"
+    >
+      <div className="p-4 sm:p-6">
         <div className="mb-4 flex items-center justify-between gap-3">
           <p role="status" className="type-label">
             {current ? (
@@ -91,23 +91,28 @@ export function Lightbox({ images, index, onIndexChange, onClose }: LightboxProp
             {lightbox.close}
           </button>
         </div>
-  
+
         {current ? (
-          <ResponsiveImage media={current} priority sizes="(min-width: 83rem) 80rem, 96vw" className="max-h-[70svh] object-contain" />
+          <ResponsiveImage
+            media={current}
+            priority
+            sizes="(min-width: 83rem) 80rem, 96vw"
+            className="max-h-[70svh] object-contain"
+          />
         ) : null}
-  
+
         {images.length > 1 ? (
-        <div className="mt-4 flex justify-between gap-3">
-          <button type="button" onClick={() => move((index ?? 0) - 1)} className={CONTROL_CLASS}>
-            <span aria-hidden="true">← </span>
-            {lightbox.previous}
-          </button>
-          <button type="button" onClick={() => move((index ?? 0) + 1)} className={CONTROL_CLASS}>
-            {lightbox.next}
-            <span aria-hidden="true"> →</span>
-          </button>
-        </div>
-      ) : null}
+          <div className="mt-4 flex justify-between gap-3">
+            <button type="button" onClick={() => move((index ?? 0) - 1)} className={CONTROL_CLASS}>
+              <span aria-hidden="true">← </span>
+              {lightbox.previous}
+            </button>
+            <button type="button" onClick={() => move((index ?? 0) + 1)} className={CONTROL_CLASS}>
+              {lightbox.next}
+              <span aria-hidden="true"> →</span>
+            </button>
+          </div>
+        ) : null}
       </div>
     </dialog>
   )

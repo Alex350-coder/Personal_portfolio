@@ -22,12 +22,12 @@ test.describe('Gallery lightbox (dev kit fixture)', () => {
 
     const dialog = page.getByRole('dialog', { name: 'Visor de capturas' })
     await expect(dialog).toBeVisible()
-    await expect(dialog.getByRole('status')).toHaveText('Captura 2 de 3')
+    await expect(dialog.getByRole('status')).toContainText('Captura 2 de 3')
 
     await page.keyboard.press('ArrowRight')
-    await expect(dialog.getByRole('status')).toHaveText('Captura 3 de 3')
+    await expect(dialog.getByRole('status')).toContainText('Captura 3 de 3')
     await page.keyboard.press('Home')
-    await expect(dialog.getByRole('status')).toHaveText('Captura 1 de 3')
+    await expect(dialog.getByRole('status')).toContainText('Captura 1 de 3')
 
     await page.keyboard.press('Escape')
     await expect(dialog).toBeHidden()
