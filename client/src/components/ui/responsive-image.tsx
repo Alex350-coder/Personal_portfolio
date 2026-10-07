@@ -32,6 +32,7 @@ export function ResponsiveImage({ media, sizes = DEFAULT_SIZES, priority = false
         height={media.height}
         loading={priority ? 'eager' : 'lazy'}
         decoding="async"
+        referrerPolicy="no-referrer"
         className={cn('h-auto w-full', className)}
       />
     </picture>

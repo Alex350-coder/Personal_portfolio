@@ -66,7 +66,7 @@ function isBlank(value: string): boolean {
 
 /** Local files must sit directly under the project folder: no traversal, backslashes, query or hash. */
 function isAllowedMediaSrc(src: string, slug: string): boolean {
-  const isLocal = src.startsWith(`/projects/${slug}/`) && !/\.\.|\\|[?#]/.test(src)
+  const isLocal = src.startsWith(`/projects/${slug}/`) && !/\.\.|\\|[?#%]/.test(src)
   return isLocal || isHttpsUrl(src)
 }
 

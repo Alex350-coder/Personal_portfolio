@@ -14,6 +14,7 @@ describe('ResponsiveImage', () => {
     expect(img).toHaveAttribute('height', '900')
     expect(img).toHaveAttribute('loading', 'lazy')
     expect(img).toHaveAttribute('decoding', 'async')
+    expect(img).toHaveAttribute('referrerpolicy', 'no-referrer')
     expect(img).toHaveAttribute('src', '/projects/demo/home.jpg')
   })
 

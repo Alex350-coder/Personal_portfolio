@@ -110,7 +110,7 @@ describe('validateProjects', () => {
     expect(errors).toMatch(/decisions\[1\]\.body must not be empty/)
   })
 
-  it.each(['/projects/demo-project/../x.webp', '/projects/demo-project/a.webp?x=1', '/projects/demo-project/a.webp#h', '/projects/demo-project/a\\b.webp'])(
+  it.each(['/projects/demo-project/../x.webp', '/projects/demo-project/a.webp?x=1', '/projects/demo-project/a.webp#h', '/projects/demo-project/%2e%2e/x.webp', '/projects/demo-project/a\\b.webp'])(
     'rejects the unsafe local media path %s',
     (src) => {
       const image = { src, alt: 'ok', width: 10, height: 10 }
