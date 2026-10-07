@@ -59,6 +59,8 @@ export const detailLabels = {
   problem: { eyebrow: 'Contexto', heading: 'Qué problema resuelve' },
   highlights: { eyebrow: 'Ingeniería', heading: 'Aspectos técnicos destacados' },
   decisions: { eyebrow: 'Criterio', heading: 'Decisiones técnicas' },
+  security: { eyebrow: 'Seguridad', heading: 'Notas de seguridad' },
+  stack: { eyebrow: 'Stack', heading: 'Tecnologías usadas', linkHint: 'Ver proyectos con' },
 } as const
 
 export const techEvidence = {

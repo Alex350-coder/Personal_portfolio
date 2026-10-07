@@ -2,6 +2,8 @@ import { useParams } from 'react-router'
 
 import { ProjectHeader } from '@/components/projects/ProjectHeader'
 import { ProjectNarrative } from '@/components/projects/ProjectNarrative'
+import { ProjectSecurity } from '@/components/projects/ProjectSecurity'
+import { TechList } from '@/components/projects/TechList'
 import { projectNotFound } from '@/data/routes'
 import { getBySlug } from '@/lib/projects'
 import NotFoundPage from '@/pages/NotFoundPage'
@@ -19,6 +21,8 @@ export default function ProjectDetailPage() {
     <article aria-labelledby={HEADING_ID}>
       <ProjectHeader project={project} headingId={HEADING_ID} />
       <ProjectNarrative project={project} />
+      <ProjectSecurity project={project} />
+      <TechList project={project} />
     </article>
   )
 }
