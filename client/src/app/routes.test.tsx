@@ -31,6 +31,17 @@ describe('route table', () => {
     expect(screen.getByRole('heading', { level: 1, name: 'Attack Surface Studio' })).toBeInTheDocument()
   })
 
+  it('sets a per-route document title', async () => {
+    const router = renderAt('/proyectos/attack-surface-studio')
+    expect(document.title).toBe('Attack Surface Studio | Portafolio')
+    await act(() => router.navigate('/proyectos'))
+    expect(document.title).toBe('Proyectos | Portafolio')
+    await act(() => router.navigate('/proyectos/no-existe'))
+    expect(document.title).toBe('Proyecto no encontrado | Portafolio')
+    await act(() => router.navigate('/no-existe'))
+    expect(document.title).toBe('Página no encontrada | Portafolio')
+  })
+
   it('shows the project 404 with a link to the index for an unknown slug', () => {
     renderAt('/proyectos/no-existe')
     expect(screen.getByRole('heading', { level: 1, name: projectNotFound.heading })).toBeInTheDocument()

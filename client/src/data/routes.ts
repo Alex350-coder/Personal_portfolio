@@ -23,3 +23,12 @@ export const projectNotFound = {
   description: 'No hay ningún proyecto con esa dirección. Puedes volver al índice de proyectos.',
   action: 'Ver todos los proyectos',
 } as const
+
+/** Document titles (WCAG 2.4.2). Home keeps the static title of index.html. */
+export const documentTitles = {
+  site: 'Portafolio | Software, Web, IA y Ciberseguridad',
+  suffix: 'Portafolio',
+  projects: 'Proyectos',
+  notFound: 'Página no encontrada',
+  projectNotFound: 'Proyecto no encontrado',
+} as const

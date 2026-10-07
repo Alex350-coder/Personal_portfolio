@@ -6,7 +6,8 @@ import { ProjectFilters } from '@/components/projects/ProjectFilters'
 import { Eyebrow } from '@/components/ui/eyebrow'
 import { projects } from '@/data/projects'
 import { filterLabels } from '@/data/projects-ui'
-import { projectsIndex } from '@/data/routes'
+import { documentTitles, projectsIndex } from '@/data/routes'
+import { useDocumentTitle } from '@/hooks/use-document-title'
 import type { TechId } from '@/data/technologies'
 import { useProjectFilters } from '@/hooks/use-project-filters'
 import { filterProjects } from '@/lib/projects'
@@ -20,6 +21,7 @@ export default function ProjectsPage() {
   const { filter, setFilter, setArchived, clear, isActive } = useProjectFilters()
   const results = useMemo(() => filterProjects(projects, filter), [filter])
   const statusRef = useRef<HTMLParagraphElement>(null)
+  useDocumentTitle(documentTitles.projects, projectsIndex.lead)
 
   /** The clear buttons unmount when the filters reset, so focus moves to the result count instead of <body>. */
   function clearAndRefocus() {

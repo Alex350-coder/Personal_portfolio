@@ -3,7 +3,8 @@ import { Link } from 'react-router'
 import { Container } from '@/components/layout/Container'
 import { Eyebrow } from '@/components/ui/eyebrow'
 import { buttonVariants } from '@/components/ui/button'
-import { notFound } from '@/data/routes'
+import { documentTitles, notFound } from '@/data/routes'
+import { useDocumentTitle } from '@/hooks/use-document-title'
 import { cn } from '@/lib/utils'
 
 interface NotFoundPageProps {
@@ -15,6 +16,8 @@ interface NotFoundPageProps {
 
 /** In-theme 404 (basic; the final DotGrid version lands in Phase 5, P5-T09). */
 export default function NotFoundPage({ content = notFound, to = '/' }: NotFoundPageProps) {
+  useDocumentTitle(content === notFound ? documentTitles.notFound : documentTitles.projectNotFound)
+
   return (
     <section aria-labelledby="not-found-heading" className="section-y pt-32 sm:pt-40">
       <Container>
