@@ -12,11 +12,13 @@ interface NotFoundPageProps {
   content?: { eyebrow: string; heading: string; description: string; action: string }
   /** Where the action leads; defaults to Home. */
   to?: string
+  /** Page name for `document.title`; defaults to the generic 404 title. */
+  title?: string
 }
 
 /** In-theme 404 (basic; the final DotGrid version lands in Phase 5, P5-T09). */
-export default function NotFoundPage({ content = notFound, to = '/' }: NotFoundPageProps) {
-  useDocumentTitle(content === notFound ? documentTitles.notFound : documentTitles.projectNotFound)
+export default function NotFoundPage({ content = notFound, to = '/', title = documentTitles.notFound }: NotFoundPageProps) {
+  useDocumentTitle(title)
 
   return (
     <section aria-labelledby="not-found-heading" className="section-y pt-32 sm:pt-40">

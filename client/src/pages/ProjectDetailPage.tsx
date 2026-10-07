@@ -7,7 +7,7 @@ import { ProjectNav } from '@/components/projects/ProjectNav'
 import { ProjectSecurity } from '@/components/projects/ProjectSecurity'
 import { TechList } from '@/components/projects/TechList'
 import type { Project } from '@/data/project.schema'
-import { projectNotFound } from '@/data/routes'
+import { documentTitles, projectNotFound } from '@/data/routes'
 import { useDocumentTitle } from '@/hooks/use-document-title'
 import { getBySlug } from '@/lib/projects'
 import NotFoundPage from '@/pages/NotFoundPage'
@@ -34,6 +34,6 @@ export default function ProjectDetailPage() {
   const { slug = '' } = useParams()
   const project = getBySlug(slug)
 
-  if (!project) return <NotFoundPage content={projectNotFound} to="/proyectos" />
+  if (!project) return <NotFoundPage content={projectNotFound} to="/proyectos" title={documentTitles.projectNotFound} />
   return <ProjectDetail project={project} />
 }

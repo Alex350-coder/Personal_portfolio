@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { Lightbox } from '@/components/projects/Lightbox'
 import { ProjectSection } from '@/components/projects/ProjectSection'
@@ -17,6 +17,14 @@ export function ProjectGallery({ project }: { project: Project }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const triggers = useRef<(HTMLButtonElement | null)[]>([])
   const lastOpened = useRef(0)
+  const wasOpen = useRef(false)
+
+  // Focus returns to the opener after the Lightbox effect has closed the dialog (it is no longer
+  // modal by then), so this is the single place that restores focus, whatever closed the viewer.
+  useEffect(() => {
+    if (openIndex === null && wasOpen.current) triggers.current[lastOpened.current]?.focus()
+    wasOpen.current = openIndex !== null
+  }, [openIndex])
 
   if (media.length === 0) return null
 
@@ -28,10 +36,7 @@ export function ProjectGallery({ project }: { project: Project }) {
     setOpenIndex(index)
   }
 
-  function close() {
-    setOpenIndex(null)
-    triggers.current[lastOpened.current]?.focus()
-  }
+  const close = () => setOpenIndex(null)
 
   function change(index: number) {
     lastOpened.current = index
@@ -56,10 +61,11 @@ export function ProjectGallery({ project }: { project: Project }) {
                       triggers.current[index] = node
                     }}
                     aria-label={open(item.alt)}
+                    aria-haspopup="dialog"
                     onClick={() => openAt(index)}
                     className="block w-full cursor-zoom-in focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                   >
-                    <ResponsiveImage media={item} sizes="(min-width: 40rem) 50vw, 100vw" aria-hidden="true" />
+                    <ResponsiveImage media={item} sizes="(min-width: 72rem) 36rem, (min-width: 40rem) 50vw, 100vw" aria-hidden="true" />
                   </button>
                 </figure>
               </li>

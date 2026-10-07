@@ -19,8 +19,8 @@ export function ProjectNav({ project }: { project: Project }) {
     <nav aria-label={nav.label} className="py-14 sm:py-20">
       <Container>
         <ul role="list" className="grid gap-4 sm:grid-cols-2">
-          <li>
-            {previous ? (
+          {previous ? (
+            <li>
               <Link to={`/proyectos/${previous.slug}`} rel="prev" className={LINK_CLASS}>
                 <span className="type-label">
                   <span aria-hidden="true">← </span>
@@ -28,10 +28,10 @@ export function ProjectNav({ project }: { project: Project }) {
                 </span>
                 <span className="text-lg font-semibold leading-snug">{previous.title}</span>
               </Link>
-            ) : null}
-          </li>
-          <li className="sm:text-right">
-            {next ? (
+            </li>
+          ) : null}
+          {next ? (
+            <li className="sm:col-start-2 sm:text-right">
               <Link to={`/proyectos/${next.slug}`} rel="next" className={LINK_CLASS}>
                 <span className="type-label">
                   {nav.next}
@@ -39,8 +39,8 @@ export function ProjectNav({ project }: { project: Project }) {
                 </span>
                 <span className="text-lg font-semibold leading-snug">{next.title}</span>
               </Link>
-            ) : null}
-          </li>
+            </li>
+          ) : null}
         </ul>
       </Container>
     </nav>
