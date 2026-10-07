@@ -2,6 +2,7 @@ import { ArrowRight, Mail } from 'lucide-react'
 import type { ReactNode } from 'react'
 
 import { Container } from '@/components/layout/Container'
+import { ProjectGallery } from '@/components/projects/ProjectGallery'
 import { Section } from '@/components/layout/Section'
 import { SkipLink } from '@/components/layout/SkipLink'
 import { ActionLink } from '@/components/ui/action-link'
@@ -9,6 +10,28 @@ import { DotGrid } from '@/components/ui/dot-grid'
 import { Eyebrow } from '@/components/ui/eyebrow'
 import { GlowCard } from '@/components/ui/glow-card'
 import { Reveal } from '@/components/ui/reveal'
+import type { Project } from '@/data/project.schema'
+
+/**
+ * Fixture for the gallery/lightbox specimen. Remote URLs on purpose: the real dataset has no media,
+ * and e2e (lightbox.dev.spec) answers these hosts itself, so no fixture image lives in the repository.
+ */
+const galleryFixture: Project = {
+  slug: 'kit-galeria',
+  title: 'Galería de prueba',
+  summary: 'Solo para el kit de desarrollo.',
+  category: 'herramientas',
+  status: 'activo',
+  year: 2026,
+  stack: ['typescript'],
+  links: { repo: 'https://github.com/Alex350-coder/kit' },
+  problem: 'Solo para el kit de desarrollo.',
+  media: [
+    { src: 'https://fixtures.test/uno.png', alt: 'Captura de prueba uno', width: 1200, height: 675 },
+    { src: 'https://fixtures.test/dos.png', alt: 'Captura de prueba dos', width: 1200, height: 675 },
+    { src: 'https://fixtures.test/tres.png', alt: 'Captura de prueba tres', width: 1200, height: 675 },
+  ],
+}
 
 function Specimen({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -77,6 +100,10 @@ export default function KitPage() {
               <h3 className="type-h3">Tarjeta con luz</h3>
               <p className="type-body mt-2">Mueve el puntero sobre la tarjeta para ver el brillo.</p>
             </GlowCard>
+          </Specimen>
+
+          <Specimen title="ProjectGallery + Lightbox">
+            <ProjectGallery project={galleryFixture} />
           </Specimen>
 
           <Specimen title="Container">
