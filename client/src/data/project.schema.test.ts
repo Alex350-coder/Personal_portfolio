@@ -94,7 +94,7 @@ describe('validateProjects', () => {
   it('accepts media under /projects/<slug>/ and https sources', () => {
     const local = { src: '/projects/demo-project/home.webp', alt: 'ok', width: 10, height: 10 }
     const remote = { src: 'https://example.com/a.webp', alt: 'ok', width: 10, height: 10 }
-    expect(validateProjects([make({ cover: local, media: [local, remote] })])).toEqual([])
+    expect(validateProjects([make({ cover: local, media: [{ ...local, src: '/projects/demo-project/b.webp' }, remote] })])).toEqual([])
   })
 
   it('reports blank highlights, security notes and role', () => {
@@ -108,6 +108,36 @@ describe('validateProjects', () => {
     const errors = validateProjects([make({ decisions: [{ title: '', body: 'x' }, { title: 'x', body: ' ' }] })]).join('\n')
     expect(errors).toMatch(/decisions\[0\]\.title must not be empty/)
     expect(errors).toMatch(/decisions\[1\]\.body must not be empty/)
+  })
+
+  it.each(['/projects/demo-project/../x.webp', '/projects/demo-project/a.webp?x=1', '/projects/demo-project/a.webp#h', '/projects/demo-project/a\\b.webp'])(
+    'rejects the unsafe local media path %s',
+    (src) => {
+      const image = { src, alt: 'ok', width: 10, height: 10 }
+      expect(validateProjects([make({ media: [image] })]).join('\n')).toMatch(/media\[0\]\.src must be/)
+    },
+  )
+
+  it('rejects alt text that is still a placeholder', () => {
+    const image = { src: '/projects/demo-project/a.webp', alt: 'ALT-REQUIRED', width: 10, height: 10 }
+    expect(validateProjects([make({ media: [image] })]).join('\n')).toMatch(/media\[0\]\.alt is still a placeholder/)
+  })
+
+  it('reports duplicate highlights, security notes, decision titles and media sources', () => {
+    const image = { src: '/projects/demo-project/a.webp', alt: 'ok', width: 10, height: 10 }
+    const errors = validateProjects([
+      make({
+        highlights: ['a', 'a'],
+        security: ['s', 's'],
+        decisions: [{ title: 't', body: 'b' }, { title: 't', body: 'c' }],
+        cover: image,
+        media: [image],
+      }),
+    ]).join('\n')
+    expect(errors).toMatch(/highlights has a duplicate entry "a"/)
+    expect(errors).toMatch(/security has a duplicate entry "s"/)
+    expect(errors).toMatch(/decisions has a duplicate entry "t"/)
+    expect(errors).toMatch(/media has a duplicate entry/)
   })
 
   it('accepts a project with every detail field filled', () => {

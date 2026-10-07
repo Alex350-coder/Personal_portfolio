@@ -6,7 +6,8 @@
 //   <name>.jpg                 fallback <img src>, at most MAX_WIDTH wide
 //   <name>-<w>.avif / .webp    derivatives listed by src/lib/media.ts (keep WIDTHS identical)
 // Fails (exit 1) when an output exceeds MAX_BYTES, and prints the `media` entries to paste into
-// src/data/projects.ts. Alt text is never guessed: it prints an ALT-REQUIRED marker instead.
+// src/data/projects.ts. Alt text is never guessed: it prints a [[PLACEHOLDER: alt text]] marker that
+// the schema and the Phase 6 placeholder gate reject until a human writes the real description.
 import { mkdirSync, readdirSync, statSync } from 'node:fs'
 import { basename, extname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -24,8 +25,12 @@ export function widthsFor(intrinsic) {
   return [...WIDTHS.filter((width) => width < top), top]
 }
 
+function outputName(file) {
+  return basename(file, extname(file)).toLowerCase().replace(/[^a-z0-9]+/g, '-')
+}
+
 async function convert(file, outDir) {
-  const name = basename(file, extname(file)).toLowerCase().replace(/[^a-z0-9]+/g, '-')
+  const name = outputName(file)
   const meta = await sharp(file).metadata()
   const width = Math.min(meta.width, WIDTHS[WIDTHS.length - 1])
   const height = Math.round((meta.height * width) / meta.width)
@@ -63,11 +68,18 @@ async function main() {
     process.exit(2)
   }
 
+  const names = files.map((file) => outputName(file))
+  const clash = names.find((name, index) => names.indexOf(name) !== index)
+  if (clash) {
+    console.error(`Two source files map to the same output name "${clash}"; rename one.`)
+    process.exit(2)
+  }
+
   let failed = false
   for (const file of files) {
     const result = await convert(join(sourceDir, file), outDir)
     const note = result.oversized ? `  !! ${result.oversized} output(s) above ${MAX_BYTES / 1024} KB` : ''
-    console.log(`{ src: '/projects/${slug}/${result.name}.jpg', alt: 'ALT-REQUIRED', width: ${result.width}, height: ${result.height} },${note}`)
+    console.log(`{ src: '/projects/${slug}/${result.name}.jpg', alt: '[[PLACEHOLDER: alt text]]', width: ${result.width}, height: ${result.height} },${note}`)
     if (result.oversized) failed = true
   }
   if (failed) {
