@@ -23,7 +23,7 @@ describe('projects dataset', () => {
   })
 
   it('never features the sensitive index-only entry', () => {
-    expect(projects.find((project) => project.slug === 'esports-betting-exchange')?.featured).toBeUndefined()
+    expect(projects.find((project) => project.slug === 'p2p-exchange-simulado')?.featured).toBeUndefined()
   })
 
   it('excludes the repos the owner removed from the site', () => {
@@ -45,7 +45,7 @@ describe('projects dataset', () => {
 
   it('never mentions certifications (ADR-008) nor betting imagery fields', () => {
     expect(JSON.stringify(projects)).not.toMatch(/certific|eJPT|Security\+/i)
-    expect(projects.find((project) => project.slug === 'esports-betting-exchange')?.cover).toBeUndefined()
+    expect(projects.find((project) => project.slug === 'p2p-exchange-simulado')?.cover).toBeUndefined()
   })
 
   it('marks no project as a placeholder: every entry is owner-confirmed', () => {
