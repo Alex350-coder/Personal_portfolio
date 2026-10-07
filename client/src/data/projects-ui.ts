@@ -49,6 +49,15 @@ export const filterLabels = {
   showArchived: 'Mostrar archivados',
 } as const
 
+/** Copy of the `/proyectos/:slug` detail page. */
+export const detailLabels = {
+  eyebrow: 'Proyecto',
+  back: 'Todos los proyectos',
+  year: 'Año',
+  role: 'Rol',
+  links: 'Enlaces del proyecto',
+} as const
+
 export const techEvidence = {
   note: 'El número indica cuántos proyectos usan la tecnología; al elegirla se filtra el índice de proyectos.',
   countSr: (count: number) => (count === 1 ? ', 1 proyecto' : `, ${count} proyectos`),
