@@ -13,6 +13,8 @@ export default defineConfig({
     include: ['src/**/*.test.{ts,tsx}'],
     css: false,
     restoreMocks: true,
+    // axe on whole pages takes ~6 s when the machine is busy (full suite / coverage run).
+    testTimeout: 20_000,
     coverage: {
       provider: 'v8',
       reporter: ['text-summary', 'html'],
