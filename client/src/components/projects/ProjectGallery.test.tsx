@@ -35,10 +35,10 @@ describe('ProjectGallery', () => {
   it('renders a grid of figures for several images', () => {
     render(<ProjectGallery project={{ ...base, media: [shot('a'), shot('b'), shot('c')] }} />)
     expect(screen.getAllByRole('listitem')).toHaveLength(3)
-    expect(screen.getAllByRole('img').map((img) => img.getAttribute('alt'))).toEqual([
-      'Captura a',
-      'Captura b',
-      'Captura c',
+    expect(screen.getAllByRole('button').map((button) => button.getAttribute('aria-label'))).toEqual([
+      'Ampliar captura: Captura a',
+      'Ampliar captura: Captura b',
+      'Ampliar captura: Captura c',
     ])
   })
 
