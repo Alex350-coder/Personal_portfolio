@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import type { Project } from '@/data/project.schema'
-import { filterProjects, getBySlug, getByTech, getFeatured, getTechLabel } from '@/lib/projects'
+import { filterProjects, getAdjacent, getBySlug, getByTech, getFeatured, getTechLabel } from '@/lib/projects'
 
 const make = (slug: string, overrides: Partial<Project> = {}): Project => ({
   slug,
@@ -103,5 +103,30 @@ describe('getTechLabel', () => {
 
   it('falls back to the id for an unknown value instead of rendering nothing', () => {
     expect(getTechLabel('cobol' as never)).toBe('cobol')
+  })
+})
+
+describe('getAdjacent', () => {
+  it('returns the neighbours in dataset order, skipping archived projects', () => {
+    expect(getAdjacent('a', fixtures)).toEqual({ previous: fixtures[0], next: fixtures[3] })
+  })
+
+  it('has no previous for the first and no next for the last project', () => {
+    expect(getAdjacent('c', fixtures)).toEqual({ previous: undefined, next: fixtures[1] })
+    expect(getAdjacent('d', fixtures)).toEqual({ previous: fixtures[1], next: undefined })
+  })
+
+  it('still navigates from an archived project, using its own position', () => {
+    expect(getAdjacent('b', fixtures)).toEqual({ previous: fixtures[1], next: fixtures[3] })
+  })
+
+  it('returns no neighbours for an unknown slug', () => {
+    expect(getAdjacent('zzz', fixtures)).toEqual({ previous: undefined, next: undefined })
+  })
+
+  it('is deterministic and does not mutate its input', () => {
+    const snapshot = JSON.stringify(fixtures)
+    expect(getAdjacent('a', fixtures)).toEqual(getAdjacent('a', fixtures))
+    expect(JSON.stringify(fixtures)).toBe(snapshot)
   })
 })

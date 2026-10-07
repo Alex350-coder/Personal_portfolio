@@ -61,6 +61,7 @@ export const detailLabels = {
   decisions: { eyebrow: 'Criterio', heading: 'Decisiones técnicas' },
   security: { eyebrow: 'Seguridad', heading: 'Notas de seguridad' },
   media: { eyebrow: 'Evidencia', heading: 'Capturas' },
+  nav: { label: 'Más proyectos', previous: 'Anterior', next: 'Siguiente' },
   lightbox: {
     label: 'Visor de capturas',
     open: (alt: string) => `Ampliar captura: ${alt}`,

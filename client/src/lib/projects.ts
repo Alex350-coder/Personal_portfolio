@@ -22,6 +22,22 @@ export function getBySlug(slug: string, projects: readonly Project[] = allProjec
   return projects.find((project) => project.slug === slug)
 }
 
+export interface AdjacentProjects {
+  previous: Project | undefined
+  next: Project | undefined
+}
+
+/**
+ * Previous/next project in dataset order (linear, no wrap). Archived projects are skipped as
+ * neighbours, but the one being viewed keeps its own position even when archived.
+ */
+export function getAdjacent(slug: string, projects: readonly Project[] = allProjects): AdjacentProjects {
+  const sequence = projects.filter((project) => project.slug === slug || project.status !== 'archivado')
+  const index = sequence.findIndex((project) => project.slug === slug)
+  if (index === -1) return { previous: undefined, next: undefined }
+  return { previous: sequence[index - 1], next: sequence[index + 1] }
+}
+
 export function getByTech(tech: TechId, projects: readonly Project[] = allProjects): Project[] {
   return projects.filter((project) => project.stack.includes(tech))
 }

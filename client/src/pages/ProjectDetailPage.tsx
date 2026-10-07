@@ -2,6 +2,7 @@ import { useParams } from 'react-router'
 
 import { ProjectHeader } from '@/components/projects/ProjectHeader'
 import { ProjectGallery } from '@/components/projects/ProjectGallery'
+import { ProjectNav } from '@/components/projects/ProjectNav'
 import { ProjectNarrative } from '@/components/projects/ProjectNarrative'
 import { ProjectSecurity } from '@/components/projects/ProjectSecurity'
 import { TechList } from '@/components/projects/TechList'
@@ -25,6 +26,7 @@ export default function ProjectDetailPage() {
       <ProjectSecurity project={project} />
       <ProjectGallery project={project} />
       <TechList project={project} />
+      <ProjectNav project={project} />
     </article>
   )
 }
