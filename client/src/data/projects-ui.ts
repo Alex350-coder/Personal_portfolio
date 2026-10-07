@@ -60,6 +60,7 @@ export const detailLabels = {
   highlights: { eyebrow: 'Ingeniería', heading: 'Aspectos técnicos destacados' },
   decisions: { eyebrow: 'Criterio', heading: 'Decisiones técnicas' },
   security: { eyebrow: 'Seguridad', heading: 'Notas de seguridad' },
+  media: { eyebrow: 'Evidencia', heading: 'Capturas' },
   stack: { eyebrow: 'Stack', heading: 'Tecnologías usadas', linkHint: 'Ver proyectos con' },
 } as const
 
