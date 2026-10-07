@@ -56,6 +56,9 @@ export const detailLabels = {
   year: 'Año',
   role: 'Rol',
   links: 'Enlaces del proyecto',
+  problem: { eyebrow: 'Contexto', heading: 'Qué problema resuelve' },
+  highlights: { eyebrow: 'Ingeniería', heading: 'Aspectos técnicos destacados' },
+  decisions: { eyebrow: 'Criterio', heading: 'Decisiones técnicas' },
 } as const
 
 export const techEvidence = {
