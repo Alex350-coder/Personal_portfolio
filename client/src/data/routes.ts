@@ -1,6 +1,4 @@
-import type { Placeholder } from '@/lib/placeholder'
-
-/** Copy of the route pages that are not Home. Stubs are replaced in Phase 3 / Phase 4. */
+/** Copy of the route pages that are not Home. */
 
 export const notFound = {
   eyebrow: 'Error 404',
@@ -19,8 +17,9 @@ export const projectsIndex = {
   emptyBody: 'Prueba con otra combinación o quita los filtros.',
 } as const
 
-export const projectDetailStub = {
-  eyebrow: 'Proyecto',
-  note: '[[PLACEHOLDER: project case study (Phase 4)]]',
-  back: 'Ver todos los proyectos',
-} as const satisfies { eyebrow: string; note: Placeholder; back: string }
+export const projectNotFound = {
+  eyebrow: 'Error 404',
+  heading: 'Este proyecto no existe',
+  description: 'No hay ningún proyecto con esa dirección. Puedes volver al índice de proyectos.',
+  action: 'Ver todos los proyectos',
+} as const

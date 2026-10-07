@@ -3,7 +3,7 @@ import { RouterProvider } from 'react-router/dom'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { createTestRouter } from '@/app/router'
-import { notFound, projectsIndex } from '@/data/routes'
+import { notFound, projectNotFound, projectsIndex } from '@/data/routes'
 import { seriousViolations } from '@/test/axe'
 
 vi.mock('@/components/ui/halftone-nebula', () => import('@/test/nebula-mock'))
@@ -26,15 +26,20 @@ describe('route table', () => {
     expect(screen.getAllByRole('heading', { level: 2 }).length).toBeGreaterThan(0)
   })
 
-  it('renders the /proyectos/:slug stub with the slug as plain text', () => {
+  it('renders the project detail for a known slug', () => {
     renderAt('/proyectos/attack-surface-studio')
-    expect(screen.getByRole('heading', { level: 1, name: 'attack-surface-studio' })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Ver todos los proyectos' })).toHaveAttribute('href', '/proyectos')
+    expect(screen.getByRole('heading', { level: 1, name: 'Attack Surface Studio' })).toBeInTheDocument()
+  })
+
+  it('shows the project 404 with a link to the index for an unknown slug', () => {
+    renderAt('/proyectos/no-existe')
+    expect(screen.getByRole('heading', { level: 1, name: projectNotFound.heading })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: projectNotFound.action })).toHaveAttribute('href', '/proyectos')
   })
 
   it('does not interpret markup in the slug', () => {
     renderAt('/proyectos/%3Cimg%20src=x%20onerror=alert(1)%3E')
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('<img src=x onerror=alert(1)>')
+    expect(screen.getByRole('heading', { level: 1, name: projectNotFound.heading })).toBeInTheDocument()
     expect(document.querySelector('main img')).toBeNull()
   })
 
@@ -57,7 +62,7 @@ describe('route table', () => {
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Ander Alexander Aguirre Tejada')
   })
 
-  it.each(['/proyectos', '/proyectos/algo', '/no-existe'])('%s has no serious accessibility violations', async (path) => {
+  it.each(['/proyectos', '/proyectos/algo', '/proyectos/saas-pensiones', '/no-existe'])('%s has no serious accessibility violations', async (path) => {
     renderAt(path)
     expect(await seriousViolations(document.body)).toEqual([])
   })

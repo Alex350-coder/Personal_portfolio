@@ -75,6 +75,6 @@ describe('adding a project is a data-only change', () => {
 
   it('resolves its detail route', () => {
     renderAt(`/proyectos/${FIXTURE.slug}`)
-    expect(screen.getByRole('heading', { level: 1, name: FIXTURE.slug })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1, name: FIXTURE.title })).toBeInTheDocument()
   })
 })
