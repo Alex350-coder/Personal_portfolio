@@ -13,3 +13,19 @@ export const contactCopy = {
   } satisfies CopyButtonLabels,
   profilesLabel: 'Perfiles',
 } as const
+
+/** Closing calls to action that lead to `/#contacto` (Hero → Projects → Contact flow). */
+export const contactCta = {
+  detail: {
+    heading: '¿Hablamos de este proyecto?',
+    body: 'Si algo de lo que viste te interesa, escríbeme y lo comentamos.',
+    action: 'Ir a contacto',
+  },
+  index: {
+    heading: '¿Algo te llamó la atención?',
+    body: 'Escríbeme para comentar cualquiera de estos proyectos.',
+    action: 'Ir a contacto',
+  },
+} as const
+
+export type ContactCtaCopy = (typeof contactCta)[keyof typeof contactCta]
