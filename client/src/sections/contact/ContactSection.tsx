@@ -20,6 +20,7 @@ export function ContactSection() {
     <Section id="contacto" {...sections.contacto} lead={contactCopy.statement}>
       <Reveal>
         <div className="relative overflow-hidden border border-star-10 bg-haze/40 p-6 sm:p-10">
+          <div aria-hidden="true" className="contact-sky pointer-events-none absolute inset-0" />
           <DotGrid />
           <div className="relative">
             <p className="type-label">{contactCopy.emailLabel}</p>
