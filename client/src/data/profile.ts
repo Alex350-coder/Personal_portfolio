@@ -1,3 +1,4 @@
+import { buildEmailAddress, buildMailtoHref, type EmailParts } from '@/lib/email'
 import type { Placeholder } from '@/lib/placeholder'
 
 /**
@@ -26,6 +27,12 @@ export interface ProfileFact {
   label: string
   value: string | Placeholder
 }
+
+/** Published address as chunks; assembled by lib/email.ts (ADR-009). */
+export const emailParts: EmailParts = { user: ['anderaguirre', '787'], domain: ['gmail', 'com'] }
+
+/** The assembled public address, for display and the copy button. */
+export const emailAddress = buildEmailAddress(emailParts)
 
 export interface Profile {
   name: string
@@ -92,7 +99,7 @@ export const profile: Profile = {
   links: [
     { id: 'github', label: 'GitHub', href: 'https://github.com/Alex350-coder' },
     { id: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/AnderAguirreTejada' },
-    { id: 'email', label: 'Correo', href: 'mailto:anderaguirre787@gmail.com' },
+    { id: 'email', label: 'Correo', href: buildMailtoHref(emailParts) },
     { id: 'cv', label: 'CV', href: '[[PLACEHOLDER: CV PDF (public/cv/); none exists yet]]' },
   ],
 }

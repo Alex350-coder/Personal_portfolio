@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { profile } from '@/data/profile'
+import { emailAddress, profile } from '@/data/profile'
 import { isPlaceholder } from '@/lib/placeholder'
 
 const SAFE_HREF = /^(https:\/\/|mailto:)/
@@ -39,5 +39,13 @@ describe('profile data', () => {
   it('flags unconfirmed items as placeholders', () => {
     expect(isPlaceholder(profile.links.find((link) => link.id === 'cv')!.href)).toBe(true)
     expect(isPlaceholder(profile.about.aiNote.approval)).toBe(true)
+  })
+})
+
+describe('published email', () => {
+  it('derives the email link from the assembled address', () => {
+    const email = profile.links.find((link) => link.id === 'email')
+    expect(email?.href).toBe(`mailto:${emailAddress}`)
+    expect(emailAddress).toMatch(/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i)
   })
 })
