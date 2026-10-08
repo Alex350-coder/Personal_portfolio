@@ -60,4 +60,17 @@ describe('SocialLinks', () => {
     const { container } = render(<SocialLinks links={LINKS} />)
     expect(await seriousViolations(container)).toEqual([])
   })
+
+  it('renders a published CV as a same-tab download link', () => {
+    render(<SocialLinks links={[{ id: 'cv', label: 'CV', href: '/cv/Jane-Doe-CV.pdf' }]} />)
+    const link = screen.getByRole('link', { name: /CV/ })
+    expect(link).toHaveAttribute('href', '/cv/Jane-Doe-CV.pdf')
+    expect(link).toHaveAttribute('download')
+    expect(link).not.toHaveAttribute('target')
+  })
+
+  it('refuses a CV href outside /cv/', () => {
+    render(<SocialLinks links={[{ id: 'cv', label: 'CV', href: 'https://evil.example/cv.pdf' }]} />)
+    expect(screen.queryByRole('link')).not.toBeInTheDocument()
+  })
 })

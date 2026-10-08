@@ -3,7 +3,9 @@ import type { ComponentProps } from 'react'
 
 import { profile, type LinkId, type ProfileLink } from '@/data/profile'
 import { uiLabels } from '@/data/ui'
+import { CvLink } from '@/components/ui/cv-link'
 import { ExternalLink } from '@/components/ui/external-link'
+import { linkClass } from '@/components/ui/link-styles'
 import { isPlaceholder } from '@/lib/placeholder'
 import { cn } from '@/lib/utils'
 
@@ -18,10 +20,7 @@ const ICONS: Record<LinkId, typeof Mail> = {
   cv: FileText,
 }
 
-const LINK_CLASS =
-  'type-label inline-flex min-h-11 items-center gap-2 border border-star-25 px-4 transition-colors hover:bg-star-10 hover:text-star'
-
-/** Rules §20: only https: and mailto: ever become links. */
+/** Rules §20: only https: and mailto: ever become links (the CV is the one same-origin file: lib/cv.ts). */
 function isSafeHref(href: string): boolean {
   return href.startsWith('https://') || href.startsWith('mailto:')
 }
@@ -40,10 +39,17 @@ export function SocialLinks({ links = profile.links, className, ...props }: Soci
         if (isPlaceholder(link.href)) {
           return (
             <li key={link.id}>
-              <span className={cn(LINK_CLASS, 'border-dashed text-star-60')}>
+              <span className={cn(linkClass, 'border-dashed text-star-60')}>
                 <Icon aria-hidden="true" className="size-4" />
                 {link.label} · {link.href}
               </span>
+            </li>
+          )
+        }
+        if (link.id === 'cv') {
+          return (
+            <li key={link.id}>
+              <CvLink href={link.href} label={link.label} format={uiLabels.cvFormat} />
             </li>
           )
         }
@@ -58,11 +64,11 @@ export function SocialLinks({ links = profile.links, className, ...props }: Soci
         return (
           <li key={link.id}>
             {link.href.startsWith('https://') ? (
-              <ExternalLink href={link.href} className={LINK_CLASS}>
+              <ExternalLink href={link.href} className={linkClass}>
                 {content}
               </ExternalLink>
             ) : (
-              <a href={link.href} className={LINK_CLASS}>
+              <a href={link.href} className={linkClass}>
                 {content}
               </a>
             )}

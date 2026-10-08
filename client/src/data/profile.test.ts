@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { emailAddress, profile } from '@/data/profile'
+import { isCvPath } from '@/lib/cv'
 import { isPlaceholder } from '@/lib/placeholder'
 
 const SAFE_HREF = /^(https:\/\/|mailto:)/
@@ -12,11 +13,12 @@ describe('profile data', () => {
     expect(profile.focusAreas).toEqual(['Software', 'Web', 'Ciberseguridad', 'Desarrollo asistido por IA'])
   })
 
-  it('has unique link ids and only https/mailto or placeholder hrefs', () => {
+  it('has unique link ids and only https/mailto, a /cv/ PDF path or placeholder hrefs', () => {
     const ids = profile.links.map((link) => link.id)
     expect(new Set(ids).size).toBe(ids.length)
     for (const link of profile.links) {
-      expect(isPlaceholder(link.href) || SAFE_HREF.test(link.href)).toBe(true)
+      const cvPath = link.id === 'cv' && isCvPath(link.href)
+      expect(isPlaceholder(link.href) || SAFE_HREF.test(link.href) || cvPath).toBe(true)
     }
   })
 

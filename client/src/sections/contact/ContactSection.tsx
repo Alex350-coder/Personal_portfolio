@@ -7,7 +7,7 @@ import { contactCopy } from '@/data/contact'
 import { emailAddress, profile } from '@/data/profile'
 import { sections } from '@/data/sections'
 
-const PROFILE_LINK_IDS = ['github', 'linkedin'] as const
+const PROFILE_LINK_IDS = ['github', 'linkedin', 'cv'] as const
 
 /**
  * Home `#contacto`: no form (ADR-004/009). The `mailto:` anchor works on its own; the copy button

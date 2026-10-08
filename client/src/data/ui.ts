@@ -5,5 +5,6 @@ export const uiLabels = {
   menuOpen: 'Menú',
   menuClose: 'Cerrar',
   professionalLinks: 'Enlaces profesionales',
+  cvFormat: 'PDF',
   opensInNewTab: '(abre en nueva pestaña)',
 } as const
