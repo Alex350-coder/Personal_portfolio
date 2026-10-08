@@ -26,4 +26,14 @@ describe('source security guards', () => {
     const offenders = files.filter((file) => /dangerouslySetInnerHTML|\.innerHTML\s*=/.test(file.text))
     expect(offenders.map((file) => file.name)).toEqual([])
   })
+
+  it('contains no secrets', () => {
+    const SECRET = /AKIA[0-9A-Z]{16}|sk-[A-Za-z0-9]{20,}|-----BEGIN [A-Z ]*PRIVATE KEY|(?:password|token|api[_-]?key)\s*[:=]\s*["'][^"']+["']/i
+    expect(files.filter((file) => SECRET.test(file.text)).map((file) => file.name)).toEqual([])
+  })
+
+  it('never writes the contact address as a literal (lib/email.ts assembles it)', () => {
+    const LITERAL_EMAIL = /[\w.+-]+@[\w-]+\.[a-z]{2,}/i
+    expect(files.filter((file) => LITERAL_EMAIL.test(file.text)).map((file) => file.name)).toEqual([])
+  })
 })
