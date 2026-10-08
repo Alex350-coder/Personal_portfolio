@@ -1,12 +1,11 @@
-import { pendingNotes, sections } from '@/data/sections'
 import { AboutSection } from '@/sections/about/AboutSection'
+import { ContactSection } from '@/sections/contact/ContactSection'
 import HeroSection from '@/sections/hero/HeroSection'
-import { PendingSection } from '@/sections/pending/PendingSection'
 import { FeaturedProjects } from '@/sections/projects/FeaturedProjects'
 import { TechnologiesSection } from '@/sections/technologies/TechnologiesSection'
 
 /**
- * Home route: single scroll. Order follows Plan.md §1. Contact stays an anchored placeholder until Phase 5.
+ * Home route: single scroll. Order follows Plan.md §1.
  */
 export default function HomePage() {
   return (
@@ -15,7 +14,7 @@ export default function HomePage() {
       <AboutSection />
       <FeaturedProjects />
       <TechnologiesSection />
-      <PendingSection id="contacto" {...sections.contacto} note={pendingNotes.contacto} />
+      <ContactSection />
     </>
   )
 }

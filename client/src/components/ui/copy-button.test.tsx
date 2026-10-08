@@ -12,7 +12,7 @@ import { copyText } from '@/lib/clipboard'
 
 afterEach(() => vi.mocked(copyText).mockReset())
 
-function setup(resetMs = 30) {
+function setup(resetMs = 400) {
   return render(<CopyButton value="a@b.co" labels={LABELS} resetMs={resetMs} />)
 }
 
