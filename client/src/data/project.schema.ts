@@ -3,8 +3,8 @@ import { isHttpsUrl } from '@/lib/url'
 
 /**
  * Project model and zero-dependency validator (docs/ProjectShowcase.md §Schema, Rules §10/§20).
- * Phase 3 implements the card/index fields; detail-only fields (`highlights`, `decisions`,
- * `security`, `media` rendering) are rendered in Phase 4.
+ * Card/index fields were validated in Phase 3; Phase 4 adds the detail-only fields
+ * (`role`, `highlights`, `decisions`, `security`, media sources). Only `problem` is required.
  */
 
 export const categories = ['web', 'software', 'ia', 'seguridad', 'herramientas'] as const
@@ -64,9 +64,40 @@ function isBlank(value: string): boolean {
   return value.trim().length === 0
 }
 
-function validateMedia(media: Media, path: string): string[] {
+/** Local files must sit directly under the project folder: no traversal, backslashes, query or hash. */
+function isAllowedMediaSrc(src: string, slug: string): boolean {
+  const isLocal = src.startsWith(`/projects/${slug}/`) && !/\.\.|\\|[?#%]/.test(src)
+  return isLocal || isHttpsUrl(src)
+}
+
+const ALT_PLACEHOLDER = /ALT-REQUIRED|\[\[PLACEHOLDER/
+
+function validateUnique(values: readonly string[] | undefined, path: string): string[] {
+  const seen = new Set<string>()
+  return (values ?? []).flatMap((value) => {
+    const duplicate = seen.has(value)
+    seen.add(value)
+    return duplicate ? [`${path} has a duplicate entry "${value}"`] : []
+  })
+}
+
+function validateBlankEntries(values: readonly string[] | undefined, path: string): string[] {
+  return (values ?? []).flatMap((value, index) => (isBlank(value) ? [`${path}[${index}] must not be empty`] : []))
+}
+
+function validateDecisions(decisions: Project['decisions'], path: string): string[] {
+  return (decisions ?? []).flatMap((decision, index) =>
+    (['title', 'body'] as const).flatMap((field) =>
+      isBlank(decision[field]) ? [`${path}[${index}].${field} must not be empty`] : [],
+    ),
+  )
+}
+
+function validateMedia(media: Media, path: string, slug: string): string[] {
   const errors: string[] = []
+  if (!isAllowedMediaSrc(media.src, slug)) errors.push(`${path}.src must be under /projects/${slug}/ or an https URL`)
   if (isBlank(media.alt)) errors.push(`${path}.alt must not be empty (alt text is required)`)
+  else if (ALT_PLACEHOLDER.test(media.alt)) errors.push(`${path}.alt is still a placeholder`)
   for (const side of ['width', 'height'] as const) {
     if (!Number.isInteger(media[side]) || media[side] <= 0) errors.push(`${path}.${side} must be a positive integer`)
   }
@@ -102,8 +133,21 @@ function validateOne(project: Project, maxYear: number): string[] {
     }
   }
 
-  if (project.cover) errors.push(...validateMedia(project.cover, `${where}: cover`))
-  project.media?.forEach((item, index) => errors.push(...validateMedia(item, `${where}: media[${index}]`)))
+  if (project.role !== undefined && isBlank(project.role)) fail('role must not be empty when present')
+  errors.push(
+    ...validateBlankEntries(project.highlights, `${where}: highlights`),
+    ...validateBlankEntries(project.security, `${where}: security`),
+    ...validateDecisions(project.decisions, `${where}: decisions`),
+    ...validateUnique(project.highlights, `${where}: highlights`),
+    ...validateUnique(project.security, `${where}: security`),
+    ...validateUnique(project.decisions?.map((decision) => decision.title), `${where}: decisions`),
+    ...validateUnique([project.cover, ...(project.media ?? [])].flatMap((item) => (item ? [item.src] : [])), `${where}: media`),
+  )
+
+  if (project.cover) errors.push(...validateMedia(project.cover, `${where}: cover`, project.slug))
+  project.media?.forEach((item, index) =>
+    errors.push(...validateMedia(item, `${where}: media[${index}]`, project.slug)),
+  )
 
   return errors
 }

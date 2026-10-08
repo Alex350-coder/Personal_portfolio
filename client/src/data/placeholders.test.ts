@@ -3,7 +3,6 @@ import { describe, expect, it } from 'vitest'
 import { pendingNotes } from '@/data/sections'
 import { profile } from '@/data/profile'
 import { projects } from '@/data/projects'
-import { projectDetailStub } from '@/data/routes'
 import { technologies } from '@/data/technologies'
 import { isPlaceholder } from '@/lib/placeholder'
 
@@ -20,7 +19,6 @@ describe('placeholders in data', () => {
     ['technologies', technologies],
     ['pendingNotes', pendingNotes],
     ['projects', projects],
-    ['projectDetailStub', projectDetailStub],
   ])('every [[…]] marker in %s follows the [[PLACEHOLDER: …]] convention', (_name, data) => {
     for (const marker of markersIn(data)) {
       expect(isPlaceholder(marker.replace(/\\"/g, '"')), marker).toBe(true)

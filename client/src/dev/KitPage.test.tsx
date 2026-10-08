@@ -27,7 +27,7 @@ describe('KitPage (dev gallery)', () => {
     stubBrowserApis()
     render(<KitPage />)
     expect(screen.getByRole('heading', { level: 2, name: 'Kit de primitivas' })).toBeInTheDocument()
-    for (const title of ['Eyebrow', 'ActionLink: hero / ghost-hero', 'Tipografía', 'DotGrid', 'Reveal', 'GlowCard', 'Container']) {
+    for (const title of ['Eyebrow', 'ActionLink: hero / ghost-hero', 'Tipografía', 'DotGrid', 'Reveal', 'GlowCard', 'ProjectGallery + Lightbox', 'Container']) {
       expect(screen.getByText(title)).toBeInTheDocument()
     }
     expect(screen.getByRole('link', { name: 'Saltar al contenido' })).toHaveAttribute('href', '#kit-contenido')

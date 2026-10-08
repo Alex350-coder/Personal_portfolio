@@ -158,7 +158,7 @@ export const projects: readonly Project[] = [
     problem: 'Herramienta personal para seguir metas a distintos plazos y visualizar la constancia con un mapa de calor de rachas.',
   },
   {
-    slug: 'esports-betting-exchange',
+    slug: 'p2p-exchange-simulado',
     title: 'Exchange P2P (dinero simulado)',
     summary:
       'Exchange P2P con dinero simulado: ledger de partida doble, matching parcial de órdenes y pruebas de concurrencia.',

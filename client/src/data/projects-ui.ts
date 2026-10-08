@@ -49,6 +49,30 @@ export const filterLabels = {
   showArchived: 'Mostrar archivados',
 } as const
 
+/** Copy of the `/proyectos/:slug` detail page. */
+export const detailLabels = {
+  eyebrow: 'Proyecto',
+  back: 'Todos los proyectos',
+  year: 'Año',
+  role: 'Rol',
+  links: 'Enlaces del proyecto',
+  problem: { eyebrow: 'Contexto', heading: 'Qué problema resuelve' },
+  highlights: { eyebrow: 'Ingeniería', heading: 'Aspectos técnicos destacados' },
+  decisions: { eyebrow: 'Criterio', heading: 'Decisiones técnicas' },
+  security: { eyebrow: 'Seguridad', heading: 'Notas de seguridad' },
+  media: { eyebrow: 'Evidencia', heading: 'Capturas' },
+  nav: { label: 'Más proyectos', previous: 'Anterior', next: 'Siguiente' },
+  lightbox: {
+    label: 'Visor de capturas',
+    open: (alt: string) => `Ampliar captura: ${alt}`,
+    close: 'Cerrar',
+    previous: 'Anterior',
+    next: 'Siguiente',
+    counter: (current: number, total: number) => `Captura ${current} de ${total}`,
+  },
+  stack: { eyebrow: 'Stack', heading: 'Tecnologías usadas', linkHint: 'Ver proyectos con' },
+} as const
+
 export const techEvidence = {
   note: 'El número indica cuántos proyectos usan la tecnología; al elegirla se filtra el índice de proyectos.',
   countSr: (count: number) => (count === 1 ? ', 1 proyecto' : `, ${count} proyectos`),

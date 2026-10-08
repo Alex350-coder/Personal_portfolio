@@ -1,30 +1,39 @@
-import { Link, useParams } from 'react-router'
+import { useParams } from 'react-router'
 
-import { Container } from '@/components/layout/Container'
-import { Eyebrow } from '@/components/ui/eyebrow'
-import { projectDetailStub } from '@/data/routes'
+import { ProjectGallery } from '@/components/projects/ProjectGallery'
+import { ProjectHeader } from '@/components/projects/ProjectHeader'
+import { ProjectNarrative } from '@/components/projects/ProjectNarrative'
+import { ProjectNav } from '@/components/projects/ProjectNav'
+import { ProjectSecurity } from '@/components/projects/ProjectSecurity'
+import { TechList } from '@/components/projects/TechList'
+import type { Project } from '@/data/project.schema'
+import { documentTitles, projectNotFound } from '@/data/routes'
+import { useDocumentTitle } from '@/hooks/use-document-title'
+import { getBySlug } from '@/lib/projects'
+import NotFoundPage from '@/pages/NotFoundPage'
 
-/**
- * `/proyectos/:slug` stub. The slug is shown as plain text (React escapes it); real lookup and the
- * not-found-for-unknown-slug behaviour arrive with the project data in Phase 4.
- */
-export default function ProjectDetailPage() {
-  const { slug } = useParams()
+const HEADING_ID = 'proyecto-heading'
+
+function ProjectDetail({ project }: { project: Project }) {
+  useDocumentTitle(project.title, project.summary)
 
   return (
-    <section aria-labelledby="proyecto-heading" className="section-y pt-32 sm:pt-40">
-      <Container>
-        <Eyebrow className="mb-4">{projectDetailStub.eyebrow}</Eyebrow>
-        <h1 id="proyecto-heading" className="type-h2">
-          {slug}
-        </h1>
-        <p className="type-label mt-10 border border-dashed border-star-25 px-4 py-6">
-          {projectDetailStub.note}
-        </p>
-        <Link to="/proyectos" className="type-label mt-8 inline-flex min-h-11 items-center underline underline-offset-4 hover:text-accent">
-          {projectDetailStub.back}
-        </Link>
-      </Container>
-    </section>
+    <article aria-labelledby={HEADING_ID}>
+      <ProjectHeader project={project} headingId={HEADING_ID} />
+      <ProjectNarrative project={project} />
+      <ProjectSecurity project={project} />
+      <ProjectGallery project={project} />
+      <TechList project={project} />
+      <ProjectNav project={project} />
+    </article>
   )
+}
+
+/** `/proyectos/:slug`: data-driven detail page; an unknown slug shows the in-theme project 404. */
+export default function ProjectDetailPage() {
+  const { slug = '' } = useParams()
+  const project = getBySlug(slug)
+
+  if (!project) return <NotFoundPage content={projectNotFound} to="/proyectos" title={documentTitles.projectNotFound} />
+  return <ProjectDetail project={project} />
 }
