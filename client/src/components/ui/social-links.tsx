@@ -36,6 +36,14 @@ export function SocialLinks({ links = profile.links, className, ...props }: Soci
       {links.map((link) => {
         const Icon = ICONS[link.id]
 
+        if (link.id === 'cv') {
+          return (
+            <li key={link.id}>
+              <CvLink href={link.href} label={link.label} format={uiLabels.cvFormat} />
+            </li>
+          )
+        }
+
         if (isPlaceholder(link.href)) {
           return (
             <li key={link.id}>
@@ -43,13 +51,6 @@ export function SocialLinks({ links = profile.links, className, ...props }: Soci
                 <Icon aria-hidden="true" className="size-4" />
                 {link.label} · {link.href}
               </span>
-            </li>
-          )
-        }
-        if (link.id === 'cv') {
-          return (
-            <li key={link.id}>
-              <CvLink href={link.href} label={link.label} format={uiLabels.cvFormat} />
             </li>
           )
         }
