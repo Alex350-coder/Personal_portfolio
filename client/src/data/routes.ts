@@ -5,6 +5,7 @@ export const notFound = {
   heading: 'Esta página no existe',
   description: 'La dirección no coincide con ninguna página del portafolio. Puedes volver al inicio.',
   action: 'Volver al inicio',
+  secondary: { label: 'Ver proyectos', to: '/proyectos' },
 } as const
 
 export const projectsIndex = {
@@ -22,6 +23,7 @@ export const projectNotFound = {
   heading: 'Este proyecto no existe',
   description: 'No hay ningún proyecto con esa dirección. Puedes volver al índice de proyectos.',
   action: 'Ver todos los proyectos',
+  secondary: { label: 'Volver al inicio', to: '/' },
 } as const
 
 /** Document titles (WCAG 2.4.2). Home keeps the static title of index.html. */

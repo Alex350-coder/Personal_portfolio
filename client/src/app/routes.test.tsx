@@ -62,6 +62,16 @@ describe('route table', () => {
     expect(screen.getByRole('link', { name: notFound.action })).toHaveAttribute('href', '/')
   })
 
+  it('offers the projects index as a second way out of the 404', () => {
+    renderAt('/no-existe')
+    expect(screen.getByRole('link', { name: notFound.secondary.label })).toHaveAttribute('href', notFound.secondary.to)
+  })
+
+  it('offers Home as a second way out of the project 404', () => {
+    renderAt('/proyectos/no-existe')
+    expect(screen.getByRole('link', { name: projectNotFound.secondary.label })).toHaveAttribute('href', '/')
+  })
+
   it('shows the 404 for unknown nested paths under /proyectos', () => {
     renderAt('/proyectos/uno/dos')
     expect(screen.getByRole('heading', { level: 1, name: notFound.heading })).toBeInTheDocument()
