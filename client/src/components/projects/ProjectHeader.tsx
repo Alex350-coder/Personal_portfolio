@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { DotGrid } from '@/components/ui/dot-grid'
 import { Eyebrow } from '@/components/ui/eyebrow'
 import { ExternalLink } from '@/components/ui/external-link'
+import { linkClass } from '@/components/ui/link-styles'
 import type { Project, Status } from '@/data/project.schema'
 import { categoryLabels, detailLabels, projectLabels, statusLabels } from '@/data/projects-ui'
 
@@ -13,9 +14,6 @@ interface ProjectHeaderProps {
   /** Id of the `h1`, so the page can name its landmark with `aria-labelledby`. */
   headingId: string
 }
-
-const ACTION_CLASS =
-  'type-label inline-flex min-h-11 items-center border border-star-25 px-4 transition-colors hover:bg-star-10 hover:text-star'
 
 function statusVariant(status: Status) {
   if (status === 'en-desarrollo') return 'dashed'
@@ -65,7 +63,7 @@ export function ProjectHeader({ project, headingId }: ProjectHeaderProps) {
 
         <ul role="list" aria-label={detailLabels.links} className="mt-8 flex flex-wrap gap-3">
           <li>
-            <ExternalLink href={project.links.repo} className={ACTION_CLASS}>
+            <ExternalLink href={project.links.repo} className={linkClass}>
               {projectLabels.repo}
               {' '}
               <span className="sr-only">{projectLabels.of(project.title)}</span>
@@ -73,7 +71,7 @@ export function ProjectHeader({ project, headingId }: ProjectHeaderProps) {
           </li>
           {project.links.live ? (
             <li>
-              <ExternalLink href={project.links.live} className={ACTION_CLASS}>
+              <ExternalLink href={project.links.live} className={linkClass}>
                 {projectLabels.live}
                 {' '}
                 <span className="sr-only">{projectLabels.of(project.title)}</span>

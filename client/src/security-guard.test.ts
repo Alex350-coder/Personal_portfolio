@@ -1,0 +1,29 @@
+import { describe, expect, it } from 'vitest'
+
+/** Every non-test source file as raw text (Vite glob, so no Node typings are needed). */
+const modules = import.meta.glob<string>(['/src/**/*.{ts,tsx}', '!/src/**/*.test.{ts,tsx}', '!/src/test/**'], {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+})
+
+const files = Object.entries(modules).map(([path, text]) => ({ name: path.replace('/src/', ''), text }))
+
+/** Rules §20 / docs/Security.md: static guards that fail if a safe-link rule is bypassed. */
+describe('source security guards', () => {
+  it('scans the source tree', () => {
+    expect(files.length).toBeGreaterThan(50)
+  })
+
+  it('opens new tabs only inside ExternalLink', () => {
+    const offenders = files.filter(
+      (file) => /target\s*=\s*["'{]/.test(file.text) && file.name !== 'components/ui/external-link.tsx',
+    )
+    expect(offenders.map((file) => file.name)).toEqual([])
+  })
+
+  it('never injects HTML', () => {
+    const offenders = files.filter((file) => /dangerouslySetInnerHTML|\.innerHTML\s*=/.test(file.text))
+    expect(offenders.map((file) => file.name)).toEqual([])
+  })
+})

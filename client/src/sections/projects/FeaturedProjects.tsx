@@ -4,6 +4,7 @@ import { Section } from '@/components/layout/Section'
 import { ProjectCard } from '@/components/projects/ProjectCard'
 import { DotGrid } from '@/components/ui/dot-grid'
 import { ExternalLink } from '@/components/ui/external-link'
+import { linkClass } from '@/components/ui/link-styles'
 import { GlowCard } from '@/components/ui/glow-card'
 import { Reveal } from '@/components/ui/reveal'
 import { featuredSection } from '@/data/projects-ui'
@@ -17,9 +18,6 @@ const STAGGER_MS = 80
 const MAX_STAGGER_STEPS = 3
 const staggerDelay = (index: number) => ({ transitionDelay: `${Math.min(index, MAX_STAGGER_STEPS) * STAGGER_MS}ms` })
 
-const LINK_CLASS =
-  'type-label inline-flex min-h-11 items-center gap-2 border border-star-25 px-4 transition-colors hover:bg-star-10 hover:text-star'
-
 function GithubCard({ href }: { href: string }) {
   const { title, body, cta } = featuredSection.github
 
@@ -30,7 +28,7 @@ function GithubCard({ href }: { href: string }) {
         <h3 className="text-lg font-semibold leading-snug">{title}</h3>
         <p className="mt-2 text-sm leading-relaxed text-star-70">{body}</p>
       </div>
-      <ExternalLink href={href} className={cn(LINK_CLASS, 'relative self-start')}>
+      <ExternalLink href={href} className={cn(linkClass, 'relative self-start')}>
         {cta}
       </ExternalLink>
     </GlowCard>
@@ -60,7 +58,7 @@ export function FeaturedProjects() {
           </li>
         ) : null}
       </ul>
-      <Link to="/proyectos" className={cn(LINK_CLASS, 'mt-8')}>
+      <Link to="/proyectos" className={cn(linkClass, 'mt-8')}>
         {featuredSection.seeAll}
       </Link>
     </Section>
