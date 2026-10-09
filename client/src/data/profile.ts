@@ -85,24 +85,26 @@ export const profile: Profile = {
         id: 'ia-asistida',
         title: 'Desarrollo asistido por IA',
         description:
-          'Muchos de mis sistemas los construyo con asistencia de IA. Lo digo de forma explícita: no presento ese trabajo como hecho en solitario ni a mano.',
+          'Construyo muchos de mis sistemas con Claude Code: reviso y pruebo el resultado y resuelvo los problemas. Lo digo de forma explícita para que sepas cómo trabajo.',
       },
     ],
     facts: [
-      { label: 'Ubicación', value: 'Lima, Perú' },
+      { label: 'Ubicación', value: 'Cajamarca, Perú' },
       { label: 'Enfoque', value: 'Full-stack · seguridad' },
       { label: 'Código', value: 'GitHub: Alex350-coder' },
-      { label: 'Disponibilidad', value: '[[PLACEHOLDER: availability and what the owner is looking for]]' },
+      { label: 'Estudios', value: 'Ingeniería de Sistemas, Universidad Privada del Norte (en curso)' },
+      { label: 'Disponibilidad', value: 'Busco oportunidades de nivel inicial o medio · Abierto a trabajo remoto' },
+      { label: 'Roles de interés', value: 'Analista SOC, pentester junior, analista de vulnerabilidades, desarrollador web' },
     ],
     aiNote: {
-      text: 'Cómo trabajo: uso asistentes de IA durante el desarrollo y reviso lo que producen. La decisión final sobre qué se publica es mía.',
-      approval: '[[PLACEHOLDER: owner approval of the AI-assisted "how I work" wording]]',
+      text: 'Cómo trabajo: uso Claude Code para escribir el código, pruebo el resultado y resuelvo los problemas. También sé programar y corregir errores a mano; con IA simplemente es más rápido.',
+      approval: 'approved',
     },
   },
   links: [
     { id: 'github', label: 'GitHub', href: 'https://github.com/Alex350-coder' },
-    { id: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/AnderAguirreTejada' },
+    { id: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/ander-aguirre-tejada-76318333a' },
     { id: 'email', label: 'Correo', href: mailtoHref },
-    { id: 'cv', label: 'CV', href: '[[PLACEHOLDER: CV PDF (public/cv/); none exists yet]]' },
+    { id: 'cv', label: 'CV', href: '/cv/Ander-Aguirre-Tejada-CV.pdf' },
   ],
 }

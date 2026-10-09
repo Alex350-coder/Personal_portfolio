@@ -8,7 +8,7 @@ describe('isPlaceholder', () => {
   })
 
   it('rejects real content and malformed markers', () => {
-    expect(isPlaceholder('Lima, Perú')).toBe(false)
+    expect(isPlaceholder('Cajamarca, Perú')).toBe(false)
     expect(isPlaceholder('[[PLACEHOLDER:]]')).toBe(false)
     expect(isPlaceholder('[[PLACEHOLDER: x]] trailing')).toBe(false)
   })
