@@ -1,4 +1,4 @@
-import type { CopyButtonLabels } from '@/components/ui/copy-button'
+import type { CopyLabels } from '@/lib/clipboard'
 
 /** Contact section copy (Rules §11). No availability claim: the owner has not supplied one (ADR-009). */
 export const contactCopy = {
@@ -10,7 +10,7 @@ export const contactCopy = {
     idle: 'Copiar correo',
     copied: 'Correo copiado',
     failed: 'No se pudo copiar',
-  } satisfies CopyButtonLabels,
+  } satisfies CopyLabels,
   profilesLabel: 'Perfiles',
 } as const
 

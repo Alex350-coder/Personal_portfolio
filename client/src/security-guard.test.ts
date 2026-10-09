@@ -17,7 +17,7 @@ describe('source security guards', () => {
 
   it('opens new tabs only inside ExternalLink', () => {
     const offenders = files.filter(
-      (file) => /target\s*=\s*["'{]/.test(file.text) && file.name !== 'components/ui/external-link.tsx',
+      (file) => /target\s*[=:]\s*["'{]|window\.open\(|setAttribute\(\s*["']target/.test(file.text) && file.name !== 'components/ui/external-link.tsx',
     )
     expect(offenders.map((file) => file.name)).toEqual([])
   })
@@ -28,7 +28,7 @@ describe('source security guards', () => {
   })
 
   it('contains no secrets', () => {
-    const SECRET = /AKIA[0-9A-Z]{16}|sk-[A-Za-z0-9]{20,}|-----BEGIN [A-Z ]*PRIVATE KEY|(?:password|token|api[_-]?key)\s*[:=]\s*["'][^"']+["']/i
+    const SECRET = /AKIA[0-9A-Z]{16}|sk-[A-Za-z0-9]{20,}|ghp_[A-Za-z0-9]{36}|AIza[0-9A-Za-z_-]{35}|xox[abp]-[A-Za-z0-9-]+|eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.|-----BEGIN [A-Z ]*PRIVATE KEY|(?:password|token|api[_-]?key)\s*[:=]\s*["'][^"']+["']/i
     expect(files.filter((file) => SECRET.test(file.text)).map((file) => file.name)).toEqual([])
   })
 

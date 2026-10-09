@@ -1,4 +1,4 @@
-import { ArrowUpRight, FileText, Mail } from 'lucide-react'
+import { ArrowUpRight, Mail } from 'lucide-react'
 import type { ComponentProps } from 'react'
 
 import { profile, type LinkId, type ProfileLink } from '@/data/profile'
@@ -13,11 +13,10 @@ interface SocialLinksProps extends Omit<ComponentProps<'ul'>, 'children'> {
   links?: readonly ProfileLink[]
 }
 
-const ICONS: Record<LinkId, typeof Mail> = {
+const ICONS: Record<Exclude<LinkId, 'cv'>, typeof Mail> = {
   github: ArrowUpRight,
   linkedin: ArrowUpRight,
   email: Mail,
-  cv: FileText,
 }
 
 /** Rules §20: only https: and mailto: ever become links (the CV is the one same-origin file: lib/cv.ts). */
@@ -34,15 +33,15 @@ export function SocialLinks({ links = profile.links, className, ...props }: Soci
   return (
     <ul role="list" aria-label={uiLabels.professionalLinks} className={cn('flex flex-wrap gap-3', className)} {...props}>
       {links.map((link) => {
-        const Icon = ICONS[link.id]
-
         if (link.id === 'cv') {
           return (
             <li key={link.id}>
-              <CvLink href={link.href} label={link.label} format={uiLabels.cvFormat} />
+              <CvLink href={link.href} label={link.label} format={uiLabels.cvFormat} missingText={uiLabels.cvMissing} />
             </li>
           )
         }
+
+        const Icon = ICONS[link.id]
 
         if (isPlaceholder(link.href)) {
           return (

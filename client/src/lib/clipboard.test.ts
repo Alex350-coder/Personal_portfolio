@@ -45,6 +45,19 @@ describe('copyText', () => {
     expect(document.querySelector('textarea')).toBeNull()
   })
 
+  it('gives focus back to the element that had it after the legacy copy', async () => {
+    stubClipboard(undefined)
+    stubExecCommand(true)
+    const button = document.createElement('button')
+    document.body.append(button)
+    button.focus()
+
+    await copyText('hello')
+
+    expect(document.activeElement).toBe(button)
+    button.remove()
+  })
+
   it('resolves false (never throws) when every strategy fails', async () => {
     stubClipboard(vi.fn().mockRejectedValue(new Error('denied')))
     stubExecCommand(new Error('blocked'))

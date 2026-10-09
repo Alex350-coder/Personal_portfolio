@@ -7,6 +7,9 @@ import { SocialLinks } from '@/components/ui/social-links'
 import { footerCopy } from '@/data/footer'
 import { profile } from '@/data/profile'
 
+/** The footer carries the stable profiles only; the CV (possibly still missing) lives in Contact. */
+const footerLinks = profile.links.filter((link) => link.id !== 'cv')
+
 /** Evaluated once at load: the footer must not call impure functions while rendering. */
 const CURRENT_YEAR = new Date().getFullYear()
 
@@ -19,7 +22,7 @@ export function SiteFooter() {
           <p className="type-meta">
             {profile.name} · {CURRENT_YEAR}
           </p>
-          <SocialLinks aria-label={footerCopy.linksLabel} />
+          <SocialLinks links={footerLinks} aria-label={footerCopy.linksLabel} />
           <p className="type-meta normal-case tracking-normal">{footerCopy.builtWith}</p>
         </div>
         <Link to="/#inicio" className={linkClass}>

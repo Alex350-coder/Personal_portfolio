@@ -5,18 +5,12 @@ import { DotGrid } from '@/components/ui/dot-grid'
 import { Eyebrow } from '@/components/ui/eyebrow'
 import { buttonVariants } from '@/components/ui/button'
 import { linkClass } from '@/components/ui/link-styles'
-import { documentTitles, notFound } from '@/data/routes'
+import { documentTitles, notFound, type NotFoundCopy } from '@/data/routes'
 import { useDocumentTitle } from '@/hooks/use-document-title'
 
 interface NotFoundPageProps {
   /** Copy to show; defaults to the generic 404. */
-  content?: {
-    eyebrow: string
-    heading: string
-    description: string
-    action: string
-    secondary?: { label: string; to: string }
-  }
+  content?: NotFoundCopy
   /** Where the action leads; defaults to Home. */
   to?: string
   /** Page name for `document.title`; defaults to the generic 404 title. */

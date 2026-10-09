@@ -34,6 +34,9 @@ export const emailParts: EmailParts = { user: ['anderaguirre', '787'], domain: [
 /** The assembled public address, for display and the copy button. */
 export const emailAddress = buildEmailAddress(emailParts)
 
+/** The matching `mailto:` href (single source for Contact, footer and the profile link). */
+export const mailtoHref = buildMailtoHref(emailParts)
+
 export interface Profile {
   name: string
   role: string
@@ -99,7 +102,7 @@ export const profile: Profile = {
   links: [
     { id: 'github', label: 'GitHub', href: 'https://github.com/Alex350-coder' },
     { id: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/AnderAguirreTejada' },
-    { id: 'email', label: 'Correo', href: buildMailtoHref(emailParts) },
+    { id: 'email', label: 'Correo', href: mailtoHref },
     { id: 'cv', label: 'CV', href: '[[PLACEHOLDER: CV PDF (public/cv/); none exists yet]]' },
   ],
 }

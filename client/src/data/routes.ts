@@ -1,5 +1,13 @@
 /** Copy of the route pages that are not Home. */
 
+export interface NotFoundCopy {
+  eyebrow: string
+  heading: string
+  description: string
+  action: string
+  secondary?: { label: string; to: string }
+}
+
 export const notFound = {
   eyebrow: 'Error 404',
   heading: 'Esta página no existe',

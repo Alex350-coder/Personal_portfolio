@@ -1,19 +1,25 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { CopyButton } from '@/components/ui/copy-button'
+import { copyText } from '@/lib/clipboard'
 import { seriousViolations } from '@/test/axe'
 
 const LABELS = { idle: 'Copiar', copied: 'Copiado', failed: 'No se pudo copiar' }
+const RESET_MS = 2500
 
 vi.mock('@/lib/clipboard', () => ({ copyText: vi.fn() }))
-import { copyText } from '@/lib/clipboard'
 
-afterEach(() => vi.mocked(copyText).mockReset())
+beforeEach(() => vi.useFakeTimers({ shouldAdvanceTime: true }))
+afterEach(() => {
+  vi.useRealTimers()
+  vi.mocked(copyText).mockReset()
+})
 
-function setup(resetMs = 400) {
-  return render(<CopyButton value="a@b.co" labels={LABELS} resetMs={resetMs} />)
+function setup() {
+  const user = userEvent.setup({ delay: null })
+  return { user, ...render(<CopyButton value="a@b.co" labels={LABELS} resetMs={RESET_MS} />) }
 }
 
 describe('CopyButton', () => {
@@ -23,55 +29,78 @@ describe('CopyButton', () => {
     expect(screen.getByRole('status')).toBeEmptyDOMElement()
   })
 
-  it('copies the value and announces success, then resets', async () => {
+  it('copies the value, announces success and keeps the button name stable', async () => {
     vi.mocked(copyText).mockResolvedValue(true)
-    setup()
+    const { user } = setup()
 
-    await userEvent.click(screen.getByRole('button'))
+    await user.click(screen.getByRole('button'))
 
     expect(copyText).toHaveBeenCalledWith('a@b.co')
-    await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent('Copiado'))
-    expect(screen.getByRole('button', { name: 'Copiado' })).toBeInTheDocument()
-    await waitFor(() => expect(screen.getByRole('status')).toBeEmptyDOMElement())
+    expect(screen.getByRole('status')).toHaveTextContent('Copiado')
     expect(screen.getByRole('button', { name: 'Copiar' })).toBeInTheDocument()
+  })
+
+  it('clears the message after the reset delay', async () => {
+    vi.mocked(copyText).mockResolvedValue(true)
+    const { user } = setup()
+    await user.click(screen.getByRole('button'))
+
+    act(() => vi.advanceTimersByTime(RESET_MS - 100))
+    expect(screen.getByRole('status')).toHaveTextContent('Copiado')
+    act(() => vi.advanceTimersByTime(100))
+    expect(screen.getByRole('status')).toBeEmptyDOMElement()
+  })
+
+  it('restarts the delay on a second click and changes the text so it is announced again', async () => {
+    vi.mocked(copyText).mockResolvedValue(true)
+    const { user } = setup()
+    await user.click(screen.getByRole('button'))
+    const first = screen.getByRole('status').textContent
+
+    act(() => vi.advanceTimersByTime(RESET_MS - 500))
+    await user.click(screen.getByRole('button'))
+    expect(screen.getByRole('status').textContent).not.toBe(first)
+
+    act(() => vi.advanceTimersByTime(RESET_MS - 100))
+    expect(screen.getByRole('status')).toHaveTextContent('Copiado')
+    act(() => vi.advanceTimersByTime(100))
+    expect(screen.getByRole('status')).toBeEmptyDOMElement()
   })
 
   it('announces failure instead of swallowing it', async () => {
     vi.mocked(copyText).mockResolvedValue(false)
-    setup()
+    const { user } = setup()
 
-    await userEvent.click(screen.getByRole('button'))
+    await user.click(screen.getByRole('button'))
 
-    await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent('No se pudo copiar'))
+    expect(screen.getByRole('status')).toHaveTextContent('No se pudo copiar')
   })
 
   it('works from the keyboard (Enter and Space)', async () => {
     vi.mocked(copyText).mockResolvedValue(true)
-    setup(1000)
-    const button = screen.getByRole('button')
-    button.focus()
+    const { user } = setup()
+    screen.getByRole('button').focus()
 
-    await userEvent.keyboard('{Enter}')
-    await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent('Copiado'))
-    await userEvent.keyboard(' ')
+    await user.keyboard('{Enter}')
+    await user.keyboard(' ')
+
     expect(copyText).toHaveBeenCalledTimes(2)
   })
 
-  it('does not set state after unmount', async () => {
+  it('schedules no timer when the copy resolves after unmount', async () => {
     let resolveCopy: (ok: boolean) => void = () => undefined
     vi.mocked(copyText).mockReturnValue(new Promise((resolve) => (resolveCopy = resolve)))
-    const errors = vi.spyOn(console, 'error').mockImplementation(() => undefined)
-    const { unmount } = setup()
+    const { user, unmount } = setup()
 
-    await userEvent.click(screen.getByRole('button'))
+    await user.click(screen.getByRole('button'))
     unmount()
-    resolveCopy(true)
-    await Promise.resolve()
+    await act(async () => resolveCopy(true))
 
-    expect(errors).not.toHaveBeenCalled()
+    expect(vi.getTimerCount()).toBe(0)
   })
 
   it('has no serious accessibility violations', async () => {
+    vi.useRealTimers() // axe schedules work with timers
     const { container } = setup()
     expect(await seriousViolations(container)).toEqual([])
   })

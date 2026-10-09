@@ -8,6 +8,7 @@ async function blockingViolations(page: Page, include?: string) {
 }
 
 test.describe('Contact', () => {
+  // Chromium-only permission names; add a browser guard if other engines join playwright.config.ts.
   test.use({ permissions: ['clipboard-read', 'clipboard-write'] })
 
   test('the Hero Contacto CTA is reachable by keyboard and lands on the section', async ({ page }) => {
@@ -40,7 +41,7 @@ test.describe('Contact', () => {
     await expect(section.getByRole('status')).toHaveText('', { timeout: 6_000 })
   })
 
-  test('external profile links are safe and the CV is flagged while missing', async ({ page }) => {
+  test('external profile links are safe and the CV is a download link or readable fallback', async ({ page }) => {
     await page.goto('/#contacto')
     const list = page.locator('#contacto').getByRole('list', { name: 'Enlaces profesionales' })
     for (const name of [/GitHub/, /LinkedIn/]) {
@@ -48,8 +49,18 @@ test.describe('Contact', () => {
       await expect(link).toHaveAttribute('target', '_blank')
       await expect(link).toHaveAttribute('rel', 'noopener noreferrer')
     }
-    await expect(list.getByText(/PLACEHOLDER: CV/)).toBeVisible()
-    await expect(list.getByRole('link', { name: /CV/ })).toHaveCount(0)
+    const missing = list.locator('[data-cv-missing]')
+    if (await missing.count()) {
+      await expect(missing).toHaveText(/próximamente/)
+      await expect(list.getByRole('link', { name: /CV/ })).toHaveCount(0)
+      await expect(list.getByText(/PLACEHOLDER/)).toHaveCount(0)
+    } else {
+      const cv = list.getByRole('link', { name: /CV/ })
+      await expect(cv).toHaveAttribute('href', /^\/cv\/[\w.-]+\.pdf$/)
+      await expect(cv).toHaveAttribute('download', /\.pdf$/)
+      const response = await page.request.get((await cv.getAttribute('href')) ?? '')
+      expect(response.status()).toBe(200)
+    }
   })
 
   test('has no serious axe violations in the contact section', async ({ page }) => {

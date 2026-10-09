@@ -29,7 +29,7 @@ test.describe('Project detail pages', () => {
 
   test('text-only projects show no empty sections', async ({ page }) => {
     await page.goto('/proyectos/cinemax')
-    await expect(page.getByRole('heading', { level: 2 })).toHaveText(['Qué problema resuelve', 'Tecnologías usadas'])
+    await expect(page.locator('article').getByRole('heading', { level: 2 })).toHaveText(['Qué problema resuelve', 'Tecnologías usadas'])
     await expect(page.locator('article img')).toHaveCount(0)
   })
 

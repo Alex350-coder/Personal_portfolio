@@ -44,6 +44,16 @@ describe('profile data', () => {
   })
 })
 
+describe('link data is renderable', () => {
+  it('every non-placeholder link passes the same safety check the UI applies (no silent drops)', () => {
+    for (const link of profile.links) {
+      if (isPlaceholder(link.href)) continue
+      const ok = link.id === 'cv' ? isCvPath(link.href) : SAFE_HREF.test(link.href)
+      expect(ok, link.id).toBe(true)
+    }
+  })
+})
+
 describe('published email', () => {
   it('derives the email link from the assembled address', () => {
     const email = profile.links.find((link) => link.id === 'email')

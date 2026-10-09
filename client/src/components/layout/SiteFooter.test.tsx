@@ -30,6 +30,11 @@ describe('SiteFooter', () => {
     expect(within(list).getByRole('link', { name: /Correo/ })).toHaveAttribute('href', expect.stringMatching(/^mailto:/))
   })
 
+  it('leaves the CV (possibly still missing) to the Contact section', () => {
+    renderFooter()
+    expect(screen.queryByText(/CV/)).not.toBeInTheDocument()
+  })
+
   it('states the real stack', () => {
     renderFooter()
     expect(screen.getByText(footerCopy.builtWith)).toBeInTheDocument()

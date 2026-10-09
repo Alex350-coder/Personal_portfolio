@@ -18,6 +18,12 @@ describe('buildEmailAddress', () => {
     expect(() => buildEmailAddress({ user: ['jane'], domain: ['example'] })).toThrow(/domain/)
   })
 
+  it('rejects an assembled address with leading, trailing or doubled dots', () => {
+    expect(() => buildEmailAddress({ user: ['a', '.'], domain: ['example', 'org'] })).toThrow(/invalid/i)
+    expect(() => buildEmailAddress({ user: ['.a'], domain: ['example', 'org'] })).toThrow(/invalid/i)
+    expect(() => buildEmailAddress({ user: ['a', '..b'], domain: ['example', 'org'] })).toThrow(/invalid/i)
+  })
+
   it('rejects characters that could break out of a mailto URL', () => {
     expect(() => buildEmailAddress({ user: ['a?cc=x'], domain: ['example', 'org'] })).toThrow(/invalid/i)
     expect(() => buildEmailAddress({ user: ['a b'], domain: ['example', 'org'] })).toThrow(/invalid/i)

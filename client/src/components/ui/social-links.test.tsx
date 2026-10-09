@@ -40,10 +40,11 @@ describe('SocialLinks', () => {
     expect(link).toHaveAccessibleName('Correo')
   })
 
-  it('shows a missing resource as an explicit placeholder, not a dead link', () => {
+  it('shows a missing CV as readable text, not a dead link', () => {
     render(<SocialLinks links={LINKS} />)
     expect(screen.queryByRole('link', { name: /CV/ })).not.toBeInTheDocument()
-    expect(screen.getByText(/\[\[PLACEHOLDER: CV PDF\]\]/)).toBeInTheDocument()
+    expect(screen.getByText(/CV · próximamente/)).toBeInTheDocument()
+    expect(screen.queryByText(/PLACEHOLDER/)).not.toBeInTheDocument()
   })
 
   it('refuses unsafe URL schemes instead of rendering them as links', () => {

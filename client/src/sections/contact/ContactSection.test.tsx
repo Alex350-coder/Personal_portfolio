@@ -28,12 +28,12 @@ describe('ContactSection', () => {
     expect(await screen.findByRole('status')).toHaveTextContent(contactCopy.copy.copied)
   })
 
-  it('lists GitHub, LinkedIn and the CV (flagged while missing) but not a form', () => {
+  it('lists GitHub, LinkedIn and the CV (readable text while missing) but not a form', () => {
     render(<ContactSection />)
     const list = screen.getByRole('list', { name: 'Enlaces profesionales' })
     expect(within(list).getByRole('link', { name: /GitHub/ })).toHaveAttribute('rel', 'noopener noreferrer')
     expect(within(list).getByRole('link', { name: /LinkedIn/ })).toBeInTheDocument()
-    expect(within(list).getByText(/PLACEHOLDER: CV/)).toBeInTheDocument()
+    expect(within(list).getByText(/CV · próximamente/)).toBeInTheDocument()
     expect(document.querySelector('form')).toBeNull()
   })
 

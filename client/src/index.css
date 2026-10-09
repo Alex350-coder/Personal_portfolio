@@ -51,7 +51,7 @@
     line-height: 1.5;
     text-transform: uppercase;
     letter-spacing: 0.24em;
-    color: var(--color-star-60);
+    color: var(--color-star-70);
 }
 @utility type-meta {
     font-family: var(--font-mono);
@@ -59,7 +59,7 @@
     line-height: 1.5;
     text-transform: uppercase;
     letter-spacing: 0.32em;
-    color: var(--color-star-60);
+    color: var(--color-star-70);
 }
 @utility type-h2 {
     @apply text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.02];

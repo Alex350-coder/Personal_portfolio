@@ -4,7 +4,7 @@ import { DotGrid } from '@/components/ui/dot-grid'
 import { Reveal } from '@/components/ui/reveal'
 import { SocialLinks } from '@/components/ui/social-links'
 import { contactCopy } from '@/data/contact'
-import { emailAddress, profile } from '@/data/profile'
+import { emailAddress, mailtoHref, profile } from '@/data/profile'
 import { sections } from '@/data/sections'
 
 const PROFILE_LINK_IDS = ['github', 'linkedin', 'cv'] as const
@@ -25,7 +25,7 @@ export function ContactSection() {
           <div className="relative">
             <p className="type-label">{contactCopy.emailLabel}</p>
             <a
-              href={`mailto:${emailAddress}`}
+              href={mailtoHref}
               className="mt-3 block break-all font-mono text-lg text-star underline decoration-accent-50 underline-offset-8 transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:text-3xl"
             >
               {emailAddress}

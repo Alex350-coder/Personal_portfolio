@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Link, createMemoryRouter } from 'react-router'
 import { RouterProvider } from 'react-router/dom'
@@ -67,11 +67,19 @@ describe('Layout', () => {
     expect(screen.getByRole('main')).toHaveFocus()
   })
 
-  it('keeps focus where it is on same-page hash navigation', async () => {
+  it('moves focus to the hash target (not main) on same-page hash navigation', async () => {
     renderLayout()
     const link = screen.getByRole('link', { name: 'Ir al destino' })
     await userEvent.setup().click(link)
     expect(screen.getByRole('main')).not.toHaveFocus()
+    expect(screen.getByRole('region', { name: 'Destino' })).toHaveFocus()
+  })
+
+  it('ignores a hash without a matching element', async () => {
+    const router = renderLayout()
+    await act(() => router.navigate('/#no-existe'))
+    expect(screen.getByRole('main')).not.toHaveFocus()
+    expect(document.body).toHaveFocus()
   })
 
   it('scrolls to the hash target on arrival', () => {

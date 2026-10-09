@@ -12,15 +12,17 @@ interface CvLinkProps {
   label: string
   /** Format hint shown next to the label, e.g. "PDF". */
   format: string
+  /** Visible text while the PDF does not exist yet (the raw placeholder is only logged in dev). */
+  missingText: string
   className?: string
 }
 
 /**
  * Download link for the CV. The file name is stable so the browser saves it under that name.
- * While the PDF does not exist (href is a placeholder) it renders a dashed, clearly flagged item
- * instead of a dead link and warns in dev; the production gate is Phase 6 (npm run placeholders).
+ * While the PDF does not exist (href is a placeholder) it renders a dashed item with readable text
+ * (never the raw marker) instead of a dead link and warns in dev; the production gate is Phase 6 (npm run placeholders).
  */
-export function CvLink({ href, label, format, className }: CvLinkProps) {
+export function CvLink({ href, label, format, missingText, className }: CvLinkProps) {
   const missing = isPlaceholder(href)
   useEffect(() => {
     if (missing && import.meta.env.DEV) console.warn(`[CvLink] CV missing: ${href}`)
@@ -30,7 +32,7 @@ export function CvLink({ href, label, format, className }: CvLinkProps) {
     return (
       <span className={cn(linkClass, 'border-dashed text-star-60', className)} data-cv-missing="true">
         <FileText aria-hidden="true" className="size-4" />
-        {label} · {href}
+        {label} · {missingText}
       </span>
     )
   }
