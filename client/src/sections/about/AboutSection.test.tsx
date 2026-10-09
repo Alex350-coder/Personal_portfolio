@@ -45,10 +45,10 @@ describe('AboutSection', () => {
     expect(screen.queryByText(/PLACEHOLDER: availability/)).not.toBeInTheDocument()
   })
 
-  it('is transparent about AI assistance and flags the wording as pending approval', () => {
+  it('is transparent about AI assistance and shows the owner-approved wording', () => {
     render(<AboutSection />)
     expect(screen.getByText(about.aiNote.text)).toBeInTheDocument()
-    expect(screen.getByText(/\[\[PLACEHOLDER: owner approval/)).toBeInTheDocument()
+    expect(screen.queryByText(/PLACEHOLDER: owner approval/)).not.toBeInTheDocument()
   })
 
   it('hides the approval placeholder once the owner approves the wording', () => {

@@ -38,9 +38,9 @@ describe('profile data', () => {
     expect(JSON.stringify(profile)).not.toMatch(/yo solo|sin ayuda|completamente solo/i)
   })
 
-  it('points the CV at a published PDF and still flags the pending AI-note approval', () => {
+  it('points the CV at a published PDF and has the owner-approved AI note', () => {
     expect(profile.links.find((link) => link.id === 'cv')!.href).toBe('/cv/Ander-Aguirre-Tejada-CV.pdf')
-    expect(isPlaceholder(profile.about.aiNote.approval)).toBe(true)
+    expect(profile.about.aiNote.approval).toBe('approved')
   })
 })
 
