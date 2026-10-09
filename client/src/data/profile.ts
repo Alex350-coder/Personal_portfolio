@@ -103,7 +103,7 @@ export const profile: Profile = {
   },
   links: [
     { id: 'github', label: 'GitHub', href: 'https://github.com/Alex350-coder' },
-    { id: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/AnderAguirreTejada' },
+    { id: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/ander-aguirre-tejada-76318333a' },
     { id: 'email', label: 'Correo', href: mailtoHref },
     { id: 'cv', label: 'CV', href: '/cv/Ander-Aguirre-Tejada-CV.pdf' },
   ],
