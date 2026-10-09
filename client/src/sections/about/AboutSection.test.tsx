@@ -38,9 +38,11 @@ describe('AboutSection', () => {
     expect(screen.getAllByRole('definition')).toHaveLength(about.facts.length)
   })
 
-  it('shows unconfirmed facts as explicit placeholders', () => {
+  it('states availability and location from the owner CV, with no placeholder left in the facts', () => {
     render(<AboutSection />)
-    expect(screen.getByText(/\[\[PLACEHOLDER: availability/)).toBeInTheDocument()
+    expect(screen.getByText(/Abierto a trabajo remoto/)).toBeInTheDocument()
+    expect(screen.getByText('Cajamarca, Perú')).toBeInTheDocument()
+    expect(screen.queryByText(/PLACEHOLDER: availability/)).not.toBeInTheDocument()
   })
 
   it('is transparent about AI assistance and flags the wording as pending approval', () => {

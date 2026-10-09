@@ -1,9 +1,9 @@
 import type { CopyLabels } from '@/lib/clipboard'
 
-/** Contact section copy (Rules §11). No availability claim: the owner has not supplied one (ADR-009). */
+/** Contact section copy (Rules §11). Availability wording comes from the owner CV (2026-10-09). */
 export const contactCopy = {
   statement:
-    'Escríbeme para hablar de un proyecto, una colaboración o del código que ves aquí. La forma más directa es el correo.',
+    'Busco oportunidades de nivel inicial o medio y estoy abierto a trabajo remoto. Escríbeme para hablar de un proyecto, una colaboración o del código que ves aquí: la forma más directa es el correo.',
   emailLabel: 'Correo',
   emailHint: 'Se abre tu aplicación de correo. Si no tienes una, copia la dirección.',
   copy: {

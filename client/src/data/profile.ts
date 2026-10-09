@@ -89,10 +89,12 @@ export const profile: Profile = {
       },
     ],
     facts: [
-      { label: 'Ubicación', value: 'Lima, Perú' },
+      { label: 'Ubicación', value: 'Cajamarca, Perú' },
       { label: 'Enfoque', value: 'Full-stack · seguridad' },
       { label: 'Código', value: 'GitHub: Alex350-coder' },
-      { label: 'Disponibilidad', value: '[[PLACEHOLDER: availability and what the owner is looking for]]' },
+      { label: 'Estudios', value: 'Ingeniería de Sistemas, Universidad Privada del Norte (en curso)' },
+      { label: 'Disponibilidad', value: 'Busco oportunidades de nivel inicial o medio · Abierto a trabajo remoto' },
+      { label: 'Roles de interés', value: 'Analista SOC, pentester junior, analista de vulnerabilidades, desarrollador web' },
     ],
     aiNote: {
       text: 'Cómo trabajo: uso asistentes de IA durante el desarrollo y reviso lo que producen. La decisión final sobre qué se publica es mía.',
@@ -103,6 +105,6 @@ export const profile: Profile = {
     { id: 'github', label: 'GitHub', href: 'https://github.com/Alex350-coder' },
     { id: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/AnderAguirreTejada' },
     { id: 'email', label: 'Correo', href: mailtoHref },
-    { id: 'cv', label: 'CV', href: '[[PLACEHOLDER: CV PDF (public/cv/); none exists yet]]' },
+    { id: 'cv', label: 'CV', href: '/cv/Ander-Aguirre-Tejada-CV.pdf' },
   ],
 }

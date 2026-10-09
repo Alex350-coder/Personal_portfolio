@@ -74,10 +74,16 @@ export const technologies = [
   { id: 'gobuster', label: 'Gobuster', group: 'seguridad' },
   { id: 'sqlmap', label: 'SQLmap', group: 'seguridad' },
   { id: 'nuclei', label: 'Nuclei', group: 'seguridad' },
+  { id: 'metasploit', label: 'Metasploit', group: 'seguridad' },
+  { id: 'hydra', label: 'Hydra', group: 'seguridad' },
+  { id: 'wireshark', label: 'Wireshark', group: 'seguridad' },
+  { id: 'kali-linux', label: 'Kali Linux', group: 'seguridad' },
 
-  // Health_HIS README discloses a Claude-based documentation framework (ProfileData.md §2.5).
+  // Tools named by the owner in the CV (2026-10-09); Health_HIS README discloses a Claude-based documentation framework.
   { id: 'claude', label: 'Claude', group: 'ia' },
-  { id: 'ia-otras', label: '[[PLACEHOLDER: other AI tools the owner wants to list]]', group: 'ia' },
+  { id: 'claude-code', label: 'Claude Code', group: 'ia' },
+  { id: 'opencode', label: 'OpenCode', group: 'ia' },
+  { id: 'ollama', label: 'Ollama (LLMs locales)', group: 'ia' },
 ] as const satisfies readonly Technology[]
 
 export type TechId = (typeof technologies)[number]['id']
