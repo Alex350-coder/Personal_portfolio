@@ -51,7 +51,7 @@
     line-height: 1.5;
     text-transform: uppercase;
     letter-spacing: 0.24em;
-    color: var(--color-star-60);
+    color: var(--color-star-70);
 }
 @utility type-meta {
     font-family: var(--font-mono);
@@ -59,7 +59,7 @@
     line-height: 1.5;
     text-transform: uppercase;
     letter-spacing: 0.32em;
-    color: var(--color-star-60);
+    color: var(--color-star-70);
 }
 @utility type-h2 {
     @apply text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.02];
@@ -81,6 +81,13 @@
 }
 @utility dot-grid-fade {
     mask-image: radial-gradient(ellipse at center, #000 15%, transparent 72%);
+}
+
+/* Closing "sky" for Contact (ADR-005: CSS only, static, no canvas): accent glow rising from the top edge and a teal haze at the bottom, under the DotGrid. */
+@utility contact-sky {
+    background-image:
+        radial-gradient(ellipse 70% 60% at 50% 0%, color-mix(in srgb, var(--color-accent) 14%, transparent), transparent 70%),
+        radial-gradient(ellipse 80% 50% at 50% 110%, color-mix(in srgb, var(--color-teal) 22%, transparent), transparent 70%);
 }
 
 /* Pointer light for GlowCard: a soft accent glow that follows --mx/--my (set from JS on

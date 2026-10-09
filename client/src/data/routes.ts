@@ -1,10 +1,19 @@
 /** Copy of the route pages that are not Home. */
 
+export interface NotFoundCopy {
+  eyebrow: string
+  heading: string
+  description: string
+  action: string
+  secondary?: { label: string; to: string }
+}
+
 export const notFound = {
   eyebrow: 'Error 404',
   heading: 'Esta página no existe',
   description: 'La dirección no coincide con ninguna página del portafolio. Puedes volver al inicio.',
   action: 'Volver al inicio',
+  secondary: { label: 'Ver proyectos', to: '/proyectos' },
 } as const
 
 export const projectsIndex = {
@@ -22,6 +31,7 @@ export const projectNotFound = {
   heading: 'Este proyecto no existe',
   description: 'No hay ningún proyecto con esa dirección. Puedes volver al índice de proyectos.',
   action: 'Ver todos los proyectos',
+  secondary: { label: 'Volver al inicio', to: '/' },
 } as const
 
 /** Document titles (WCAG 2.4.2). Home keeps the static title of index.html. */

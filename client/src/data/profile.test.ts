@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import { profile } from '@/data/profile'
+import { emailAddress, profile } from '@/data/profile'
+import { isCvPath } from '@/lib/cv'
 import { isPlaceholder } from '@/lib/placeholder'
 
 const SAFE_HREF = /^(https:\/\/|mailto:)/
@@ -12,11 +13,12 @@ describe('profile data', () => {
     expect(profile.focusAreas).toEqual(['Software', 'Web', 'Ciberseguridad', 'Desarrollo asistido por IA'])
   })
 
-  it('has unique link ids and only https/mailto or placeholder hrefs', () => {
+  it('has unique link ids and only https/mailto, a /cv/ PDF path or placeholder hrefs', () => {
     const ids = profile.links.map((link) => link.id)
     expect(new Set(ids).size).toBe(ids.length)
     for (const link of profile.links) {
-      expect(isPlaceholder(link.href) || SAFE_HREF.test(link.href)).toBe(true)
+      const cvPath = link.id === 'cv' && isCvPath(link.href)
+      expect(isPlaceholder(link.href) || SAFE_HREF.test(link.href) || cvPath).toBe(true)
     }
   })
 
@@ -39,5 +41,23 @@ describe('profile data', () => {
   it('flags unconfirmed items as placeholders', () => {
     expect(isPlaceholder(profile.links.find((link) => link.id === 'cv')!.href)).toBe(true)
     expect(isPlaceholder(profile.about.aiNote.approval)).toBe(true)
+  })
+})
+
+describe('link data is renderable', () => {
+  it('every non-placeholder link passes the same safety check the UI applies (no silent drops)', () => {
+    for (const link of profile.links) {
+      if (isPlaceholder(link.href)) continue
+      const ok = link.id === 'cv' ? isCvPath(link.href) : SAFE_HREF.test(link.href)
+      expect(ok, link.id).toBe(true)
+    }
+  })
+})
+
+describe('published email', () => {
+  it('derives the email link from the assembled address', () => {
+    const email = profile.links.find((link) => link.id === 'email')
+    expect(email?.href).toBe(`mailto:${emailAddress}`)
+    expect(emailAddress).toMatch(/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i)
   })
 })

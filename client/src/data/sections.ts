@@ -1,5 +1,3 @@
-import type { Placeholder } from '@/lib/placeholder'
-
 /** Eyebrow / heading / lead of the Home sections whose content is not part of `profile`. */
 export interface SectionCopy {
   eyebrow: string
@@ -23,8 +21,3 @@ export const sections = {
     heading: 'Hablemos',
   },
 } as const satisfies Record<string, SectionCopy>
-
-/** Shown inside sections whose real content belongs to a later phase. */
-export const pendingNotes = {
-  contacto: '[[PLACEHOLDER: contact section (Phase 5)]]',
-} as const satisfies Record<string, Placeholder>

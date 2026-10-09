@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest'
 
-import { pendingNotes } from '@/data/sections'
 import { profile } from '@/data/profile'
 import { projects } from '@/data/projects'
 import { technologies } from '@/data/technologies'
@@ -17,7 +16,6 @@ describe('placeholders in data', () => {
   it.each([
     ['profile', profile],
     ['technologies', technologies],
-    ['pendingNotes', pendingNotes],
     ['projects', projects],
   ])('every [[…]] marker in %s follows the [[PLACEHOLDER: …]] convention', (_name, data) => {
     for (const marker of markersIn(data)) {

@@ -1,11 +1,13 @@
 import { useParams } from 'react-router'
 
+import { ContactCta } from '@/components/layout/ContactCta'
 import { ProjectGallery } from '@/components/projects/ProjectGallery'
 import { ProjectHeader } from '@/components/projects/ProjectHeader'
 import { ProjectNarrative } from '@/components/projects/ProjectNarrative'
 import { ProjectNav } from '@/components/projects/ProjectNav'
 import { ProjectSecurity } from '@/components/projects/ProjectSecurity'
 import { TechList } from '@/components/projects/TechList'
+import { contactCta } from '@/data/contact'
 import type { Project } from '@/data/project.schema'
 import { documentTitles, projectNotFound } from '@/data/routes'
 import { useDocumentTitle } from '@/hooks/use-document-title'
@@ -18,14 +20,17 @@ function ProjectDetail({ project }: { project: Project }) {
   useDocumentTitle(project.title, project.summary)
 
   return (
-    <article aria-labelledby={HEADING_ID}>
-      <ProjectHeader project={project} headingId={HEADING_ID} />
-      <ProjectNarrative project={project} />
-      <ProjectSecurity project={project} />
-      <ProjectGallery project={project} />
-      <TechList project={project} />
-      <ProjectNav project={project} />
-    </article>
+    <>
+      <article aria-labelledby={HEADING_ID}>
+        <ProjectHeader project={project} headingId={HEADING_ID} />
+        <ProjectNarrative project={project} />
+        <ProjectSecurity project={project} />
+        <ProjectGallery project={project} />
+        <TechList project={project} />
+        <ProjectNav project={project} />
+      </article>
+      <ContactCta copy={contactCta.detail} />
+    </>
   )
 }
 

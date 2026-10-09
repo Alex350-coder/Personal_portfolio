@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
+import { contactCta } from '@/data/contact'
 import { projectsIndex } from '@/data/routes'
 import { filterLabels } from '@/data/projects-ui'
 import { projects } from '@/data/projects'
@@ -16,7 +17,12 @@ const renderAt = (url = '/proyectos') =>
     </MemoryRouter>,
   )
 
-const visibleTitles = () => screen.getAllByRole('heading', { level: 2 }).map((heading) => heading.textContent)
+/** The closing contact CTA has its own h2; these tests are about the page content. */
+const visibleTitles = () =>
+  screen
+    .getAllByRole('heading', { level: 2 })
+    .map((heading) => heading.textContent)
+    .filter((text) => text !== contactCta.index.heading)
 
 describe('ProjectsPage', () => {
   beforeEach(() => {

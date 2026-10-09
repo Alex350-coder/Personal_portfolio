@@ -2,6 +2,7 @@ import { render, screen, within } from '@testing-library/react'
 import { RouterProvider } from 'react-router/dom'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
+import { contactCta } from '@/data/contact'
 import { createTestRouter } from '@/app/router'
 import { validateProjects, type Project } from '@/data/project.schema'
 import { projects } from '@/data/projects'
@@ -55,7 +56,12 @@ function renderAt(path: string) {
   return router
 }
 
-const h2Names = () => screen.getAllByRole('heading', { level: 2 }).map((heading) => heading.textContent)
+/** The closing contact CTA has its own h2; these tests are about the page content. */
+const h2Names = () =>
+  screen
+    .getAllByRole('heading', { level: 2 })
+    .map((heading) => heading.textContent)
+    .filter((text) => text !== contactCta.detail.heading)
 
 describe('ProjectDetailPage', () => {
   beforeEach(() => {

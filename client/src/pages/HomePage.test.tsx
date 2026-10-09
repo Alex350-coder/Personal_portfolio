@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from 'vitest'
 
 import { createTestRouter } from '@/app/router'
 import { navItems } from '@/data/navigation'
+import { emailAddress } from '@/data/profile'
 
 vi.mock('@/components/ui/halftone-nebula', () => import('@/test/nebula-mock'))
 
@@ -43,9 +44,9 @@ describe('HomePage', () => {
     }
   })
 
-  it('shows an explicit placeholder only for the section that belongs to a later phase', () => {
+  it('renders the real contact section instead of a placeholder', () => {
     renderHome()
-    expect(screen.queryByText(/PLACEHOLDER: featured projects section/)).toBeNull()
-    expect(screen.getByText(/\[\[PLACEHOLDER: contact section/)).toBeInTheDocument()
+    expect(screen.queryByText(/PLACEHOLDER: contact section/)).toBeNull()
+    expect(screen.getByRole('link', { name: emailAddress })).toHaveAttribute('href', `mailto:${emailAddress}`)
   })
 })
