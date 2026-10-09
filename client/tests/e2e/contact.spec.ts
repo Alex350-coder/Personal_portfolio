@@ -87,6 +87,15 @@ test.describe('Footer and closing CTAs', () => {
     await expect(page.locator('#inicio')).toBeInViewport({ timeout: 15_000 })
   })
 
+  test('in-page links move keyboard focus to their target (WCAG 2.4.3)', async ({ page }) => {
+    await page.goto('/#contacto')
+    const backToTop = page.getByRole('contentinfo').getByRole('link', { name: 'Volver arriba' })
+    await backToTop.focus()
+    await page.keyboard.press('Enter')
+    await expect(page.locator('#inicio')).toBeFocused()
+    await expect(page.locator('#inicio')).toBeInViewport({ timeout: 15_000 })
+  })
+
   test('a project detail page ends with a CTA that leads to the contact section', async ({ page }) => {
     await page.goto('/proyectos/saas-pensiones')
     await page.getByRole('link', { name: 'Ir a contacto' }).click()
