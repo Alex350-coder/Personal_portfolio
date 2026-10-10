@@ -123,6 +123,11 @@ describe('validateProjects', () => {
     expect(validateProjects([make({ media: [image] })]).join('\n')).toMatch(/media\[0\]\.alt is still a placeholder/)
   })
 
+  it('allows the cover to repeat one gallery image', () => {
+    const image = { src: '/projects/demo-project/a.webp', alt: 'ok', width: 10, height: 10 }
+    expect(validateProjects([make({ cover: image, media: [image] })])).toEqual([])
+  })
+
   it('reports duplicate highlights, security notes, decision titles and media sources', () => {
     const image = { src: '/projects/demo-project/a.webp', alt: 'ok', width: 10, height: 10 }
     const errors = validateProjects([
@@ -130,8 +135,7 @@ describe('validateProjects', () => {
         highlights: ['a', 'a'],
         security: ['s', 's'],
         decisions: [{ title: 't', body: 'b' }, { title: 't', body: 'c' }],
-        cover: image,
-        media: [image],
+        media: [image, image],
       }),
     ]).join('\n')
     expect(errors).toMatch(/highlights has a duplicate entry "a"/)

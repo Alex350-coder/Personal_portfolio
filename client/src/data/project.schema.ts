@@ -141,7 +141,8 @@ function validateOne(project: Project, maxYear: number): string[] {
     ...validateUnique(project.highlights, `${where}: highlights`),
     ...validateUnique(project.security, `${where}: security`),
     ...validateUnique(project.decisions?.map((decision) => decision.title), `${where}: decisions`),
-    ...validateUnique([project.cover, ...(project.media ?? [])].flatMap((item) => (item ? [item.src] : [])), `${where}: media`),
+    // The cover may also appear in the gallery; only the gallery itself must not repeat a source.
+    ...validateUnique(project.media?.map((item) => item.src), `${where}: media`),
   )
 
   if (project.cover) errors.push(...validateMedia(project.cover, `${where}: cover`, project.slug))
