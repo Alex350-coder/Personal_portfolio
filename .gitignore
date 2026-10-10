@@ -1,10 +1,11 @@
-# Only the app goes into the repository: client/, server/ and .github/.
+# Only the app goes into the repository: client/, server/, .github/ and the README.
 # Everything else at the root (planning docs, .claude/, docs/, ...) stays local.
 /*
 !/.gitignore
 !/client/
 !/server/
 !/.github/
+!/README.md
 
 # Dependencies and build output
 node_modules/
