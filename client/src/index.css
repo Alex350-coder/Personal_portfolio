@@ -240,3 +240,105 @@
 html {
   scroll-padding-top: 4rem;
 }
+
+/* Living origami (components/ui/living-origami-bg.tsx): a few teal paper cranes drifting behind the
+   content so the dark page does not feel empty. Transforms only; off under reduced motion and
+   paused with the Hero control (html[data-motion="paused"]). */
+@keyframes origami-drift {
+  from {
+    transform: translateX(-100vw) translateY(var(--y-start)) rotate(var(--r-start));
+  }
+  to {
+    transform: translateX(100vw) translateY(var(--y-end)) rotate(var(--r-end));
+  }
+}
+@keyframes origami-bob {
+  0%,
+  100% {
+    transform: translateY(-8px);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+@keyframes origami-flap {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.35);
+  }
+}
+.origami-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.origami-drifter {
+  position: absolute;
+  left: 50%;
+  opacity: var(--o, 0.5);
+  animation: origami-drift linear infinite;
+  will-change: transform;
+}
+.origami-crane {
+  position: relative;
+  width: 56px;
+  height: 40px;
+  scale: var(--s, 1);
+  animation: origami-bob 5s ease-in-out infinite;
+}
+@media (max-width: 639px) {
+  .origami-crane {
+    scale: calc(var(--s, 1) * 0.6);
+  }
+}
+.origami-part {
+  position: absolute;
+  display: block;
+}
+.origami-body {
+  left: 6px;
+  top: 18px;
+  width: 44px;
+  height: 10px;
+  clip-path: polygon(0 50%, 100% 0, 86% 100%);
+  background: linear-gradient(90deg, var(--color-teal), var(--color-accent));
+}
+.origami-tail {
+  left: 0;
+  top: 17px;
+  width: 14px;
+  height: 8px;
+  clip-path: polygon(0 0, 100% 55%, 0 100%);
+  background: var(--color-teal);
+}
+.origami-wing {
+  left: 16px;
+  width: 24px;
+  height: 20px;
+  transform-origin: 50% 100%;
+  animation: origami-flap 1.8s ease-in-out infinite;
+}
+.origami-wing-back {
+  top: 0;
+  clip-path: polygon(0 100%, 100% 100%, 40% 0);
+  background: color-mix(in srgb, var(--color-teal) 70%, transparent);
+  animation-delay: -0.25s;
+}
+.origami-wing-front {
+  top: 0;
+  clip-path: polygon(0 100%, 100% 100%, 70% 0);
+  background: color-mix(in srgb, var(--color-accent) 75%, transparent);
+}
+html[data-motion="paused"] .origami-layer * {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .origami-layer {
+    display: none;
+  }
+}

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ArrowRight, Mail, Pause, Play } from "lucide-react"
 
 import HalftoneNebula, { type NebulaParams } from "@/components/ui/halftone-nebula"
@@ -17,6 +17,14 @@ export default function HeroSection() {
   // Pause state lives in memory only: a reload starts playing again.
   const [paused, setPaused] = useState(false)
   const reducedMotion = useReducedMotion()
+
+  // The page-wide decorative background (living origami) follows the same pause control.
+  useEffect(() => {
+    document.documentElement.dataset.motion = paused ? "paused" : "running"
+    return () => {
+      delete document.documentElement.dataset.motion
+    }
+  }, [paused])
 
   return (
     <HalftoneNebula
