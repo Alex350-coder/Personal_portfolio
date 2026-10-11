@@ -79,6 +79,14 @@ describe('HeroSection', () => {
       expect(screen.getByRole('region')).toHaveAttribute('data-paused', 'false')
     })
 
+    it('also pauses the page-wide decorative background through html[data-motion]', async () => {
+      render(<HeroSection />)
+      expect(document.documentElement.dataset.motion).toBe('running')
+
+      await userEvent.click(screen.getByRole('button', { name: 'Pausar animación de fondo' }))
+      expect(document.documentElement.dataset.motion).toBe('paused')
+    })
+
     it('pauses and resumes with the mouse, updating its label', async () => {
       stubReducedMotion(false)
       render(<HeroSection />)

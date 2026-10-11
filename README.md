@@ -8,7 +8,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-estricto-3178c6?logo=typescript&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-8-646cff?logo=vite&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38bdf8?logo=tailwindcss&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-459%20unitarios%20·%2065%20e2e-3fe0c5)
+![Tests](https://img.shields.io/badge/tests-464%20unitarios%20·%2065%20e2e-3fe0c5)
 ![WCAG](https://img.shields.io/badge/accesibilidad-WCAG%202.2%20AA-3fe0c5)
 
 ![Hero del portafolio: nebulosa de puntos semitono en verde azulado](.github/readme/hero.jpg)
@@ -29,6 +29,7 @@ La pieza visual es un **Hero en WebGL2** (`HalftoneNebula`, preset `abyssal`): u
 - **Transparencia sobre la IA.** Construyo muchos sistemas con Claude Code: reviso y pruebo el resultado y resuelvo los problemas. También sé programar y corregir errores a mano; con IA simplemente es más rápido. El sitio lo dice de forma explícita.
 - **Estático primero.** No hay backend ni formulario: el contacto es un `mailto:` con botón de copiar. `server/` existe vacío y diferido a propósito.
 - **Solo el Hero usa WebGL.** El resto son derivados en CSS (trama de puntos, brillo que sigue al puntero, aparición progresiva), con respeto a `prefers-reduced-motion`.
+- **Un fondo con vida, sin peso.** Un degradado fijo con tonos de la paleta (menta, verde azulado, azul profundo) y unas pocas grullas de origami que cruzan despacio por detrás del contenido, solo con CSS. Se apagan con movimiento reducido y se pausan con el botón del Hero.
 
 ## Capturas
 
@@ -135,7 +136,7 @@ npm run dev
 
 | | |
 |---|---|
-| Pruebas unitarias y de componentes | 459 en 63 archivos, cobertura de ~98 % (sin el Hero WebGL, cubierto por un test e2e) |
+| Pruebas unitarias y de componentes | 464 en 64 archivos, cobertura de ~98 % (sin el Hero WebGL, cubierto por un test e2e) |
 | Pruebas e2e | 65 en Chromium: navegación, Hero, proyectos, detalle, contacto, accesibilidad |
 | Lighthouse (build de producción, página de detalle, Fase 4) | Escritorio: rendimiento 100, accesibilidad 100, buenas prácticas 100 · Móvil: rendimiento 97 |
 | JavaScript inicial | ~141 KB comprimido; el reparto por rutas llega en la Fase 6 |

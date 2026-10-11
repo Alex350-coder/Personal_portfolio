@@ -4,6 +4,7 @@ import { Outlet, ScrollRestoration, useLocation } from 'react-router'
 import { SiteFooter } from '@/components/layout/SiteFooter'
 import { SiteHeader } from '@/components/layout/SiteHeader'
 import { SkipLink } from '@/components/layout/SkipLink'
+import { LivingOrigamiBackground } from '@/components/ui/living-origami-bg'
 
 /**
  * Page shell: skip link first, header, `<main id="contenido">`, footer.
@@ -37,11 +38,15 @@ export default function Layout() {
   return (
     <>
       <SkipLink />
+      <div aria-hidden="true" className="page-aurora" />
+      <LivingOrigamiBackground />
       <SiteHeader />
-      <main id="contenido" ref={mainRef} tabIndex={-1} className="outline-none">
+      <main id="contenido" ref={mainRef} tabIndex={-1} className="relative z-10 outline-none">
         <Outlet />
       </main>
-      <SiteFooter />
+      <div className="relative z-10">
+        <SiteFooter />
+      </div>
       <ScrollRestoration />
     </>
   )
