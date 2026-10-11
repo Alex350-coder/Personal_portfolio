@@ -38,6 +38,7 @@ export default function Layout() {
   return (
     <>
       <SkipLink />
+      <div aria-hidden="true" className="page-aurora" />
       <LivingOrigamiBackground />
       <SiteHeader />
       <main id="contenido" ref={mainRef} tabIndex={-1} className="relative z-10 outline-none">
