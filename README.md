@@ -159,17 +159,6 @@ client/
 server/               Node + TypeScript, vacío (diferido)
 ```
 
-## Hoja de ruta
-
-| Fase | Contenido | Estado |
-|---|---|---|
-| 1 | Cimientos y sistema de diseño (tokens, primitivas, herramientas de prueba) | ✅ |
-| 2 | Navegación, Sobre mí y Tecnologías | ✅ |
-| 3 | Proyectos: modelo, destacados, índice y filtros | ✅ |
-| 4 | Detalle de proyecto, medios y galería | ✅ |
-| 5 | Contacto, CV, pie de página, CTA y 404 | ✅ |
-| 6 | Pulido: responsive, accesibilidad, rendimiento, SEO y despliegue | en curso |
-
 ## Contacto
 
 - Correo: se muestra y se copia desde la sección de contacto del sitio.
