@@ -107,7 +107,7 @@ Es una puerta de calidad, no un retoque final (objetivo WCAG 2.2 AA):
 - El CV solo admite rutas `/cv/<archivo>.pdf` del propio sitio.
 - La dirección de correo se ensambla en tiempo de ejecución (no aparece como texto plano en el código) para dificultar la recolección trivial; es pública por decisión propia.
 - Sin analíticas ni scripts de terceros; las fuentes se sirven desde el propio sitio.
-- Las cabeceras de seguridad (CSP, etc.) se configuran en el hosting durante la Fase 6.
+- Las cabeceras básicas (`nosniff`, anti-iframe, política de referrer y permisos) viven en `client/public/_headers`; la CSP se añade en la Fase 6 tras verificarla contra el build de producción.
 
 ## Puesta en marcha
 
