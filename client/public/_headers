@@ -1,0 +1,14 @@
+# Cloudflare Pages / Netlify host headers (copied from public/ to the site root).
+# Content-Security-Policy is intentionally absent until it is verified against the
+# production build (inline styles, WebGL canvas, self-hosted fonts); see docs/Security.md.
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Cross-Origin-Opener-Policy: same-origin
+
+# Hashed build output never changes under the same name.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
