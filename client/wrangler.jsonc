@@ -1,0 +1,11 @@
+{
+  // Cloudflare Workers static assets: serves the Vite build (client/dist).
+  // `name` must match the Workers project created in the Cloudflare dashboard.
+  "name": "personal-portfolio",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./dist",
+    // Unknown paths get index.html so React Router renders the route (and its own 404).
+    "not_found_handling": "single-page-application"
+  }
+}
