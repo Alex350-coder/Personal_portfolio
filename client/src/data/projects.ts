@@ -200,7 +200,7 @@ export const projects: readonly Project[] = [
     status: 'completado',
     year: 2026,
     stack: ['nextjs', 'react', 'tailwindcss', 'gsap', 'typescript'],
-    links: { repo: `${GITHUB}/Visual_Porject-Construccion` },
+    links: { repo: `${GITHUB}/Visual_Project-Construccion` },
     problem: 'Ejercicio visual de landing guiada por scroll con secuencia de fotogramas en canvas que respeta prefers-reduced-motion.',
   },
   {
@@ -224,7 +224,7 @@ export const projects: readonly Project[] = [
     status: 'en-desarrollo',
     year: 2026,
     stack: ['typescript'],
-    links: { repo: `${GITHUB}/Dota_2_gambling` },
+    links: { repo: `${GITHUB}/p2p-exchange-ledger` },
     problem:
       'Ejercicio de ingeniería de sistemas financieros: contabilidad de partida doble, emparejamiento parcial de órdenes y concurrencia, sin dinero real.',
   },
