@@ -15,7 +15,7 @@
 
 </div>
 
-> **Demo:** pendiente de despliegue (Fase 6). Mientras tanto se ejecuta en local, ver [Puesta en marcha](#puesta-en-marcha).
+> **Demo:** [personal-portfolio.ander-aguirre.workers.dev](https://personal-portfolio.ander-aguirre.workers.dev), desplegado en Cloudflare Workers con cada fusión a `main`. También se ejecuta en local, ver [Puesta en marcha](#puesta-en-marcha).
 
 ## Qué es
 
